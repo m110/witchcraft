@@ -133,6 +133,41 @@
                 "5"
             ],
             "valuesAsFlags": false
+        },
+        {
+            "color": "#ffa0a0a4",
+            "id": 9,
+            "members": [
+                {
+                    "name": "slot",
+                    "propertyType": "weapon_slot",
+                    "type": "string",
+                    "value": "main_hand"
+                }
+            ],
+            "name": "weapon",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset"
+            ]
+        },
+        {
+            "id": 8,
+            "name": "weapon_slot",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "main_hand",
+                "off_hand"
+            ],
+            "valuesAsFlags": false
         }
     ]
 }

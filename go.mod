@@ -6,12 +6,11 @@ require (
 	github.com/hajimehoshi/ebiten/v2 v2.4.7
 	github.com/lafriks/go-tiled v0.10.0
 	github.com/samber/lo v1.30.0
-	github.com/yohamta/donburi v1.2.20
+	github.com/yohamta/donburi v1.3.0
 	golang.org/x/image v0.0.0-20220902085622-e7cb96979f69
 )
 
 require (
-	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/ebitengine/purego v0.1.0 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20220806181222-55e207c401ad // indirect
 	github.com/hajimehoshi/file2byteslice v1.0.0 // indirect

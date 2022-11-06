@@ -27,7 +27,7 @@
         "characters.tsx"
     ],
     "project": "cliche-rpg.tiled-project",
-    "property.type": "hair_color",
+    "property.type": "weapon_slot",
     "recentFiles": [
         "tiles.tsx",
         "characters.tsx"

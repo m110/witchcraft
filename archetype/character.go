@@ -1,36 +1,43 @@
 package archetype
 
-type Character struct {
-	Body       Body
-	Hair       Hair
-	FacialHair Hair
-	Equipment  Equipment
-}
+import (
+	"github.com/yohamta/donburi"
+	"github.com/yohamta/donburi/features/math"
+	"github.com/yohamta/donburi/features/transform"
 
-type Body struct {
-	Type  int
-	Color int
-}
+	"github.com/m110/cliche-rpg/assets"
+	"github.com/m110/cliche-rpg/component"
+)
 
-type Hair struct {
-	Type  int
-	Color int
-}
+func NewRandomCharacter(w donburi.World, position math.Vec2) {
+	c := w.Entry(
+		w.Create(
+			transform.Transform,
+			component.Sprite,
+			component.Character,
+		),
+	)
 
-type Equipment struct {
-	Head     Armor
-	Chest    Armor
-	Legs     Armor
-	Feet     Armor
-	MainHand Weapon
-	OffHand  Weapon
-}
+	transform.Transform.Get(c).LocalPosition = position
+	transform.Transform.Get(c).LocalScale = math.Vec2{X: 2, Y: 2}
 
-type Armor struct {
-	ID      int
-	Defense int
-}
+	character := component.CharacterData{
+		Body:       assets.RandomFrom(assets.Bodies),
+		Hair:       assets.RandomFromOrEmpty(assets.Hairs),
+		FacialHair: assets.RandomFromOrEmpty(assets.FacialHairs),
+		Equipment: component.Equipment{
+			Head:     assets.RandomFromOrEmpty(assets.HeadArmors),
+			Chest:    assets.RandomFromOrEmpty(assets.ChestArmors),
+			Legs:     assets.RandomFromOrEmpty(assets.LegsArmors),
+			Feet:     assets.RandomFromOrEmpty(assets.FeetArmors),
+			MainHand: assets.RandomFromOrEmpty(assets.MainHandWeapons),
+			OffHand:  assets.RandomFromOrEmpty(assets.OffHandWeapons),
+		},
+	}
 
-type Weapon struct {
-	ID int
+	component.Character.Set(c, &character)
+
+	component.Sprite.SetValue(c, component.SpriteData{
+		Image: character.Image(),
+	})
 }

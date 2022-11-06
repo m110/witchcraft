@@ -18,7 +18,11 @@
    <property name="slot" propertytype="armor_slot" value="legs"/>
   </properties>
  </tile>
- <tile id="4" class="armor"/>
+ <tile id="4" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
  <tile id="6" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="chest"/>
@@ -111,6 +115,111 @@
    <property name="slot" propertytype="armor_slot" value="head"/>
   </properties>
  </tile>
+ <tile id="33" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="34" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="35" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="36" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="37" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="38" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="39" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="40" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="41">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="42" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="43" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="44" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="45" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="46" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="47" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="48" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="49" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="50" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="51" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="52" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="53" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
  <tile id="54" class="body">
   <properties>
    <property name="body_type" value="a"/>
@@ -128,7 +237,11 @@
    <property name="slot" propertytype="armor_slot" value="legs"/>
   </properties>
  </tile>
- <tile id="58" class="armor"/>
+ <tile id="58" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
  <tile id="60" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="chest"/>
@@ -233,6 +346,111 @@
    <property name="slot" propertytype="armor_slot" value="head"/>
   </properties>
  </tile>
+ <tile id="87" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="88" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="89" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="90" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="91" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="92" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="93" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="94" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="95">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="96" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="97" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="98" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="99" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="100" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="101" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="102" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="103" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="104" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="105" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="106" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="107" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
  <tile id="108" class="body">
   <properties>
    <property name="body_type" value="a"/>
@@ -250,7 +468,11 @@
    <property name="slot" propertytype="armor_slot" value="legs"/>
   </properties>
  </tile>
- <tile id="112" class="armor"/>
+ <tile id="112" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
  <tile id="114" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="chest"/>
@@ -349,6 +571,91 @@
    <property name="slot" propertytype="armor_slot" value="head"/>
   </properties>
  </tile>
+ <tile id="141" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="142" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="145" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="146" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="149">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="150" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="151" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="152" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="153" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="154" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="155" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="156" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="157" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="158" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="159" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="160" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="161" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
  <tile id="162" class="body">
   <properties>
    <property name="body_type" value="a"/>
@@ -366,7 +673,11 @@
    <property name="slot" propertytype="armor_slot" value="legs"/>
   </properties>
  </tile>
- <tile id="166" class="armor"/>
+ <tile id="166" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
  <tile id="168" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="chest"/>
@@ -471,8 +782,121 @@
    <property name="slot" propertytype="armor_slot" value="head"/>
   </properties>
  </tile>
- <tile id="219" class="armor"/>
- <tile id="220" class="armor"/>
+ <tile id="195" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="196" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="197" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="198" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="199" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="200" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="201" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="202" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="203">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="204" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="205" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="206" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="207" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="208" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="209" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="210" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="211" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="212" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="213" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="214" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="215" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="219" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
+ <tile id="220" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
  <tile id="222" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="chest"/>
@@ -573,12 +997,121 @@
    <property name="slot" propertytype="armor_slot" value="head"/>
   </properties>
  </tile>
+ <tile id="249" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="250" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="251" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="252" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="253" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="254" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="255" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="256" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="257">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="258" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="259" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="260" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="261" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="262" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="263" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="264" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="265" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="266" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="267" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="268" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="269" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
  <tile id="273" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="legs"/>
   </properties>
  </tile>
- <tile id="274" class="armor"/>
+ <tile id="274" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
  <tile id="276" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="chest"/>
@@ -699,12 +1232,91 @@
    <property name="slot" propertytype="armor_slot" value="head"/>
   </properties>
  </tile>
+ <tile id="303" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="304" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="307" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="308" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="311">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="312" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="313" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="314" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="315" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="316" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="317" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="318" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="319" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="320" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="321" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
  <tile id="327" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="legs"/>
   </properties>
  </tile>
- <tile id="328" class="armor"/>
+ <tile id="328" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
  <tile id="330" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="chest"/>
@@ -815,12 +1427,111 @@
    <property name="slot" propertytype="armor_slot" value="head"/>
   </properties>
  </tile>
+ <tile id="357" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="358" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="359" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="360" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="361" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="362" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="363" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="364" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="365">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="366" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="367" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="368" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="369" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="370" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="371" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="372" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="373" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="374" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="375" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
  <tile id="381" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="legs"/>
   </properties>
  </tile>
- <tile id="382" class="armor"/>
+ <tile id="382" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
  <tile id="384" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="chest"/>
@@ -941,12 +1652,111 @@
    <property name="slot" propertytype="armor_slot" value="head"/>
   </properties>
  </tile>
+ <tile id="411" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="412" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="413" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="414" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="415" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="416" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="417" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="418" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="419">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="420" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="421" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="422" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="423" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="424" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="425" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="426" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="427" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="428" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="429" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
  <tile id="435" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="legs"/>
   </properties>
  </tile>
- <tile id="436" class="armor"/>
+ <tile id="436" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
  <tile id="438" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="chest"/>
@@ -1037,8 +1847,91 @@
    <property name="slot" propertytype="armor_slot" value="head"/>
   </properties>
  </tile>
- <tile id="489" class="armor"/>
- <tile id="490" class="armor"/>
+ <tile id="465" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="466" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="469" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="470" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="off_hand"/>
+  </properties>
+ </tile>
+ <tile id="473">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="474" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="475" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="476" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="477" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="478" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="479" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="480" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="481" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="482" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="483" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="489" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
+ <tile id="490" class="armor">
+  <properties>
+   <property name="slot" propertytype="armor_slot" value="feet"/>
+  </properties>
+ </tile>
  <tile id="492" class="armor">
   <properties>
    <property name="slot" propertytype="armor_slot" value="chest"/>
@@ -1117,6 +2010,61 @@
  <tile id="508" class="hair">
   <properties>
    <property name="color" type="int" propertytype="hair_color" value="4"/>
+  </properties>
+ </tile>
+ <tile id="527">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="528" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="529" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="530" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="531" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="532" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="533" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="534" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="535" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="536" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
+  </properties>
+ </tile>
+ <tile id="537" class="weapon">
+  <properties>
+   <property name="slot" propertytype="weapon_slot" value="main_hand"/>
   </properties>
  </tile>
  <tile id="560" class="hair">
