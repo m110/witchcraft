@@ -1,0 +1,138 @@
+{
+    "automappingRulesFile": "",
+    "commands": [
+    ],
+    "extensionsPath": "extensions",
+    "folders": [
+        "."
+    ],
+    "propertyTypes": [
+        {
+            "color": "#ffa0a0a4",
+            "id": 2,
+            "members": [
+                {
+                    "name": "slot",
+                    "propertyType": "armor_slot",
+                    "type": "string",
+                    "value": "feet"
+                }
+            ],
+            "name": "armor",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset"
+            ]
+        },
+        {
+            "id": 5,
+            "name": "armor_slot",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "feet",
+                "legs",
+                "chest",
+                "head"
+            ],
+            "valuesAsFlags": false
+        },
+        {
+            "color": "#ffa0a0a4",
+            "id": 1,
+            "members": [
+                {
+                    "name": "body_type",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "name": "skin_color",
+                    "type": "int",
+                    "value": 0
+                }
+            ],
+            "name": "body",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "id": 4,
+            "members": [
+                {
+                    "name": "color",
+                    "propertyType": "hair_color",
+                    "type": "int",
+                    "value": 0
+                }
+            ],
+            "name": "facial_hair",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "id": 3,
+            "members": [
+                {
+                    "name": "color",
+                    "propertyType": "hair_color",
+                    "type": "int",
+                    "value": 0
+                }
+            ],
+            "name": "hair",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset"
+            ]
+        },
+        {
+            "id": 6,
+            "name": "hair_color",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "valuesAsFlags": false
+        }
+    ]
+}

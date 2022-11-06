@@ -1,0 +1,41 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "characters.tsx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "characters.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 3
+        },
+        "tiles.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 7.59
+        }
+    },
+    "last.imagePath": "/Users/milosz/src/gamedev/cliche-rpg/assets/tiles",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "tiles.tsx",
+        "tiles.tsx",
+        "characters.tsx"
+    ],
+    "project": "cliche-rpg.tiled-project",
+    "property.type": "hair_color",
+    "recentFiles": [
+        "tiles.tsx",
+        "characters.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.spacing": 1,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
