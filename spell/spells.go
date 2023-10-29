@@ -8,8 +8,18 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+type Rune int
+
+const (
+	RuneAether Rune = iota
+	RuneChaos
+	RuneVoid
+	RuneDream
+)
+
 type Spell struct {
-	Name string
+	Name  string
+	Runes []Rune
 
 	IsChannel           bool
 	ChannelTickDuration time.Duration
@@ -43,6 +53,7 @@ func init() {
 var (
 	FireBall = Spell{
 		Name:        "Fire Ball",
+		Runes:       []Rune{RuneAether, RuneAether},
 		ManaCost:    10,
 		CastingTime: time.Millisecond * 500,
 		Cooldown:    time.Second * 2,
@@ -60,6 +71,7 @@ var (
 	}
 	LightningBolt = Spell{
 		Name:        "Lightning Bolt",
+		Runes:       []Rune{RuneAether, RuneChaos, RuneVoid},
 		ManaCost:    15,
 		CastingTime: time.Second,
 		Cooldown:    0,
@@ -77,6 +89,7 @@ var (
 	}
 	Spark = Spell{
 		Name:        "Spark",
+		Runes:       []Rune{RuneVoid, RuneDream, RuneVoid},
 		ManaCost:    5,
 		CastingTime: 0,
 		Cooldown:    time.Millisecond * 1500,

@@ -45,6 +45,7 @@ func (w *Witchcraft) loadLevel() {
 
 	w.drawables = []Drawable{
 		render,
+		system.NewText(),
 	}
 
 	w.world = w.createWorld()

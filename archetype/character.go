@@ -145,9 +145,24 @@ func NewCharacter(w donburi.World, position math.Vec2) {
 	for i := range caster.KnownSpells {
 		i := i
 		s := caster.KnownSpells[i]
+
+		text := w.Entry(w.Create(
+			transform.Transform,
+			component.Text,
+		))
+
+		pos := math.Vec2{X: 10, Y: 100 + float64(i*15)}
+
+		transform.GetTransform(text).LocalPosition = pos
+		transform.GetTransform(text).LocalPosition.X += 55
+		transform.GetTransform(text).LocalPosition.Y += 8
+		component.Text.Set(text, &component.TextData{
+			Text: s.Template.Name,
+		})
+
 		NewProgressBar(
 			w,
-			math.Vec2{X: 10, Y: 100 + float64(i*15)},
+			pos,
 			50, 10,
 			colornames.Gray,
 			func(bar *component.ProgressBarData) {
