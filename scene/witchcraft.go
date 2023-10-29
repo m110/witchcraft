@@ -39,6 +39,7 @@ func (w *Witchcraft) loadLevel() {
 		system.NewCasting(),
 		system.NewProgressBar(),
 		system.NewMana(),
+		system.NewCrosshair(),
 		render,
 		system.NewTimeToLive(),
 	}

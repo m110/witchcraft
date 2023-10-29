@@ -54,6 +54,7 @@ func NewCharacter(w donburi.World, position math.Vec2) {
 		w.Create(
 			transform.Transform,
 			component.Velocity,
+			component.Direction,
 			component.Sprite,
 			component.Character,
 			component.Input,
@@ -207,4 +208,22 @@ func NewCharacter(w donburi.World, position math.Vec2) {
 	)
 	component.Sprite.Get(castingPB).Pivot = component.SpritePivotCenter
 	transform.AppendChild(c, castingPB, false)
+
+	crosshair := w.Entry(
+		w.Create(
+			transform.Transform,
+			component.Sprite,
+			component.Crosshair,
+		),
+	)
+
+	crosshairImage := ebiten.NewImage(3, 3)
+	crosshairImage.Fill(colornames.Orange)
+	component.Sprite.Set(crosshair, &component.SpriteData{
+		Image: crosshairImage,
+		Pivot: component.SpritePivotCenter,
+		Layer: component.SpriteLayerUI,
+	})
+
+	transform.AppendChild(c, crosshair, false)
 }

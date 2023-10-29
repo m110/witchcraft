@@ -1,6 +1,8 @@
 package archetype
 
 import (
+	stdmath "math"
+
 	"github.com/m110/witchcraft/engine"
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/math"
@@ -37,9 +39,18 @@ func NewProjectile(caster *donburi.Entry, data spell.SpawnProjectileData) *donbu
 		Pivot: component.SpritePivotCenter,
 	})
 
+	dir := component.Direction.Get(caster).Direction
+
+	angle := stdmath.Atan2(dir.Y, dir.X) * 180.0 / stdmath.Pi
+	transform.GetTransform(projectile).LocalRotation = angle
+
+	magnitude := stdmath.Sqrt(dir.X*dir.X + dir.Y*dir.Y)
+	normalizedX := dir.X / magnitude
+	normalizedY := dir.Y / magnitude
+
 	component.Velocity.Get(projectile).Velocity = math.Vec2{
-		X: data.Speed,
-		Y: data.Speed,
+		X: normalizedX * data.Speed,
+		Y: normalizedY * data.Speed,
 	}
 
 	return projectile

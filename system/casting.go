@@ -116,7 +116,6 @@ func ResolveSpellEffectSpawnProjectile(caster *donburi.Entry, effect spell.Effec
 	}
 
 	data := effect.Data.(spell.SpawnProjectileData)
-
 	archetype.NewProjectile(caster, data)
 
 	return true
