@@ -9,14 +9,8 @@ type SpriteLayer int
 
 const (
 	SpriteLayerBackground SpriteLayer = iota
-	SpriteLayerDebris
 	SpriteLayerGroundUnits
-	SpriteLayerGroundGuns
-	SpriteLayerShadows
-	SpriteLayerCollectibles
-	SpriteLayerFallingWrecks
-	SpriteLayerAirUnits
-	SpriteLayerIndicators
+	SpriteLayerUI
 )
 
 type SpritePivot int

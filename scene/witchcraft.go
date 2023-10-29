@@ -34,6 +34,11 @@ func (w *Witchcraft) loadLevel() {
 	render := system.NewRenderer()
 
 	w.systems = []System{
+		system.NewVelocity(),
+		system.NewControls(),
+		system.NewCasting(),
+		system.NewProgressBar(),
+		system.NewMana(),
 		render,
 	}
 
@@ -72,9 +77,7 @@ func (w *Witchcraft) Update() {
 func (w *Witchcraft) spawnCharacters() {
 	offset := 48.0
 
-	for i := 0; i < 6; i++ {
-		archetype.NewCharacter(w.world, math.Vec2{X: offset + float64(i)*offset, Y: offset})
-	}
+	archetype.NewCharacter(w.world, math.Vec2{X: offset, Y: offset})
 }
 
 func (w *Witchcraft) Draw(screen *ebiten.Image) {
