@@ -79,14 +79,14 @@ func (i *Controls) Update(w donburi.World) {
 
 		if entry.HasComponent(component.Caster) {
 			caster := component.Caster.Get(entry)
-			caster.IsCasting = ebiten.IsKeyPressed(input.CastKey) || ebiten.IsStandardGamepadButtonPressed(0, ebiten.StandardGamepadButtonRightBottom)
+			caster.IsCasting = ebiten.IsKeyPressed(input.CastKey) || ebiten.IsStandardGamepadButtonPressed(0, ebiten.StandardGamepadButtonFrontBottomRight)
 
 			// TODO Needs a better logic when changing spells is allowed
-			if inpututil.IsKeyJustPressed(input.SpellKeyA) {
+			if inpututil.IsKeyJustPressed(input.SpellKeyA) || ebiten.IsStandardGamepadButtonPressed(0, ebiten.StandardGamepadButtonRightLeft) {
 				caster.PrepareSpell(0)
-			} else if inpututil.IsKeyJustPressed(input.SpellKeyB) {
+			} else if inpututil.IsKeyJustPressed(input.SpellKeyB) || ebiten.IsStandardGamepadButtonPressed(0, ebiten.StandardGamepadButtonRightTop) {
 				caster.PrepareSpell(1)
-			} else if inpututil.IsKeyJustPressed(input.SpellKeyC) {
+			} else if inpututil.IsKeyJustPressed(input.SpellKeyC) || ebiten.IsStandardGamepadButtonPressed(0, ebiten.StandardGamepadButtonRightRight) {
 				caster.PrepareSpell(2)
 			}
 		}
