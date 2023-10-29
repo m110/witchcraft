@@ -13,14 +13,6 @@ import (
 	"github.com/m110/cliche-rpg/system"
 )
 
-type System interface {
-	Update(w donburi.World)
-}
-
-type Drawable interface {
-	Draw(w donburi.World, screen *ebiten.Image)
-}
-
 type CharacterSelect struct {
 	world     donburi.World
 	systems   []System

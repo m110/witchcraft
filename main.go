@@ -29,12 +29,16 @@ func NewGame() *Game {
 	assets.MustLoadAssets()
 
 	g := &Game{}
-	g.switchToCharacterSelect()
+	g.switchToWitchcraft()
 	return g
 }
 
 func (g *Game) switchToCharacterSelect() {
 	g.scene = scene.NewCharacterSelect(screenWidth, screenHeight)
+}
+
+func (g *Game) switchToWitchcraft() {
+	g.scene = scene.NewWitchcraft(screenWidth, screenHeight)
 }
 
 func (g *Game) Update() error {

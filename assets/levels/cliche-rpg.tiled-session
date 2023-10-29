@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "characters.tsx",
+    "activeFile": "inn.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -11,26 +11,49 @@
     "fileStates": {
         "characters.tsx": {
             "scaleInDock": 3,
-            "scaleInEditor": 3
+            "scaleInEditor": 1.48
+        },
+        "indoor.tsx": {
+            "scaleInDock": 2.4097,
+            "scaleInEditor": 2.556
+        },
+        "inn.tmx": {
+            "scale": 2.32,
+            "selectedLayer": -1,
+            "viewCenter": {
+                "x": 131.0344827586207,
+                "y": 201.93965517241384
+            }
+        },
+        "outdoor.tsx": {
+            "scaleInDock": 4.6534,
+            "scaleInEditor": 2.0902
         },
         "tiles.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 7.59
+            "scaleInEditor": 1.4427
         }
     },
     "last.imagePath": "/Users/milosz/src/gamedev/cliche-rpg/assets/tiles",
+    "map.height": 38,
+    "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
+    "map.width": 50,
     "openFiles": [
-        "tiles.tsx",
-        "tiles.tsx",
-        "characters.tsx"
+        "characters.tsx",
+        "indoor.tsx",
+        "outdoor.tsx",
+        "inn.tmx"
     ],
     "project": "cliche-rpg.tiled-project",
     "property.type": "weapon_slot",
     "recentFiles": [
-        "tiles.tsx",
-        "characters.tsx"
+        "characters.tsx",
+        "indoor.tsx",
+        "outdoor.tsx",
+        "inn.tmx",
+        "tiles.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.spacing": 1,

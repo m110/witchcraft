@@ -41,3 +41,34 @@ func NewRandomCharacter(w donburi.World, position math.Vec2) {
 		Image: character.Image(),
 	})
 }
+
+func NewCharacter(w donburi.World, position math.Vec2) {
+	c := w.Entry(
+		w.Create(
+			transform.Transform,
+			component.Sprite,
+			component.Character,
+		),
+	)
+
+	transform.Transform.Get(c).LocalPosition = position
+	transform.Transform.Get(c).LocalScale = math.Vec2{X: 2, Y: 2}
+
+	character := component.CharacterData{
+		Body:       assets.RandomFrom(assets.Bodies),
+		Hair:       &assets.Hairs[37],
+		FacialHair: &assets.FacialHairs[18],
+		Equipment: component.Equipment{
+			Chest:    assets.RandomFromOrEmpty(assets.ChestArmors),
+			Legs:     assets.RandomFromOrEmpty(assets.LegsArmors),
+			Feet:     assets.RandomFromOrEmpty(assets.FeetArmors),
+			MainHand: &assets.MainHandWeapons[1],
+		},
+	}
+
+	component.Character.Set(c, &character)
+
+	component.Sprite.SetValue(c, component.SpriteData{
+		Image: character.Image(),
+	})
+}
