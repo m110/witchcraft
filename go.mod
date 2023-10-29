@@ -3,11 +3,11 @@ module github.com/m110/witchcraft
 go 1.18
 
 require (
-	github.com/hajimehoshi/ebiten/v2 v2.4.7
+	github.com/hajimehoshi/ebiten/v2 v2.4.13
 	github.com/lafriks/go-tiled v0.10.0
 	github.com/samber/lo v1.30.0
-	github.com/yohamta/donburi v1.3.0
-	golang.org/x/image v0.0.0-20220902085622-e7cb96979f69
+	github.com/yohamta/donburi v1.3.9
+	golang.org/x/image v0.1.0
 )
 
 require (
@@ -19,5 +19,5 @@ require (
 	golang.org/x/exp/shiny v0.0.0-20221012211006-4de253d81b95 // indirect
 	golang.org/x/mobile v0.0.0-20221012134814-c746ac228303 // indirect
 	golang.org/x/sys v0.0.0-20221013171732-95e765b1cc43 // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/text v0.4.0 // indirect
 )
