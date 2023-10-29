@@ -3,9 +3,8 @@ package system
 import (
 	stdmath "math"
 
-	"github.com/hajimehoshi/ebiten/v2/inpututil"
-
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/math"
 	"github.com/yohamta/donburi/features/transform"
@@ -32,7 +31,7 @@ func NewControls() *Controls {
 }
 
 func (i *Controls) Update(w donburi.World) {
-	i.query.EachEntity(w, func(entry *donburi.Entry) {
+	i.query.Each(w, func(entry *donburi.Entry) {
 		input := component.Input.Get(entry)
 
 		if input.Disabled {

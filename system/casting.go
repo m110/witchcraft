@@ -1,15 +1,20 @@
 package system
 
 import (
+	"fmt"
+
+	"github.com/m110/witchcraft/archetype"
+
+	"github.com/m110/witchcraft/component"
+	"github.com/m110/witchcraft/spell"
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/filter"
 	"github.com/yohamta/donburi/query"
-
-	"github.com/m110/witchcraft/component"
 )
 
 type Casting struct {
-	query *query.Query
+	query                *query.Query
+	spellEffectResolvers []SpellEffectResolver
 }
 
 func NewCasting() *Casting {
@@ -19,11 +24,15 @@ func NewCasting() *Casting {
 				component.Caster,
 			),
 		),
+		spellEffectResolvers: []SpellEffectResolver{
+			ResolveSpellEffectNone,
+			ResolveSpellEffectSpawnProjectile,
+		},
 	}
 }
 
 func (c *Casting) Update(w donburi.World) {
-	c.query.EachEntity(w, func(entry *donburi.Entry) {
+	c.query.Each(w, func(entry *donburi.Entry) {
 		caster := component.Caster.Get(entry)
 
 		// Update cooldown for all spells, except the prepared one
@@ -72,11 +81,43 @@ func (c *Casting) Update(w donburi.World) {
 		// The casting is done — cast the spell
 		if preparedSpell.CastingTimer.IsReady() {
 			for _, effect := range preparedSpell.Template.OnCastEffects {
-				effect.Resolve(entry, w)
+				resolved := false
+				for _, resolver := range c.spellEffectResolvers {
+					if resolver(entry, effect) {
+						resolved = true
+						break
+					}
+				}
+
+				if !resolved {
+					panic(fmt.Sprintf("unknown spell effect: %v", effect.Type))
+				}
 			}
 
 			preparedSpell.CastingTimer.Reset()
 			preparedSpell.CooldownTimer.Reset()
 		}
 	})
+}
+
+type SpellEffectResolver func(caster *donburi.Entry, effect spell.Effect) bool
+
+func ResolveSpellEffectNone(caster *donburi.Entry, effect spell.Effect) bool {
+	if effect.Type != spell.EffectTypeNone {
+		return false
+	}
+
+	return true
+}
+
+func ResolveSpellEffectSpawnProjectile(caster *donburi.Entry, effect spell.Effect) bool {
+	if effect.Type != spell.EffectTypeSpawnProjectile {
+		return false
+	}
+
+	data := effect.Data.(spell.SpawnProjectileData)
+
+	archetype.NewProjectile(caster, data)
+
+	return true
 }

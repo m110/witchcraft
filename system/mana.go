@@ -21,7 +21,7 @@ func NewMana() *Mana {
 }
 
 func (m *Mana) Update(w donburi.World) {
-	m.query.EachEntity(w, func(entry *donburi.Entry) {
+	m.query.Each(w, func(entry *donburi.Entry) {
 		mana := component.Mana.Get(entry)
 
 		mana.ManaRegenTimer.Update()

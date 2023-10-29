@@ -1,14 +1,26 @@
 package spell
 
-import "github.com/yohamta/donburi"
+import (
+	"time"
 
-type Effect interface {
-	Resolve(caster *donburi.Entry, w donburi.World)
+	"github.com/hajimehoshi/ebiten/v2"
+)
+
+type EffectType int
+
+const (
+	EffectTypeNone EffectType = iota
+	EffectTypeSpawnProjectile
+)
+
+type Effect struct {
+	Type EffectType
+	Data any
 }
 
-type SpawnProjectileEffect struct {
-}
-
-func (e SpawnProjectileEffect) Resolve(caster *donburi.Entry, world donburi.World) {
-	// Spawn projectile
+type SpawnProjectileData struct {
+	Image    *ebiten.Image
+	Speed    float64
+	Damage   int
+	Duration time.Duration
 }

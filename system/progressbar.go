@@ -27,7 +27,7 @@ func NewProgressBar() *ProgressBar {
 }
 
 func (p *ProgressBar) Update(w donburi.World) {
-	p.query.EachEntity(w, func(entry *donburi.Entry) {
+	p.query.Each(w, func(entry *donburi.Entry) {
 		bar := component.ProgressBar.Get(entry)
 
 		value := bar.Value

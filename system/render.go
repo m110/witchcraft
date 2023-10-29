@@ -49,7 +49,7 @@ func (r *Render) Draw(w donburi.World, screen *ebiten.Image) {
 	r.offscreen.Clear()
 
 	var entries []*donburi.Entry
-	r.query.EachEntity(w, func(entry *donburi.Entry) {
+	r.query.Each(w, func(entry *donburi.Entry) {
 		entries = append(entries, entry)
 	})
 

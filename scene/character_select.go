@@ -72,7 +72,7 @@ func (g *CharacterSelect) Update() {
 	}
 
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
-		query.NewQuery(filter.Contains(component.Character)).EachEntity(g.world, func(entry *donburi.Entry) {
+		query.NewQuery(filter.Contains(component.Character)).Each(g.world, func(entry *donburi.Entry) {
 			entry.Remove()
 		})
 		g.spawnCharacters()

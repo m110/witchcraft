@@ -40,6 +40,7 @@ func (w *Witchcraft) loadLevel() {
 		system.NewProgressBar(),
 		system.NewMana(),
 		render,
+		system.NewTimeToLive(),
 	}
 
 	w.drawables = []Drawable{
