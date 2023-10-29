@@ -9,11 +9,11 @@ import (
 	"github.com/yohamta/donburi/features/transform"
 	"golang.org/x/image/colornames"
 
-	"github.com/m110/cliche-rpg/engine"
+	"github.com/m110/witchcraft/engine"
 
-	"github.com/m110/cliche-rpg/assets"
-	"github.com/m110/cliche-rpg/component"
-	"github.com/m110/cliche-rpg/spell"
+	"github.com/m110/witchcraft/assets"
+	"github.com/m110/witchcraft/component"
+	"github.com/m110/witchcraft/spell"
 )
 
 func NewRandomCharacter(w donburi.World, position math.Vec2) {

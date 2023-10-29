@@ -1,4 +1,4 @@
-module github.com/m110/cliche-rpg
+module github.com/m110/witchcraft
 
 go 1.18
 

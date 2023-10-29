@@ -8,7 +8,7 @@ import (
 	"github.com/yohamta/donburi/features/math"
 	"github.com/yohamta/donburi/features/transform"
 
-	"github.com/m110/cliche-rpg/component"
+	"github.com/m110/witchcraft/component"
 )
 
 func NewProgressBar(

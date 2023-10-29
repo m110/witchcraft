@@ -7,8 +7,8 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 
-	"github.com/m110/cliche-rpg/assets"
-	"github.com/m110/cliche-rpg/scene"
+	"github.com/m110/witchcraft/assets"
+	"github.com/m110/witchcraft/scene"
 )
 
 var (

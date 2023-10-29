@@ -8,9 +8,9 @@ import (
 	"github.com/yohamta/donburi/filter"
 	"github.com/yohamta/donburi/query"
 
-	"github.com/m110/cliche-rpg/archetype"
-	"github.com/m110/cliche-rpg/component"
-	"github.com/m110/cliche-rpg/system"
+	"github.com/m110/witchcraft/archetype"
+	"github.com/m110/witchcraft/component"
+	"github.com/m110/witchcraft/system"
 )
 
 type CharacterSelect struct {

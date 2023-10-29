@@ -3,7 +3,7 @@ package component
 import (
 	"github.com/yohamta/donburi"
 
-	"github.com/m110/cliche-rpg/engine"
+	"github.com/m110/witchcraft/engine"
 )
 
 type ManaData struct {

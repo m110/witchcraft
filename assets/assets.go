@@ -16,7 +16,7 @@ import (
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 
-	"github.com/m110/cliche-rpg/component"
+	"github.com/m110/witchcraft/component"
 )
 
 var (

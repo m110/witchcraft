@@ -3,8 +3,8 @@ package component
 import (
 	"github.com/yohamta/donburi"
 
-	"github.com/m110/cliche-rpg/engine"
-	"github.com/m110/cliche-rpg/spell"
+	"github.com/m110/witchcraft/engine"
+	"github.com/m110/witchcraft/spell"
 )
 
 type CasterData struct {

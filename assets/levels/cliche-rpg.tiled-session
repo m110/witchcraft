@@ -34,7 +34,7 @@
             "scaleInEditor": 1.4427
         }
     },
-    "last.imagePath": "/Users/milosz/src/gamedev/cliche-rpg/assets/tiles",
+    "last.imagePath": "/Users/milosz/src/gamedev/witchcraft/assets/tiles",
     "map.height": 38,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
@@ -46,7 +46,7 @@
         "outdoor.tsx",
         "inn.tmx"
     ],
-    "project": "cliche-rpg.tiled-project",
+    "project": "witchcraft.tiled-project",
     "property.type": "weapon_slot",
     "recentFiles": [
         "characters.tsx",
