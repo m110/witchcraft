@@ -7,12 +7,11 @@ type HealthData struct {
 	MaxHealth int
 }
 
-func (d *HealthData) Damage() {
+func (d *HealthData) Damage(damage int) {
+	d.Health -= damage
 	if d.Health <= 0 {
-		return
+		d.Health = 0
 	}
-
-	d.Health--
 }
 
 var Health = donburi.NewComponentType[HealthData]()

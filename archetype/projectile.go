@@ -20,7 +20,9 @@ func NewProjectile(caster *donburi.Entry, data spell.SpawnProjectileData) *donbu
 			transform.Transform,
 			component.Sprite,
 			component.Velocity,
+			component.Collider,
 			component.Damageable,
+			component.Team,
 		),
 	)
 
@@ -40,6 +42,13 @@ func NewProjectile(caster *donburi.Entry, data spell.SpawnProjectileData) *donbu
 		Pivot: component.SpritePivotCenter,
 	})
 
+	bounds := data.Image.Bounds()
+	component.Collider.SetValue(projectile, component.ColliderData{
+		Width:  float64(bounds.Dx()),
+		Height: float64(bounds.Dy()),
+		Layer:  component.CollisionLayerProjectiles,
+	})
+
 	dir := component.Direction.Get(caster).Direction
 
 	angle := stdmath.Atan2(dir.Y, dir.X) * 180.0 / stdmath.Pi
@@ -57,8 +66,11 @@ func NewProjectile(caster *donburi.Entry, data spell.SpawnProjectileData) *donbu
 	player := component.Player.Get(caster)
 
 	component.Damageable.Set(projectile, &component.DamageableData{
-		Team:   player.TeamID,
 		Damage: data.Damage,
+	})
+
+	component.Team.Set(projectile, &component.TeamData{
+		TeamID: player.PlayerID,
 	})
 
 	return projectile

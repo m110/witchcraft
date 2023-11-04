@@ -63,6 +63,7 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 		w.Create(
 			transform.Transform,
 			component.Player,
+			component.Team,
 			component.Velocity,
 			component.Direction,
 			component.Sprite,
@@ -71,12 +72,15 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 			component.Health,
 			component.Mana,
 			component.Caster,
+			component.Collider,
 		),
 	)
 
 	component.Player.Set(player, &component.PlayerData{
 		PlayerID: playerID,
-		TeamID:   playerID,
+	})
+	component.Team.Set(player, &component.TeamData{
+		TeamID: playerID,
 	})
 
 	component.Input.Set(player, &component.InputData{
@@ -115,6 +119,13 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 
 	component.Sprite.SetValue(player, component.SpriteData{
 		Image: class.Character.Image(),
+	})
+
+	bounds := class.Character.Image().Bounds()
+	component.Collider.SetValue(player, component.ColliderData{
+		Width:  float64(bounds.Dx()),
+		Height: float64(bounds.Dy()),
+		Layer:  component.CollisionLayerPlayers,
 	})
 
 	settings := component.MustFindGame(w).Settings

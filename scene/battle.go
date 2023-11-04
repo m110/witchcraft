@@ -49,6 +49,8 @@ func (b *Battle) loadLevel() {
 		system.NewProgressBar(),
 		system.NewMana(),
 		system.NewCrosshair(),
+		system.NewCollision(),
+		system.NewCollisionDamage(),
 		render,
 		system.NewTimeToLive(),
 	}
