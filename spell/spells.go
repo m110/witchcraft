@@ -62,7 +62,7 @@ var (
 				Type: EffectTypeSpawnProjectile,
 				Data: SpawnProjectileData{
 					Image:    fireballImage,
-					Speed:    1,
+					Speed:    5,
 					Damage:   5,
 					Duration: 0,
 				},
@@ -80,7 +80,7 @@ var (
 				Type: EffectTypeSpawnProjectile,
 				Data: SpawnProjectileData{
 					Image:    lightningBoltImage,
-					Speed:    2,
+					Speed:    7,
 					Damage:   2,
 					Duration: time.Second * 2,
 				},
@@ -98,7 +98,7 @@ var (
 				Type: EffectTypeSpawnProjectile,
 				Data: SpawnProjectileData{
 					Image:    sparkImage,
-					Speed:    3,
+					Speed:    10,
 					Damage:   1,
 					Duration: time.Second * 1,
 				},

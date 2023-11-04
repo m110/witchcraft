@@ -1,8 +1,6 @@
 package scene
 
 import (
-	"fmt"
-
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/math"
@@ -35,8 +33,6 @@ func NewBattle(screenWidth int, screenHeight int, joinedPlayers []JoinedPlayer) 
 
 		joinedPlayers: joinedPlayers,
 	}
-
-	fmt.Println("Joined players:", joinedPlayers)
 
 	g.loadLevel()
 
@@ -91,9 +87,16 @@ func (w *Battle) Update() {
 }
 
 func (w *Battle) spawnCharacters() {
-	offset := 48.0
+	positions := []math.Vec2{
+		{X: 10, Y: 10},
+		{X: 50, Y: 80},
+		{X: 10, Y: 10},
+		{X: 50, Y: 80},
+	}
 
-	archetype.NewCharacter(w.world, math.Vec2{X: offset, Y: offset})
+	for i, p := range w.joinedPlayers {
+		archetype.NewPlayer(w.world, i, p.GamePadID, positions[i], p.Class)
+	}
 }
 
 func (w *Battle) Draw(screen *ebiten.Image) {

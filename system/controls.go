@@ -43,7 +43,7 @@ func (i *Controls) Update(w donburi.World) {
 
 		delta := math.Vec2{}
 
-		lx, ly := ebiten.GamepadAxisValue(0, 0), ebiten.GamepadAxisValue(0, 1)
+		lx, ly := ebiten.GamepadAxisValue(input.GamepadID, 0), ebiten.GamepadAxisValue(input.GamepadID, 1)
 		if stdmath.Abs(lx) > 0.2 || stdmath.Abs(ly) > 0.2 {
 			delta.X += lx * moveSpeed
 			delta.Y += ly * moveSpeed
@@ -72,21 +72,21 @@ func (i *Controls) Update(w donburi.World) {
 		velocity := component.Velocity.Get(entry)
 		velocity.Velocity = delta
 
-		rx, ry := ebiten.GamepadAxisValue(0, 2), ebiten.GamepadAxisValue(0, 5)
+		rx, ry := ebiten.GamepadAxisValue(input.GamepadID, 2), ebiten.GamepadAxisValue(input.GamepadID, 5)
 		if stdmath.Abs(rx) > 0.2 || stdmath.Abs(ry) > 0.2 {
 			component.Direction.Get(entry).Direction = math.Vec2{X: rx, Y: ry}
 		}
 
 		if entry.HasComponent(component.Caster) {
 			caster := component.Caster.Get(entry)
-			caster.IsCasting = ebiten.IsKeyPressed(input.CastKey) || ebiten.IsStandardGamepadButtonPressed(0, ebiten.StandardGamepadButtonFrontBottomRight)
+			caster.IsCasting = ebiten.IsKeyPressed(input.CastKey) || ebiten.IsStandardGamepadButtonPressed(input.GamepadID, ebiten.StandardGamepadButtonFrontBottomRight)
 
 			// TODO Needs a better logic when changing spells is allowed
-			if inpututil.IsKeyJustPressed(input.SpellKeyA) || ebiten.IsStandardGamepadButtonPressed(0, ebiten.StandardGamepadButtonRightLeft) {
+			if inpututil.IsKeyJustPressed(input.SpellKeyA) || ebiten.IsStandardGamepadButtonPressed(input.GamepadID, ebiten.StandardGamepadButtonRightLeft) {
 				caster.PrepareSpell(0)
-			} else if inpututil.IsKeyJustPressed(input.SpellKeyB) || ebiten.IsStandardGamepadButtonPressed(0, ebiten.StandardGamepadButtonRightTop) {
+			} else if inpututil.IsKeyJustPressed(input.SpellKeyB) || ebiten.IsStandardGamepadButtonPressed(input.GamepadID, ebiten.StandardGamepadButtonRightTop) {
 				caster.PrepareSpell(1)
-			} else if inpututil.IsKeyJustPressed(input.SpellKeyC) || ebiten.IsStandardGamepadButtonPressed(0, ebiten.StandardGamepadButtonRightRight) {
+			} else if inpututil.IsKeyJustPressed(input.SpellKeyC) || ebiten.IsStandardGamepadButtonPressed(input.GamepadID, ebiten.StandardGamepadButtonRightRight) {
 				caster.PrepareSpell(2)
 			}
 		}

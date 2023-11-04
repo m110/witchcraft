@@ -12,7 +12,6 @@ import (
 	"github.com/m110/witchcraft/assets"
 	"github.com/m110/witchcraft/component"
 	"github.com/m110/witchcraft/engine"
-	"github.com/m110/witchcraft/spell"
 )
 
 func NewRandomCharacter(w donburi.World, position math.Vec2) {
@@ -48,8 +47,19 @@ func NewRandomCharacter(w donburi.World, position math.Vec2) {
 	})
 }
 
-func NewCharacter(w donburi.World, position math.Vec2) {
-	c := w.Entry(
+func PlayerUIBasePosition(index int, screenWidth int, screenHeight int) math.Vec2 {
+	positions := []math.Vec2{
+		{X: 5, Y: 5},
+		{X: float64(screenWidth) - 200, Y: 5},
+		{X: 5, Y: float64(screenHeight) - 100},
+		{X: float64(screenWidth) - 200, Y: float64(screenHeight) - 100},
+	}
+
+	return positions[index]
+}
+
+func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, position math.Vec2, class Class) *donburi.Entry {
+	player := w.Entry(
 		w.Create(
 			transform.Transform,
 			component.Velocity,
@@ -63,7 +73,8 @@ func NewCharacter(w donburi.World, position math.Vec2) {
 		),
 	)
 
-	component.Input.Set(c, &component.InputData{
+	component.Input.Set(player, &component.InputData{
+		GamepadID:    gamepadID,
 		MoveUpKey:    ebiten.KeyW,
 		MoveRightKey: ebiten.KeyD,
 		MoveDownKey:  ebiten.KeyS,
@@ -74,29 +85,25 @@ func NewCharacter(w donburi.World, position math.Vec2) {
 		CastKey:      ebiten.KeySpace,
 	})
 
-	component.Health.Set(c, &component.HealthData{
+	component.Health.Set(player, &component.HealthData{
 		Health:    100,
 		MaxHealth: 100,
 	})
 
-	component.Mana.Set(c, &component.ManaData{
+	component.Mana.Set(player, &component.ManaData{
 		Mana:           100,
 		MaxMana:        100,
 		ManaRegenTimer: engine.NewTimer(time.Millisecond * 100),
 		ManaRegen:      1,
 	})
 
-	component.Caster.Set(c, &component.CasterData{
-		KnownSpells: []component.Spell{
-			component.NewSpell(spell.FireBall),
-			component.NewSpell(spell.LightningBolt),
-			component.NewSpell(spell.Spark),
-		},
+	component.Caster.Set(player, &component.CasterData{
+		KnownSpells: class.Spells,
 	})
-	component.Caster.Get(c).PrepareSpell(0)
+	component.Caster.Get(player).PrepareSpell(0)
 
-	transform.Transform.Get(c).LocalPosition = position
-	transform.Transform.Get(c).LocalScale = math.Vec2{X: 2, Y: 2}
+	transform.Transform.Get(player).LocalPosition = position
+	transform.Transform.Get(player).LocalScale = math.Vec2{X: 2, Y: 2}
 
 	character := component.CharacterData{
 		Body:       assets.RandomFrom(assets.Bodies),
@@ -110,37 +117,45 @@ func NewCharacter(w donburi.World, position math.Vec2) {
 		},
 	}
 
-	component.Character.Set(c, &character)
+	component.Character.Set(player, &character)
 
-	component.Sprite.SetValue(c, component.SpriteData{
+	component.Sprite.SetValue(player, component.SpriteData{
 		Image: character.Image(),
 	})
 
-	NewProgressBar(
+	settings := component.MustFindGame(w).Settings
+	baseUIPosition := PlayerUIBasePosition(playerID, settings.ScreenWidth, settings.ScreenHeight)
+
+	uiParent := w.Entry(w.Create(transform.Transform))
+	transform.Transform.Get(uiParent).LocalPosition = baseUIPosition
+
+	healthBar := NewProgressBar(
 		w,
 		math.Vec2{X: 10, Y: 10},
 		100, 10,
 		colornames.Red,
 		func(bar *component.ProgressBarData) {
-			h := component.Health.Get(c)
+			h := component.Health.Get(player)
 			bar.Value = h.Health
 			bar.MaxValue = h.MaxHealth
 		},
 	)
+	transform.AppendChild(uiParent, healthBar, false)
 
-	NewProgressBar(
+	manaBar := NewProgressBar(
 		w,
 		math.Vec2{X: 10, Y: 25},
 		100, 10,
 		colornames.Blue,
 		func(bar *component.ProgressBarData) {
-			h := component.Mana.Get(c)
+			h := component.Mana.Get(player)
 			bar.Value = h.Mana
 			bar.MaxValue = h.MaxMana
 		},
 	)
+	transform.AppendChild(uiParent, manaBar, false)
 
-	caster := component.Caster.Get(c)
+	caster := component.Caster.Get(player)
 
 	for i := range caster.KnownSpells {
 		i := i
@@ -151,16 +166,9 @@ func NewCharacter(w donburi.World, position math.Vec2) {
 			component.Text,
 		))
 
-		pos := math.Vec2{X: 10, Y: 100 + float64(i*15)}
+		pos := math.Vec2{X: 10, Y: 50 + float64(i*15)}
 
-		transform.GetTransform(text).LocalPosition = pos
-		transform.GetTransform(text).LocalPosition.X += 55
-		transform.GetTransform(text).LocalPosition.Y += 8
-		component.Text.Set(text, &component.TextData{
-			Text: s.Template.Name,
-		})
-
-		NewProgressBar(
+		spellBar := NewProgressBar(
 			w,
 			pos,
 			50, 10,
@@ -185,6 +193,13 @@ func NewCharacter(w donburi.World, position math.Vec2) {
 				bar.MaxValue = 100
 			},
 		)
+		transform.AppendChild(uiParent, spellBar, false)
+
+		transform.GetTransform(text).LocalPosition = math.Vec2{X: 55, Y: 8}
+		component.Text.Set(text, &component.TextData{
+			Text: s.Template.Name,
+		})
+		transform.AppendChild(spellBar, text, false)
 	}
 
 	castingPB := NewProgressBar(
@@ -193,7 +208,7 @@ func NewCharacter(w donburi.World, position math.Vec2) {
 		30, 3,
 		colornames.Green,
 		func(bar *component.ProgressBarData) {
-			caster := component.Caster.Get(c)
+			caster := component.Caster.Get(player)
 			preparedSpell, ok := caster.PreparedSpell()
 			if !ok {
 				bar.Value = 0
@@ -206,7 +221,7 @@ func NewCharacter(w donburi.World, position math.Vec2) {
 		},
 	)
 	component.Sprite.Get(castingPB).Pivot = component.SpritePivotCenter
-	transform.AppendChild(c, castingPB, false)
+	transform.AppendChild(player, castingPB, false)
 
 	crosshair := w.Entry(
 		w.Create(
@@ -224,5 +239,7 @@ func NewCharacter(w donburi.World, position math.Vec2) {
 		Layer: component.SpriteLayerUI,
 	})
 
-	transform.AppendChild(c, crosshair, false)
+	transform.AppendChild(player, crosshair, false)
+
+	return player
 }
