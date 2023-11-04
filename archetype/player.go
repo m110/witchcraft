@@ -62,6 +62,7 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 	player := w.Entry(
 		w.Create(
 			transform.Transform,
+			component.Player,
 			component.Velocity,
 			component.Direction,
 			component.Sprite,
@@ -72,6 +73,11 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 			component.Caster,
 		),
 	)
+
+	component.Player.Set(player, &component.PlayerData{
+		PlayerID: playerID,
+		TeamID:   playerID,
+	})
 
 	component.Input.Set(player, &component.InputData{
 		GamepadID:    gamepadID,
@@ -105,22 +111,10 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 	transform.Transform.Get(player).LocalPosition = position
 	transform.Transform.Get(player).LocalScale = math.Vec2{X: 2, Y: 2}
 
-	character := component.CharacterData{
-		Body:       assets.RandomFrom(assets.Bodies),
-		Hair:       &assets.Hairs[37],
-		FacialHair: &assets.FacialHairs[18],
-		Equipment: component.Equipment{
-			Chest:    assets.RandomFromOrEmpty(assets.ChestArmors),
-			Legs:     assets.RandomFromOrEmpty(assets.LegsArmors),
-			Feet:     assets.RandomFromOrEmpty(assets.FeetArmors),
-			MainHand: &assets.MainHandWeapons[1],
-		},
-	}
-
-	component.Character.Set(player, &character)
+	component.Character.Set(player, &class.Character)
 
 	component.Sprite.SetValue(player, component.SpriteData{
-		Image: character.Image(),
+		Image: class.Character.Image(),
 	})
 
 	settings := component.MustFindGame(w).Settings

@@ -39,10 +39,10 @@ func NewBattle(screenWidth int, screenHeight int, joinedPlayers []JoinedPlayer) 
 	return g
 }
 
-func (w *Battle) loadLevel() {
+func (b *Battle) loadLevel() {
 	render := system.NewRenderer()
 
-	w.systems = []System{
+	b.systems = []System{
 		system.NewVelocity(),
 		system.NewControls(),
 		system.NewCasting(),
@@ -53,16 +53,16 @@ func (w *Battle) loadLevel() {
 		system.NewTimeToLive(),
 	}
 
-	w.drawables = []Drawable{
+	b.drawables = []Drawable{
 		render,
 		system.NewText(),
 	}
 
-	w.world = w.createWorld()
-	w.spawnCharacters()
+	b.world = b.createWorld()
+	b.spawnCharacters()
 }
 
-func (w *Battle) createWorld() donburi.World {
+func (b *Battle) createWorld() donburi.World {
 	world := donburi.NewWorld()
 
 	archetype.NewCamera(world, math.Vec2{})
@@ -70,8 +70,8 @@ func (w *Battle) createWorld() donburi.World {
 	game := world.Entry(world.Create(component.Game))
 	donburi.SetValue(game, component.Game, component.GameData{
 		Settings: component.Settings{
-			ScreenWidth:  w.screenWidth,
-			ScreenHeight: w.screenHeight,
+			ScreenWidth:  b.screenWidth,
+			ScreenHeight: b.screenHeight,
 		},
 	})
 
@@ -80,27 +80,28 @@ func (w *Battle) createWorld() donburi.World {
 	return world
 }
 
-func (w *Battle) Update() {
-	for _, s := range w.systems {
-		s.Update(w.world)
+func (b *Battle) Update() {
+	for _, s := range b.systems {
+		s.Update(b.world)
 	}
 }
 
-func (w *Battle) spawnCharacters() {
+func (b *Battle) spawnCharacters() {
+	offset := 150.0
 	positions := []math.Vec2{
-		{X: 10, Y: 10},
-		{X: 50, Y: 80},
-		{X: 10, Y: 10},
-		{X: 50, Y: 80},
+		{X: offset, Y: offset},
+		{X: float64(b.screenWidth) - offset, Y: offset},
+		{X: offset, Y: float64(b.screenHeight) - offset},
+		{X: float64(b.screenWidth) - offset, Y: float64(b.screenHeight) - offset},
 	}
 
-	for i, p := range w.joinedPlayers {
-		archetype.NewPlayer(w.world, i, p.GamePadID, positions[i], p.Class)
+	for i, p := range b.joinedPlayers {
+		archetype.NewPlayer(b.world, i, p.GamePadID, positions[i], p.Class)
 	}
 }
 
-func (w *Battle) Draw(screen *ebiten.Image) {
-	for _, s := range w.drawables {
-		s.Draw(w.world, screen)
+func (b *Battle) Draw(screen *ebiten.Image) {
+	for _, s := range b.drawables {
+		s.Draw(b.world, screen)
 	}
 }

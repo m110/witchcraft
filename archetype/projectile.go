@@ -20,6 +20,7 @@ func NewProjectile(caster *donburi.Entry, data spell.SpawnProjectileData) *donbu
 			transform.Transform,
 			component.Sprite,
 			component.Velocity,
+			component.Damageable,
 		),
 	)
 
@@ -52,6 +53,13 @@ func NewProjectile(caster *donburi.Entry, data spell.SpawnProjectileData) *donbu
 		X: normalizedX * data.Speed,
 		Y: normalizedY * data.Speed,
 	}
+
+	player := component.Player.Get(caster)
+
+	component.Damageable.Set(projectile, &component.DamageableData{
+		Team:   player.TeamID,
+		Damage: data.Damage,
+	})
 
 	return projectile
 }
