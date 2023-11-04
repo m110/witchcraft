@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/m110/witchcraft/archetype"
 	"github.com/m110/witchcraft/component"
 	"github.com/m110/witchcraft/system"
@@ -18,18 +19,22 @@ type CharacterSelect struct {
 	drawables []Drawable
 
 	classes []archetype.Class
-	players []Player
+	players []PlayerSelect
 
 	screenWidth  int
 	screenHeight int
+
+	startBattleFunc func([]JoinedPlayer)
 }
 
-func NewCharacterSelect(screenWidth int, screenHeight int) *CharacterSelect {
+func NewCharacterSelect(screenWidth int, screenHeight int, startBattleFunc func([]JoinedPlayer)) *CharacterSelect {
 	g := &CharacterSelect{
 		screenWidth:  screenWidth,
 		screenHeight: screenHeight,
 
-		players: make([]Player, 4),
+		players: make([]PlayerSelect, 4),
+
+		startBattleFunc: startBattleFunc,
 	}
 
 	g.loadLevel()
@@ -37,20 +42,23 @@ func NewCharacterSelect(screenWidth int, screenHeight int) *CharacterSelect {
 	return g
 }
 
-type Player struct {
-	Joined    bool
-	GamePadID ebiten.GamepadID
-	Class     archetype.Class
-	Demo      *donburi.Entry
+type PlayerSelect struct {
+	Joined     bool
+	Ready      bool
+	GamePadID  ebiten.GamepadID
+	ClassIndex int
+	Class      archetype.Class
+	Demo       *donburi.Entry
 }
 
-func (p *Player) Show(gamePadID ebiten.GamepadID, class archetype.Class) {
+func (p *PlayerSelect) Show(gamePadID ebiten.GamepadID, classIndex int, class archetype.Class) {
 	p.Joined = true
 	p.GamePadID = gamePadID
-	p.SetClass(class)
+	p.SetClass(classIndex, class)
 }
 
-func (p *Player) SetClass(class archetype.Class) {
+func (p *PlayerSelect) SetClass(classIndex int, class archetype.Class) {
+	p.ClassIndex = classIndex
 	p.Class = class
 
 	sprite := component.Sprite.Get(p.Demo)
@@ -63,16 +71,35 @@ func (p *Player) SetClass(class archetype.Class) {
 	}
 }
 
-func (p *Player) Hide() {
+func (p *PlayerSelect) Hide() {
 	p.Joined = false
+	p.Ready = false
 	p.GamePadID = 0
 	p.Class = archetype.Class{}
 
 	component.Sprite.Get(p.Demo).Hidden = true
 
-	child, ok := transform.FindChildWithComponent(p.Demo, component.Text)
+	className, ok := transform.FindChildWithComponent(p.Demo, component.ClassName)
 	if ok {
-		component.Text.Get(child).Text = ""
+		component.Text.Get(className).Text = ""
+	}
+}
+
+func (p *PlayerSelect) ReadyUp() {
+	p.Ready = true
+
+	ready, ok := transform.FindChildWithComponent(p.Demo, component.ReadyIndicator)
+	if ok {
+		component.Text.Get(ready).Text = "Ready"
+	}
+}
+
+func (p *PlayerSelect) Unready() {
+	p.Ready = false
+
+	ready, ok := transform.FindChildWithComponent(p.Demo, component.ReadyIndicator)
+	if ok {
+		component.Text.Get(ready).Text = ""
 	}
 }
 
@@ -130,10 +157,16 @@ func (g *CharacterSelect) createWorld() donburi.World {
 		transform.GetTransform(demo).LocalPosition = playerPositions[i]
 		transform.GetTransform(demo).LocalScale = math.Vec2{X: 3, Y: 3}
 		component.Sprite.Get(demo).Hidden = true
-		text := archetype.NewText(world, "", component.TextSizeLarge, math.Vec2{X: -30, Y: 60})
-		transform.AppendChild(demo, text, false)
 
-		g.players[i] = Player{
+		classNameText := archetype.NewText(world, "", component.TextSizeLarge, math.Vec2{X: -30, Y: 60})
+		classNameText.AddComponent(component.ClassName)
+		transform.AppendChild(demo, classNameText, false)
+
+		readyText := archetype.NewText(world, "", component.TextSizeLarge, math.Vec2{X: -50, Y: -60})
+		readyText.AddComponent(component.ReadyIndicator)
+		transform.AppendChild(demo, readyText, false)
+
+		g.players[i] = PlayerSelect{
 			Demo: demo,
 		}
 	}
@@ -143,22 +176,58 @@ func (g *CharacterSelect) createWorld() donburi.World {
 
 func (g *CharacterSelect) Update() {
 	for _, id := range ebiten.AppendGamepadIDs(nil) {
-		if ebiten.IsStandardGamepadButtonPressed(id, ebiten.StandardGamepadButtonRightBottom) {
+		if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonRightBottom) {
 			g.onPlayerJoin(id)
-		} else if ebiten.IsStandardGamepadButtonPressed(id, ebiten.StandardGamepadButtonRightRight) {
+		} else if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonRightRight) {
 			g.onPlayerLeave(id)
+		} else if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonLeftLeft) {
+			g.onChangeClass(id, -1)
+		} else if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonLeftRight) {
+			g.onChangeClass(id, 1)
 		}
 	}
 
 	for _, s := range g.systems {
 		s.Update(g.world)
 	}
+
+	g.checkAllPlayersReady()
+}
+
+func (g *CharacterSelect) checkAllPlayersReady() {
+	joined := 0
+	ready := 0
+	for _, p := range g.players {
+		if p.Joined {
+			joined++
+
+			if p.Ready {
+				ready++
+			}
+		}
+	}
+
+	if joined == 0 || joined != ready {
+		return
+	}
+
+	var joinedPlayers []JoinedPlayer
+	for _, p := range g.players {
+		if p.Joined {
+			joinedPlayers = append(joinedPlayers, JoinedPlayer{
+				GamePadID: p.GamePadID,
+				Class:     p.Class,
+			})
+		}
+	}
+
+	g.startBattleFunc(joinedPlayers)
 }
 
 func (g *CharacterSelect) onPlayerJoin(id ebiten.GamepadID) {
-	for _, p := range g.players {
+	for i, p := range g.players {
 		if p.Joined && p.GamePadID == id {
-			// Already joined
+			g.players[i].ReadyUp()
 			return
 		}
 	}
@@ -182,14 +251,33 @@ func (g *CharacterSelect) onPlayerJoin(id ebiten.GamepadID) {
 
 	class := g.classes[0]
 
-	g.players[freeIndex].Show(id, class)
+	g.players[freeIndex].Show(id, 0, class)
 }
 
 func (g *CharacterSelect) onPlayerLeave(id ebiten.GamepadID) {
 	for i, p := range g.players {
 		if p.Joined && p.GamePadID == id {
-			g.players[i].Hide()
-			fmt.Printf("Player %v left with game pad ID %v\n", i, id)
+			if p.Ready {
+				g.players[i].Unready()
+			} else {
+				g.players[i].Hide()
+				fmt.Printf("Player %v left with game pad ID %v\n", i, id)
+			}
+		}
+	}
+}
+
+func (g *CharacterSelect) onChangeClass(id ebiten.GamepadID, direction int) {
+	for i, p := range g.players {
+		if p.Joined && p.GamePadID == id && !p.Ready {
+			classIndex := p.ClassIndex + direction
+			if classIndex < 0 {
+				classIndex = len(g.classes) - 1
+			} else if classIndex >= len(g.classes) {
+				classIndex = 0
+			}
+
+			g.players[i].SetClass(classIndex, g.classes[classIndex])
 		}
 	}
 }

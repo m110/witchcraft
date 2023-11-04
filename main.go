@@ -30,16 +30,15 @@ func NewGame() *Game {
 
 	g := &Game{}
 	g.switchToCharacterSelect()
-	//g.switchToWitchcraft()
 	return g
 }
 
 func (g *Game) switchToCharacterSelect() {
-	g.scene = scene.NewCharacterSelect(screenWidth, screenHeight)
+	g.scene = scene.NewCharacterSelect(screenWidth, screenHeight, g.switchToBattle)
 }
 
-func (g *Game) switchToWitchcraft() {
-	g.scene = scene.NewWitchcraft(screenWidth, screenHeight)
+func (g *Game) switchToBattle(joinedPlayers []scene.JoinedPlayer) {
+	g.scene = scene.NewBattle(screenWidth, screenHeight, joinedPlayers)
 }
 
 func (g *Game) Update() error {

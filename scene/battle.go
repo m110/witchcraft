@@ -1,6 +1,8 @@
 package scene
 
 import (
+	"fmt"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/math"
@@ -10,27 +12,38 @@ import (
 	"github.com/m110/witchcraft/system"
 )
 
-type Witchcraft struct {
+type JoinedPlayer struct {
+	GamePadID ebiten.GamepadID
+	Class     archetype.Class
+}
+
+type Battle struct {
 	world     donburi.World
 	systems   []System
 	drawables []Drawable
+
+	joinedPlayers []JoinedPlayer
 
 	screenWidth  int
 	screenHeight int
 }
 
-func NewWitchcraft(screenWidth int, screenHeight int) *Witchcraft {
-	g := &Witchcraft{
+func NewBattle(screenWidth int, screenHeight int, joinedPlayers []JoinedPlayer) *Battle {
+	g := &Battle{
 		screenWidth:  screenWidth,
 		screenHeight: screenHeight,
+
+		joinedPlayers: joinedPlayers,
 	}
+
+	fmt.Println("Joined players:", joinedPlayers)
 
 	g.loadLevel()
 
 	return g
 }
 
-func (w *Witchcraft) loadLevel() {
+func (w *Battle) loadLevel() {
 	render := system.NewRenderer()
 
 	w.systems = []System{
@@ -53,7 +66,7 @@ func (w *Witchcraft) loadLevel() {
 	w.spawnCharacters()
 }
 
-func (w *Witchcraft) createWorld() donburi.World {
+func (w *Battle) createWorld() donburi.World {
 	world := donburi.NewWorld()
 
 	archetype.NewCamera(world, math.Vec2{})
@@ -71,19 +84,19 @@ func (w *Witchcraft) createWorld() donburi.World {
 	return world
 }
 
-func (w *Witchcraft) Update() {
+func (w *Battle) Update() {
 	for _, s := range w.systems {
 		s.Update(w.world)
 	}
 }
 
-func (w *Witchcraft) spawnCharacters() {
+func (w *Battle) spawnCharacters() {
 	offset := 48.0
 
 	archetype.NewCharacter(w.world, math.Vec2{X: offset, Y: offset})
 }
 
-func (w *Witchcraft) Draw(screen *ebiten.Image) {
+func (w *Battle) Draw(screen *ebiten.Image) {
 	for _, s := range w.drawables {
 		s.Draw(w.world, screen)
 	}
