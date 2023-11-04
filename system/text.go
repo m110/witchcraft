@@ -10,6 +10,7 @@ import (
 	"github.com/yohamta/donburi/filter"
 	"github.com/yohamta/donburi/query"
 	"golang.org/x/image/colornames"
+	stdfont "golang.org/x/image/font"
 )
 
 type Text struct {
@@ -29,9 +30,18 @@ func NewText() *Text {
 
 func (t *Text) Draw(w donburi.World, screen *ebiten.Image) {
 	t.query.Each(w, func(entry *donburi.Entry) {
-		transform := transform.Transform.Get(entry)
 		t := component.Text.Get(entry)
 
-		text.Draw(screen, t.Text, assets.SmallFont, int(transform.LocalPosition.X), int(transform.LocalPosition.Y), colornames.White)
+		var font stdfont.Face
+		switch t.Size {
+		case component.TextSizeSmall:
+			font = assets.SmallFont
+		case component.TextSizeLarge:
+			font = assets.NormalFont
+		}
+
+		pos := transform.WorldPosition(entry)
+
+		text.Draw(screen, t.Text, font, int(pos.X), int(pos.Y), colornames.White)
 	})
 }

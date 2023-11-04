@@ -84,7 +84,6 @@ func (w *Witchcraft) spawnCharacters() {
 }
 
 func (w *Witchcraft) Draw(screen *ebiten.Image) {
-	screen.Clear()
 	for _, s := range w.drawables {
 		s.Draw(w.world, screen)
 	}

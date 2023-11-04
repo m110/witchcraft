@@ -29,7 +29,8 @@ func NewGame() *Game {
 	assets.MustLoadAssets()
 
 	g := &Game{}
-	g.switchToWitchcraft()
+	g.switchToCharacterSelect()
+	//g.switchToWitchcraft()
 	return g
 }
 
