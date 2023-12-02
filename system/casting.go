@@ -129,7 +129,8 @@ func ResolveSpellEffectApplyAuraOnCaster(caster *donburi.Entry, effect spell.Eff
 
 	data := effect.Data.(spell.ApplyAuraData)
 	aura := component.NewAura(data.AuraTemplate)
-	component.AuraHolder.Get(caster).ApplyAura(aura)
+
+	applyAura(caster, aura)
 
 	return true
 }

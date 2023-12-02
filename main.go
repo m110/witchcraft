@@ -11,6 +11,7 @@ import (
 	"github.com/m110/witchcraft/assets"
 	"github.com/m110/witchcraft/component"
 	"github.com/m110/witchcraft/scene"
+	"github.com/m110/witchcraft/spell"
 )
 
 var (
@@ -32,6 +33,7 @@ type Game struct {
 func NewGame(startScene string) *Game {
 	assets.MustLoadAssets()
 	component.LoadBodyParts()
+	spell.LoadSpells()
 
 	g := &Game{}
 

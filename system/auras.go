@@ -3,6 +3,8 @@ package system
 import (
 	"fmt"
 
+	"github.com/m110/witchcraft/archetype"
+
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/filter"
 	"github.com/yohamta/donburi/query"
@@ -69,8 +71,10 @@ func (a *Auras) Update(w donburi.World) {
 		if aurasChanged {
 			newAuras := make([]component.Aura, 0, len(auraHolder.Auras))
 
-			for _, aura := range auraHolder.Auras {
-				if aura.Timer == nil || !aura.Timer.IsReady() {
+			for i, aura := range auraHolder.Auras {
+				if aura.Timer != nil && aura.Timer.IsReady() {
+					onAuraRemoved(entry, i)
+				} else {
 					newAuras = append(newAuras, aura)
 				}
 			}
@@ -102,4 +106,23 @@ func ResolveAuraEffectManaPercentRegen(caster *donburi.Entry, effect spell.AuraE
 	manaData.AddMana(int(pct))
 
 	return true
+}
+
+func applyAura(target *donburi.Entry, aura component.Aura) {
+	// TODO How to make sure this logic is in one place?
+	ah := component.AuraHolder.Get(target)
+	ah.ApplyAura(aura)
+
+	if ah.UI != nil {
+		icon := archetype.NewAuraIcon(target.World, aura)
+		component.List.Get(ah.UI).Append(ah.UI, icon)
+	}
+}
+
+func onAuraRemoved(target *donburi.Entry, index int) {
+	ah := component.AuraHolder.Get(target)
+
+	if ah.UI != nil {
+		component.List.Get(ah.UI).Remove(index)
+	}
 }

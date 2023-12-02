@@ -207,6 +207,23 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 		transform.AppendChild(spellBar, text, false)
 	}
 
+	aurasUI := w.Entry(
+		w.Create(
+			transform.Transform,
+			component.List,
+		),
+	)
+	component.List.Set(aurasUI, &component.ListData{
+		Offset: math.Vec2{X: 36, Y: 0},
+	})
+
+	transform.Transform.Get(aurasUI).LocalPosition = math.Vec2{X: 10, Y: 100}
+	transform.AppendChild(uiParent, aurasUI, false)
+
+	component.AuraHolder.Set(player, &component.AuraHolderData{
+		UI: aurasUI,
+	})
+
 	castingPB := NewProgressBar(
 		w,
 		math.Vec2{X: 0, Y: -25},

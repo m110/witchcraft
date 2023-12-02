@@ -45,13 +45,13 @@ var (
 	sparkImage         = ebiten.NewImage(5, 2)
 )
 
-func init() {
+var FireBall, LightningBolt, Spark, ManaSurge Spell
+
+func LoadSpells() {
 	fireballImage.Fill(colornames.Red)
 	lightningBoltImage.Fill(colornames.Lightblue)
 	sparkImage.Fill(colornames.Lightyellow)
-}
 
-var (
 	FireBall = Spell{
 		Name:        "Fire Ball",
 		Runes:       []Rune{RuneAether, RuneAether},
@@ -117,8 +117,8 @@ var (
 				Type: EffectTypeApplyAuraOnCaster,
 				Data: ApplyAuraData{
 					AuraTemplate: AuraEffect{
-						Image:    assets.IconManaSurge,
 						Type:     AuraEffectTypeManaPercentRegen,
+						Image:    assets.IconManaSurge,
 						Duration: 5 * time.Second,
 						TickTime: 250 * time.Millisecond,
 						Amount:   5,
@@ -127,4 +127,4 @@ var (
 			},
 		},
 	}
-)
+}

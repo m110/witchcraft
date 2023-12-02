@@ -1,16 +1,20 @@
 package component
 
 import (
+	"github.com/yohamta/donburi"
+
 	"github.com/m110/witchcraft/engine"
 	"github.com/m110/witchcraft/spell"
-	"github.com/yohamta/donburi"
 )
 
 type AuraHolderData struct {
 	Auras []Aura
+
+	UI *donburi.Entry
 }
 
 func (d *AuraHolderData) ApplyAura(aura Aura) {
+	// TODO Check stacking / uniqueness
 	d.Auras = append(d.Auras, aura)
 }
 
