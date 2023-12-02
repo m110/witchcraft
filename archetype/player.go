@@ -9,7 +9,6 @@ import (
 	"github.com/yohamta/donburi/features/transform"
 	"golang.org/x/image/colornames"
 
-	"github.com/m110/witchcraft/assets"
 	"github.com/m110/witchcraft/component"
 	"github.com/m110/witchcraft/engine"
 )
@@ -27,16 +26,16 @@ func NewRandomCharacter(w donburi.World, position math.Vec2) {
 	transform.Transform.Get(c).LocalScale = math.Vec2{X: 2, Y: 2}
 
 	character := component.CharacterData{
-		Body:       assets.RandomFrom(assets.Bodies),
-		Hair:       assets.RandomFromOrEmpty(assets.Hairs),
-		FacialHair: assets.RandomFromOrEmpty(assets.FacialHairs),
+		Body:       engine.RandomFrom(component.AllBodyParts.Bodies),
+		Hair:       engine.RandomFromOrEmpty(component.AllBodyParts.Hairs),
+		FacialHair: engine.RandomFromOrEmpty(component.AllBodyParts.FacialHairs),
 		Equipment: component.Equipment{
-			Head:     assets.RandomFromOrEmpty(assets.HeadArmors),
-			Chest:    assets.RandomFromOrEmpty(assets.ChestArmors),
-			Legs:     assets.RandomFromOrEmpty(assets.LegsArmors),
-			Feet:     assets.RandomFromOrEmpty(assets.FeetArmors),
-			MainHand: assets.RandomFromOrEmpty(assets.MainHandWeapons),
-			OffHand:  assets.RandomFromOrEmpty(assets.OffHandWeapons),
+			Head:     engine.RandomFromOrEmpty(component.AllBodyParts.HeadArmors),
+			Chest:    engine.RandomFromOrEmpty(component.AllBodyParts.ChestArmors),
+			Legs:     engine.RandomFromOrEmpty(component.AllBodyParts.LegsArmors),
+			Feet:     engine.RandomFromOrEmpty(component.AllBodyParts.FeetArmors),
+			MainHand: engine.RandomFromOrEmpty(component.AllBodyParts.MainHandWeapons),
+			OffHand:  engine.RandomFromOrEmpty(component.AllBodyParts.OffHandWeapons),
 		},
 	}
 
@@ -72,6 +71,7 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 			component.Health,
 			component.Mana,
 			component.Caster,
+			component.AuraHolder,
 			component.Collider,
 		),
 	)

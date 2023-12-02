@@ -3,13 +3,13 @@ package system
 import (
 	"fmt"
 
-	"github.com/m110/witchcraft/archetype"
-
-	"github.com/m110/witchcraft/component"
-	"github.com/m110/witchcraft/spell"
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/filter"
 	"github.com/yohamta/donburi/query"
+
+	"github.com/m110/witchcraft/archetype"
+	"github.com/m110/witchcraft/component"
+	"github.com/m110/witchcraft/spell"
 )
 
 type Casting struct {
@@ -27,6 +27,7 @@ func NewCasting() *Casting {
 		spellEffectResolvers: []SpellEffectResolver{
 			ResolveSpellEffectNone,
 			ResolveSpellEffectSpawnProjectile,
+			ResolveSpellEffectApplyAuraOnCaster,
 		},
 	}
 }
@@ -117,6 +118,18 @@ func ResolveSpellEffectSpawnProjectile(caster *donburi.Entry, effect spell.Effec
 
 	data := effect.Data.(spell.SpawnProjectileData)
 	archetype.NewProjectile(caster, data)
+
+	return true
+}
+
+func ResolveSpellEffectApplyAuraOnCaster(caster *donburi.Entry, effect spell.Effect) bool {
+	if effect.Type != spell.EffectTypeApplyAuraOnCaster {
+		return false
+	}
+
+	data := effect.Data.(spell.ApplyAuraData)
+	aura := component.NewAura(data.AuraTemplate)
+	component.AuraHolder.Get(caster).ApplyAura(aura)
 
 	return true
 }

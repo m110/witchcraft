@@ -23,4 +23,11 @@ func (d *ManaData) UseMana(amount int) bool {
 	return true
 }
 
+func (d *ManaData) AddMana(amount int) {
+	d.Mana += amount
+	if d.Mana > d.MaxMana {
+		d.Mana = d.MaxMana
+	}
+}
+
 var Mana = donburi.NewComponentType[ManaData]()

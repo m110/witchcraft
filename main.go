@@ -9,6 +9,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 
 	"github.com/m110/witchcraft/assets"
+	"github.com/m110/witchcraft/component"
 	"github.com/m110/witchcraft/scene"
 )
 
@@ -30,6 +31,7 @@ type Game struct {
 
 func NewGame(startScene string) *Game {
 	assets.MustLoadAssets()
+	component.LoadBodyParts()
 
 	g := &Game{}
 

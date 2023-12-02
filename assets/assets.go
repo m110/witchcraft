@@ -7,15 +7,12 @@ import (
 	"image"
 	_ "image/png"
 	"io/fs"
-	"math/rand"
 	"path/filepath"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/lafriks/go-tiled"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
-
-	"github.com/m110/witchcraft/component"
 )
 
 var (
@@ -31,15 +28,17 @@ var (
 	NormalFont font.Face
 	NarrowFont font.Face
 
-	Bodies          []component.Body
-	Hairs           []component.Hair
-	FacialHairs     []component.Hair
-	HeadArmors      []component.Armor
-	ChestArmors     []component.Armor
-	LegsArmors      []component.Armor
-	FeetArmors      []component.Armor
-	MainHandWeapons []component.Weapon
-	OffHandWeapons  []component.Weapon
+	Bodies          []BodyPart
+	Hairs           []BodyPart
+	FacialHairs     []BodyPart
+	HeadArmors      []BodyPart
+	ChestArmors     []BodyPart
+	LegsArmors      []BodyPart
+	FeetArmors      []BodyPart
+	MainHandWeapons []BodyPart
+	OffHandWeapons  []BodyPart
+
+	IconManaSurge *ebiten.Image
 )
 
 const (
@@ -58,6 +57,11 @@ const (
 	mainHandSlot = "main_hand"
 	offHandSlot  = "off_hand"
 )
+
+type BodyPart struct {
+	ID    int
+	Image *ebiten.Image
+}
 
 func MustLoadAssets() {
 	tileSetContent, err := assetsFS.ReadFile("levels/characters.tsx")
@@ -83,62 +87,53 @@ func MustLoadAssets() {
 
 		switch t.Class {
 		case bodyClass:
-			Bodies = append(Bodies, component.Body{
+			Bodies = append(Bodies, BodyPart{
 				ID:    int(t.ID),
-				Index: len(Bodies),
 				Image: img,
 			})
 		case hairClass:
-			Hairs = append(Hairs, component.Hair{
+			Hairs = append(Hairs, BodyPart{
 				ID:    int(t.ID),
-				Index: len(Hairs),
 				Image: img,
 			})
 		case facialHairClass:
-			FacialHairs = append(FacialHairs, component.Hair{
+			FacialHairs = append(FacialHairs, BodyPart{
 				ID:    int(t.ID),
-				Index: len(FacialHairs),
 				Image: img,
 			})
 		case armorClass:
 			switch t.Properties.GetString(slotProperty) {
 			case headSlot:
-				HeadArmors = append(HeadArmors, component.Armor{
+				HeadArmors = append(HeadArmors, BodyPart{
 					ID:    int(t.ID),
-					Index: len(HeadArmors),
 					Image: img,
 				})
 			case chestSlot:
-				ChestArmors = append(ChestArmors, component.Armor{
+				ChestArmors = append(ChestArmors, BodyPart{
 					ID:    int(t.ID),
-					Index: len(ChestArmors),
 					Image: img,
 				})
 			case legsSlot:
-				LegsArmors = append(LegsArmors, component.Armor{
+				LegsArmors = append(LegsArmors, BodyPart{
 					ID:    int(t.ID),
-					Index: len(LegsArmors),
 					Image: img,
 				})
 			case feetSlot:
-				FeetArmors = append(FeetArmors, component.Armor{
+				FeetArmors = append(FeetArmors, BodyPart{
 					ID:    int(t.ID),
-					Index: len(FeetArmors),
 					Image: img,
 				})
 			}
 		case weaponClass:
 			switch t.Properties.GetString(slotProperty) {
 			case mainHandSlot:
-				MainHandWeapons = append(MainHandWeapons, component.Weapon{
+				MainHandWeapons = append(MainHandWeapons, BodyPart{
 					ID:    int(t.ID),
-					Index: len(MainHandWeapons),
 					Image: img,
 				})
 			case offHandSlot:
-				OffHandWeapons = append(OffHandWeapons, component.Weapon{
+				OffHandWeapons = append(OffHandWeapons, BodyPart{
 					ID:    int(t.ID),
-					Index: len(OffHandWeapons),
 					Image: img,
 				})
 			}
@@ -148,6 +143,8 @@ func MustLoadAssets() {
 	SmallFont = mustLoadFont(normalFontData, 10)
 	NormalFont = mustLoadFont(normalFontData, 24)
 	NarrowFont = mustLoadFont(narrowFontData, 24)
+
+	IconManaSurge = mustLoadImage("icons/mana-surge.png")
 }
 
 func mustSubImage(tileSetImage *ebiten.Image, ts tiled.Tileset, id uint32) *ebiten.Image {
@@ -191,6 +188,15 @@ func mustLoadFont(data []byte, size int) font.Face {
 	return face
 }
 
+func mustLoadImage(path string) *ebiten.Image {
+	data, err := fs.ReadFile(assetsFS, path)
+	if err != nil {
+		panic(err)
+	}
+
+	return mustNewEbitenImage(data)
+}
+
 func mustNewEbitenImage(data []byte) *ebiten.Image {
 	img, _, err := image.Decode(bytes.NewReader(data))
 	if err != nil {
@@ -198,17 +204,4 @@ func mustNewEbitenImage(data []byte) *ebiten.Image {
 	}
 
 	return ebiten.NewImageFromImage(img)
-}
-
-func RandomFrom[T comparable](list []T) T {
-	index := rand.Intn(len(list))
-	return list[index]
-}
-
-func RandomFromOrEmpty[T comparable](list []T) *T {
-	index := rand.Intn(len(list) + 1)
-	if index == len(list) {
-		return nil
-	}
-	return &list[index]
 }

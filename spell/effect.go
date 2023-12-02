@@ -11,6 +11,7 @@ type EffectType int
 const (
 	EffectTypeNone EffectType = iota
 	EffectTypeSpawnProjectile
+	EffectTypeApplyAuraOnCaster
 )
 
 type Effect struct {
@@ -23,4 +24,8 @@ type SpawnProjectileData struct {
 	Speed    float64
 	Damage   int
 	Duration time.Duration
+}
+
+type ApplyAuraData struct {
+	AuraTemplate AuraEffect
 }

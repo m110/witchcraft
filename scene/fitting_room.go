@@ -50,7 +50,7 @@ func NewFittingRoom(context Context) *FittingRoom {
 	f := &FittingRoom{
 		context: context,
 		character: &component.CharacterData{
-			Body:       assets.Bodies[0],
+			Body:       component.AllBodyParts.Bodies[0],
 			Hair:       nil,
 			FacialHair: nil,
 			Equipment:  component.Equipment{},
@@ -103,7 +103,7 @@ func (f *FittingRoom) onCharacterChanged() {
 				if index >= len(assets.Bodies) {
 					index = 0
 				}
-				f.character.Body = assets.Bodies[index]
+				f.character.Body = component.AllBodyParts.Bodies[index]
 			},
 		},
 		{
@@ -114,7 +114,7 @@ func (f *FittingRoom) onCharacterChanged() {
 				if next == nil {
 					f.character.Hair = nil
 				} else {
-					f.character.Hair = &assets.Hairs[*next]
+					f.character.Hair = &component.AllBodyParts.Hairs[*next]
 				}
 			},
 		},
@@ -126,7 +126,7 @@ func (f *FittingRoom) onCharacterChanged() {
 				if next == nil {
 					f.character.FacialHair = nil
 				} else {
-					f.character.FacialHair = &assets.FacialHairs[*next]
+					f.character.FacialHair = &component.AllBodyParts.FacialHairs[*next]
 				}
 			},
 		},
@@ -138,7 +138,7 @@ func (f *FittingRoom) onCharacterChanged() {
 				if next == nil {
 					f.character.Equipment.Head = nil
 				} else {
-					f.character.Equipment.Head = &assets.HeadArmors[*next]
+					f.character.Equipment.Head = &component.AllBodyParts.HeadArmors[*next]
 				}
 			},
 		},
@@ -150,7 +150,7 @@ func (f *FittingRoom) onCharacterChanged() {
 				if next == nil {
 					f.character.Equipment.Chest = nil
 				} else {
-					f.character.Equipment.Chest = &assets.ChestArmors[*next]
+					f.character.Equipment.Chest = &component.AllBodyParts.ChestArmors[*next]
 				}
 			},
 		},
@@ -162,7 +162,7 @@ func (f *FittingRoom) onCharacterChanged() {
 				if next == nil {
 					f.character.Equipment.Legs = nil
 				} else {
-					f.character.Equipment.Legs = &assets.LegsArmors[*next]
+					f.character.Equipment.Legs = &component.AllBodyParts.LegsArmors[*next]
 				}
 			},
 		},
@@ -174,7 +174,7 @@ func (f *FittingRoom) onCharacterChanged() {
 				if next == nil {
 					f.character.Equipment.Feet = nil
 				} else {
-					f.character.Equipment.Feet = &assets.FeetArmors[*next]
+					f.character.Equipment.Feet = &component.AllBodyParts.FeetArmors[*next]
 				}
 			},
 		},
@@ -186,7 +186,7 @@ func (f *FittingRoom) onCharacterChanged() {
 				if next == nil {
 					f.character.Equipment.MainHand = nil
 				} else {
-					f.character.Equipment.MainHand = &assets.MainHandWeapons[*next]
+					f.character.Equipment.MainHand = &component.AllBodyParts.MainHandWeapons[*next]
 				}
 			},
 		},
@@ -198,7 +198,7 @@ func (f *FittingRoom) onCharacterChanged() {
 				if next == nil {
 					f.character.Equipment.OffHand = nil
 				} else {
-					f.character.Equipment.OffHand = &assets.OffHandWeapons[*next]
+					f.character.Equipment.OffHand = &component.AllBodyParts.OffHandWeapons[*next]
 				}
 			},
 		},

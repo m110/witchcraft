@@ -3,9 +3,10 @@ package spell
 import (
 	"time"
 
+	"github.com/hajimehoshi/ebiten/v2"
 	"golang.org/x/image/colornames"
 
-	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/m110/witchcraft/assets"
 )
 
 type Rune int
@@ -72,7 +73,7 @@ var (
 	LightningBolt = Spell{
 		Name:        "Lightning Bolt",
 		Runes:       []Rune{RuneAether, RuneChaos, RuneVoid},
-		ManaCost:    15,
+		ManaCost:    25,
 		CastingTime: time.Second,
 		Cooldown:    0,
 		OnCastEffects: []Effect{
@@ -101,6 +102,27 @@ var (
 					Speed:    10,
 					Damage:   1,
 					Duration: time.Second * 1,
+				},
+			},
+		},
+	}
+	ManaSurge = Spell{
+		Name:        "Mana Surge",
+		Runes:       []Rune{},
+		ManaCost:    0,
+		CastingTime: 1 * time.Second,
+		Cooldown:    30 * time.Second,
+		OnCastEffects: []Effect{
+			{
+				Type: EffectTypeApplyAuraOnCaster,
+				Data: ApplyAuraData{
+					AuraTemplate: AuraEffect{
+						Image:    assets.IconManaSurge,
+						Type:     AuraEffectTypeManaPercentRegen,
+						Duration: 5 * time.Second,
+						TickTime: 250 * time.Millisecond,
+						Amount:   5,
+					},
 				},
 			},
 		},

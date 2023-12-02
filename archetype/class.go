@@ -1,7 +1,6 @@
 package archetype
 
 import (
-	"github.com/m110/witchcraft/assets"
 	"github.com/m110/witchcraft/component"
 	"github.com/m110/witchcraft/spell"
 )
@@ -17,36 +16,36 @@ func LoadClasses() []Class {
 		{
 			Name: "Mage",
 			Character: component.CharacterData{
-				Body:       assets.Bodies[0],
-				Hair:       &assets.Hairs[44],
-				FacialHair: &assets.FacialHairs[18],
+				Body:       component.AllBodyParts.Bodies[0],
+				Hair:       &component.AllBodyParts.Hairs[44],
+				FacialHair: &component.AllBodyParts.FacialHairs[18],
 				Equipment: component.Equipment{
-					Head:     &assets.HeadArmors[33],
-					Chest:    &assets.ChestArmors[5],
-					Legs:     &assets.LegsArmors[0],
-					Feet:     &assets.FeetArmors[0],
-					MainHand: &assets.MainHandWeapons[12],
+					Head:     &component.AllBodyParts.HeadArmors[33],
+					Chest:    &component.AllBodyParts.ChestArmors[5],
+					Legs:     &component.AllBodyParts.LegsArmors[0],
+					Feet:     &component.AllBodyParts.FeetArmors[0],
+					MainHand: &component.AllBodyParts.MainHandWeapons[12],
 					OffHand:  nil,
 				},
 			},
 			Spells: []component.Spell{
 				component.NewSpell(spell.FireBall),
 				component.NewSpell(spell.LightningBolt),
-				component.NewSpell(spell.Spark),
+				component.NewSpell(spell.ManaSurge),
 			},
 		},
 		{
 			Name: "Wizard",
 			Character: component.CharacterData{
-				Body:       assets.Bodies[2],
-				Hair:       &assets.Hairs[21],
-				FacialHair: &assets.FacialHairs[15],
+				Body:       component.AllBodyParts.Bodies[2],
+				Hair:       &component.AllBodyParts.Hairs[21],
+				FacialHair: &component.AllBodyParts.FacialHairs[15],
 				Equipment: component.Equipment{
 					Head:     nil,
-					Chest:    &assets.ChestArmors[1],
+					Chest:    &component.AllBodyParts.ChestArmors[1],
 					Legs:     nil,
-					Feet:     &assets.FeetArmors[6],
-					MainHand: &assets.MainHandWeapons[0],
+					Feet:     &component.AllBodyParts.FeetArmors[6],
+					MainHand: &component.AllBodyParts.MainHandWeapons[0],
 					OffHand:  nil,
 				},
 			},
@@ -59,15 +58,15 @@ func LoadClasses() []Class {
 		{
 			Name: "Warlock",
 			Character: component.CharacterData{
-				Body:       assets.Bodies[4],
-				Hair:       &assets.Hairs[35],
-				FacialHair: &assets.FacialHairs[13],
+				Body:       component.AllBodyParts.Bodies[4],
+				Hair:       &component.AllBodyParts.Hairs[35],
+				FacialHair: &component.AllBodyParts.FacialHairs[13],
 				Equipment: component.Equipment{
 					Head:     nil,
-					Chest:    &assets.ChestArmors[118],
-					Legs:     &assets.LegsArmors[0],
-					Feet:     &assets.FeetArmors[0],
-					MainHand: &assets.MainHandWeapons[82],
+					Chest:    &component.AllBodyParts.ChestArmors[118],
+					Legs:     &component.AllBodyParts.LegsArmors[0],
+					Feet:     &component.AllBodyParts.FeetArmors[0],
+					MainHand: &component.AllBodyParts.MainHandWeapons[82],
 					OffHand:  nil,
 				},
 			},
@@ -80,15 +79,15 @@ func LoadClasses() []Class {
 		{
 			Name: "Sorcerer",
 			Character: component.CharacterData{
-				Body:       assets.Bodies[1],
-				Hair:       &assets.Hairs[11],
+				Body:       component.AllBodyParts.Bodies[1],
+				Hair:       &component.AllBodyParts.Hairs[11],
 				FacialHair: nil,
 				Equipment: component.Equipment{
-					Head:     &assets.HeadArmors[35],
-					Chest:    &assets.ChestArmors[84],
+					Head:     &component.AllBodyParts.HeadArmors[35],
+					Chest:    &component.AllBodyParts.ChestArmors[84],
 					Legs:     nil,
-					Feet:     &assets.FeetArmors[1],
-					MainHand: &assets.MainHandWeapons[36],
+					Feet:     &component.AllBodyParts.FeetArmors[1],
+					MainHand: &component.AllBodyParts.MainHandWeapons[36],
 					OffHand:  nil,
 				},
 			},
@@ -101,15 +100,15 @@ func LoadClasses() []Class {
 		{
 			Name: "Witch",
 			Character: component.CharacterData{
-				Body:       assets.Bodies[3],
-				Hair:       &assets.Hairs[21],
+				Body:       component.AllBodyParts.Bodies[3],
+				Hair:       &component.AllBodyParts.Hairs[21],
 				FacialHair: nil,
 				Equipment: component.Equipment{
 					Head:     nil,
-					Chest:    &assets.ChestArmors[92],
+					Chest:    &component.AllBodyParts.ChestArmors[92],
 					Legs:     nil,
 					Feet:     nil,
-					MainHand: &assets.MainHandWeapons[0],
+					MainHand: &component.AllBodyParts.MainHandWeapons[0],
 					OffHand:  nil,
 				},
 			},

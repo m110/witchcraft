@@ -3,6 +3,8 @@ package component
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/yohamta/donburi"
+
+	"github.com/m110/witchcraft/assets"
 )
 
 type CharacterData struct {
@@ -65,27 +67,101 @@ type Body struct {
 	ID    int
 	Index int
 	Image *ebiten.Image
-	Type  int
-	Color int
 }
 
 type Hair struct {
 	ID    int
 	Index int
 	Image *ebiten.Image
-	Type  int
-	Color int
 }
 
 type Armor struct {
-	ID      int
-	Index   int
-	Image   *ebiten.Image
-	Defense int
+	ID    int
+	Index int
+	Image *ebiten.Image
 }
 
 type Weapon struct {
 	ID    int
 	Index int
 	Image *ebiten.Image
+}
+
+type BodyParts struct {
+	Bodies          []Body
+	Hairs           []Hair
+	FacialHairs     []Hair
+	HeadArmors      []Armor
+	ChestArmors     []Armor
+	LegsArmors      []Armor
+	FeetArmors      []Armor
+	MainHandWeapons []Weapon
+	OffHandWeapons  []Weapon
+}
+
+var AllBodyParts BodyParts
+
+func LoadBodyParts() {
+	bp := BodyParts{}
+
+	for i, b := range assets.Bodies {
+		bp.Bodies = append(bp.Bodies, Body{
+			ID:    b.ID,
+			Index: i,
+			Image: b.Image,
+		})
+	}
+
+	bp.Hairs = bodyPartToHairSlice(assets.Hairs)
+	bp.FacialHairs = bodyPartToHairSlice(assets.FacialHairs)
+	bp.HeadArmors = bodyPartToArmorSlice(assets.HeadArmors)
+	bp.ChestArmors = bodyPartToArmorSlice(assets.ChestArmors)
+	bp.LegsArmors = bodyPartToArmorSlice(assets.LegsArmors)
+	bp.FeetArmors = bodyPartToArmorSlice(assets.FeetArmors)
+	bp.MainHandWeapons = bodyPartToWeaponSlice(assets.MainHandWeapons)
+	bp.OffHandWeapons = bodyPartToWeaponSlice(assets.OffHandWeapons)
+
+	AllBodyParts = bp
+}
+
+func bodyPartToHairSlice(bodyParts []assets.BodyPart) []Hair {
+	hairs := make([]Hair, len(bodyParts))
+
+	for i, h := range bodyParts {
+		hairs[i] = Hair{
+			ID:    h.ID,
+			Index: i,
+			Image: h.Image,
+		}
+	}
+
+	return hairs
+}
+
+func bodyPartToArmorSlice(bodyParts []assets.BodyPart) []Armor {
+	armors := make([]Armor, len(bodyParts))
+
+	for i, a := range bodyParts {
+		armors[i] = Armor{
+			ID:    a.ID,
+			Index: i,
+			Image: a.Image,
+		}
+	}
+
+	return armors
+}
+
+func bodyPartToWeaponSlice(bodyParts []assets.BodyPart) []Weapon {
+	weapons := make([]Weapon, len(bodyParts))
+
+	for i, w := range bodyParts {
+		weapons[i] = Weapon{
+			ID:    w.ID,
+			Index: i,
+			Image: w.Image,
+		}
+	}
+
+	return weapons
 }

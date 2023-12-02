@@ -45,6 +45,7 @@ func (b *Battle) loadLevel() {
 		system.NewVelocity(),
 		system.NewControls(),
 		system.NewCasting(),
+		system.NewAuras(),
 		system.NewProgressBar(),
 		system.NewMana(),
 		system.NewCrosshair(),
