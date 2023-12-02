@@ -63,6 +63,7 @@ type Equipment struct {
 
 type Body struct {
 	ID    int
+	Index int
 	Image *ebiten.Image
 	Type  int
 	Color int
@@ -70,6 +71,7 @@ type Body struct {
 
 type Hair struct {
 	ID    int
+	Index int
 	Image *ebiten.Image
 	Type  int
 	Color int
@@ -77,11 +79,13 @@ type Hair struct {
 
 type Armor struct {
 	ID      int
+	Index   int
 	Image   *ebiten.Image
 	Defense int
 }
 
 type Weapon struct {
 	ID    int
+	Index int
 	Image *ebiten.Image
 }

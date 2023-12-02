@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"math/rand"
+	"os"
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -27,7 +28,7 @@ type Game struct {
 	mainMenu     *scene.MainMenu
 }
 
-func NewGame() *Game {
+func NewGame(startScene string) *Game {
 	assets.MustLoadAssets()
 
 	g := &Game{}
@@ -44,7 +45,16 @@ func NewGame() *Game {
 	// Keeping the main menu scene in memory to remember the active item index
 	g.mainMenu = scene.NewMainMenu(g.sceneContext)
 
-	g.switchToMainMenu()
+	switch startScene {
+	case "":
+		g.switchToMainMenu()
+	case "fitting_room":
+		g.switchToFittingRoom()
+	case "character_select":
+		g.switchToCharacterSelect()
+	default:
+		panic("unknown start scene")
+	}
 
 	return g
 }
@@ -82,7 +92,9 @@ func main() {
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	rand.Seed(time.Now().UTC().UnixNano())
 
-	err := ebiten.RunGame(NewGame())
+	startScene := os.Getenv("START_SCENE")
+
+	err := ebiten.RunGame(NewGame(startScene))
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"embed"
 	"encoding/xml"
-	"fmt"
 	"image"
 	_ "image/png"
 	"io/fs"
@@ -86,16 +85,19 @@ func MustLoadAssets() {
 		case bodyClass:
 			Bodies = append(Bodies, component.Body{
 				ID:    int(t.ID),
+				Index: len(Bodies),
 				Image: img,
 			})
 		case hairClass:
 			Hairs = append(Hairs, component.Hair{
 				ID:    int(t.ID),
+				Index: len(Hairs),
 				Image: img,
 			})
 		case facialHairClass:
 			FacialHairs = append(FacialHairs, component.Hair{
 				ID:    int(t.ID),
+				Index: len(FacialHairs),
 				Image: img,
 			})
 		case armorClass:
@@ -103,21 +105,25 @@ func MustLoadAssets() {
 			case headSlot:
 				HeadArmors = append(HeadArmors, component.Armor{
 					ID:    int(t.ID),
+					Index: len(HeadArmors),
 					Image: img,
 				})
 			case chestSlot:
 				ChestArmors = append(ChestArmors, component.Armor{
 					ID:    int(t.ID),
+					Index: len(ChestArmors),
 					Image: img,
 				})
 			case legsSlot:
 				LegsArmors = append(LegsArmors, component.Armor{
 					ID:    int(t.ID),
+					Index: len(LegsArmors),
 					Image: img,
 				})
 			case feetSlot:
 				FeetArmors = append(FeetArmors, component.Armor{
 					ID:    int(t.ID),
+					Index: len(FeetArmors),
 					Image: img,
 				})
 			}
@@ -126,26 +132,18 @@ func MustLoadAssets() {
 			case mainHandSlot:
 				MainHandWeapons = append(MainHandWeapons, component.Weapon{
 					ID:    int(t.ID),
+					Index: len(MainHandWeapons),
 					Image: img,
 				})
 			case offHandSlot:
 				OffHandWeapons = append(OffHandWeapons, component.Weapon{
 					ID:    int(t.ID),
+					Index: len(OffHandWeapons),
 					Image: img,
 				})
 			}
 		}
 	}
-
-	fmt.Println("Loaded", len(Bodies), "bodies")
-	fmt.Println("Loaded", len(Hairs), "hairs")
-	fmt.Println("Loaded", len(FacialHairs), "facial hairs")
-	fmt.Println("Loaded", len(HeadArmors), "head armors")
-	fmt.Println("Loaded", len(ChestArmors), "chest armors")
-	fmt.Println("Loaded", len(LegsArmors), "legs armors")
-	fmt.Println("Loaded", len(FeetArmors), "feet armors")
-	fmt.Println("Loaded", len(MainHandWeapons), "main hand weapons")
-	fmt.Println("Loaded", len(OffHandWeapons), "off hand weapons")
 
 	SmallFont = mustLoadFont(normalFontData, 10)
 	NormalFont = mustLoadFont(normalFontData, 24)
