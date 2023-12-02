@@ -22,23 +22,47 @@ type Scene interface {
 }
 
 type Game struct {
-	scene Scene
+	sceneContext scene.Context
+	scene        Scene
+	mainMenu     *scene.MainMenu
 }
 
 func NewGame() *Game {
 	assets.MustLoadAssets()
 
 	g := &Game{}
-	g.switchToCharacterSelect()
+
+	g.sceneContext = scene.Context{
+		ScreenWidth:             screenWidth,
+		ScreenHeight:            screenHeight,
+		SwitchToMainMenu:        g.switchToMainMenu,
+		SwitchToFittingRoom:     g.switchToFittingRoom,
+		SwitchToBattle:          g.switchToBattle,
+		SwitchToCharacterSelect: g.switchToCharacterSelect,
+	}
+
+	// Keeping the main menu scene in memory to remember the active item index
+	g.mainMenu = scene.NewMainMenu(g.sceneContext)
+
+	g.switchToMainMenu()
+
 	return g
 }
 
+func (g *Game) switchToMainMenu() {
+	g.scene = g.mainMenu
+}
+
+func (g *Game) switchToFittingRoom() {
+	g.scene = scene.NewFittingRoom(g.sceneContext)
+}
+
 func (g *Game) switchToCharacterSelect() {
-	g.scene = scene.NewCharacterSelect(screenWidth, screenHeight, g.switchToBattle)
+	g.scene = scene.NewCharacterSelect(g.sceneContext)
 }
 
 func (g *Game) switchToBattle(joinedPlayers []scene.JoinedPlayer) {
-	g.scene = scene.NewBattle(screenWidth, screenHeight, joinedPlayers)
+	g.scene = scene.NewBattle(g.sceneContext, joinedPlayers)
 }
 
 func (g *Game) Update() error {

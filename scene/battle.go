@@ -2,6 +2,7 @@ package scene
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/math"
 
@@ -16,20 +17,18 @@ type JoinedPlayer struct {
 }
 
 type Battle struct {
+	context Context
+
 	world     donburi.World
 	systems   []System
 	drawables []Drawable
 
 	joinedPlayers []JoinedPlayer
-
-	screenWidth  int
-	screenHeight int
 }
 
-func NewBattle(screenWidth int, screenHeight int, joinedPlayers []JoinedPlayer) *Battle {
+func NewBattle(context Context, joinedPlayers []JoinedPlayer) *Battle {
 	g := &Battle{
-		screenWidth:  screenWidth,
-		screenHeight: screenHeight,
+		context: context,
 
 		joinedPlayers: joinedPlayers,
 	}
@@ -72,8 +71,8 @@ func (b *Battle) createWorld() donburi.World {
 	game := world.Entry(world.Create(component.Game))
 	donburi.SetValue(game, component.Game, component.GameData{
 		Settings: component.Settings{
-			ScreenWidth:  b.screenWidth,
-			ScreenHeight: b.screenHeight,
+			ScreenWidth:  b.context.ScreenWidth,
+			ScreenHeight: b.context.ScreenHeight,
 		},
 	})
 
@@ -83,6 +82,12 @@ func (b *Battle) createWorld() donburi.World {
 }
 
 func (b *Battle) Update() {
+	for _, p := range b.joinedPlayers {
+		if inpututil.IsStandardGamepadButtonJustPressed(p.GamePadID, ebiten.StandardGamepadButtonCenterRight) {
+			b.context.SwitchToCharacterSelect()
+		}
+	}
+
 	for _, s := range b.systems {
 		s.Update(b.world)
 	}
@@ -92,9 +97,9 @@ func (b *Battle) spawnCharacters() {
 	offset := 150.0
 	positions := []math.Vec2{
 		{X: offset, Y: offset},
-		{X: float64(b.screenWidth) - offset, Y: offset},
-		{X: offset, Y: float64(b.screenHeight) - offset},
-		{X: float64(b.screenWidth) - offset, Y: float64(b.screenHeight) - offset},
+		{X: float64(b.context.ScreenWidth) - offset, Y: offset},
+		{X: offset, Y: float64(b.context.ScreenHeight) - offset},
+		{X: float64(b.context.ScreenWidth) - offset, Y: float64(b.context.ScreenHeight) - offset},
 	}
 
 	for i, p := range b.joinedPlayers {

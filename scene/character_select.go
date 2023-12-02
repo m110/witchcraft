@@ -14,27 +14,21 @@ import (
 )
 
 type CharacterSelect struct {
+	context Context
+
 	world     donburi.World
 	systems   []System
 	drawables []Drawable
 
 	classes []archetype.Class
 	players []PlayerSelect
-
-	screenWidth  int
-	screenHeight int
-
-	startBattleFunc func([]JoinedPlayer)
 }
 
-func NewCharacterSelect(screenWidth int, screenHeight int, startBattleFunc func([]JoinedPlayer)) *CharacterSelect {
+func NewCharacterSelect(context Context) *CharacterSelect {
 	g := &CharacterSelect{
-		screenWidth:  screenWidth,
-		screenHeight: screenHeight,
+		context: context,
 
 		players: make([]PlayerSelect, 4),
-
-		startBattleFunc: startBattleFunc,
 	}
 
 	g.loadLevel()
@@ -126,19 +120,19 @@ func (g *CharacterSelect) createWorld() donburi.World {
 	game := world.Entry(world.Create(component.Game))
 	donburi.SetValue(game, component.Game, component.GameData{
 		Settings: component.Settings{
-			ScreenWidth:  g.screenWidth,
-			ScreenHeight: g.screenHeight,
+			ScreenWidth:  g.context.ScreenWidth,
+			ScreenHeight: g.context.ScreenHeight,
 		},
 	})
 
 	world.Create(component.Debug)
 
-	archetype.NewText(world, "Press (X) to join", component.TextSizeLarge, math.Vec2{X: float64(g.screenWidth) / 3.0, Y: 50})
+	archetype.NewText(world, "Press (X) to join", component.TextSizeLarge, math.Vec2{X: float64(g.context.ScreenWidth) / 3.0, Y: 50})
 
 	g.classes = archetype.LoadClasses()
 
-	offsetX := float64(g.screenWidth) / 3.0
-	offsetY := float64(g.screenHeight) / 3.0
+	offsetX := float64(g.context.ScreenWidth) / 3.0
+	offsetY := float64(g.context.ScreenHeight) / 3.0
 
 	playerPositions := []math.Vec2{
 		{X: offsetX, Y: offsetY},
@@ -221,7 +215,7 @@ func (g *CharacterSelect) checkAllPlayersReady() {
 		}
 	}
 
-	g.startBattleFunc(joinedPlayers)
+	g.context.SwitchToBattle(joinedPlayers)
 }
 
 func (g *CharacterSelect) onPlayerJoin(id ebiten.GamepadID) {
@@ -255,6 +249,19 @@ func (g *CharacterSelect) onPlayerJoin(id ebiten.GamepadID) {
 }
 
 func (g *CharacterSelect) onPlayerLeave(id ebiten.GamepadID) {
+	var anyJoined bool
+	for _, p := range g.players {
+		if p.Joined {
+			anyJoined = true
+			break
+		}
+	}
+
+	if !anyJoined {
+		g.context.SwitchToMainMenu()
+		return
+	}
+
 	for i, p := range g.players {
 		if p.Joined && p.GamePadID == id {
 			if p.Ready {
