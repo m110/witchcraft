@@ -81,7 +81,7 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 		PlayerID: playerID,
 	})
 	component.Team.Set(player, &component.TeamData{
-		TeamID: playerID,
+		TeamID: component.TeamID(playerID),
 	})
 
 	component.Input.Set(player, &component.InputData{
@@ -120,6 +120,7 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 
 	component.Sprite.SetValue(player, component.SpriteData{
 		Image: class.Character.Image(),
+		Layer: component.SpriteLayerUnits,
 	})
 
 	bounds := class.Character.Image().Bounds()

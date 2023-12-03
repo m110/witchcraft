@@ -5,15 +5,17 @@ import "github.com/yohamta/donburi"
 const (
 	CollisionLayerPlayers ColliderLayer = iota
 	CollisionLayerProjectiles
+	CollisionLayerEffects
 	CollisionLayerEnemies
 )
 
 type ColliderLayer int
 
 type ColliderData struct {
-	Width      float64
-	Height     float64
-	Layer      ColliderLayer
+	Width  float64
+	Height float64
+	Layer  ColliderLayer
+
 	Collisions []Collision
 }
 

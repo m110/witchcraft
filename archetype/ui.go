@@ -44,11 +44,13 @@ func NewAuraIcon(w donburi.World, aura component.Aura) *donburi.Entry {
 		Layer: component.SpriteLayerUI,
 	})
 
-	pb := NewProgressBar(w, math.Vec2{X: 0, Y: 31}, 32, 6, color.White, func(bar *component.ProgressBarData) {
-		bar.Value = 100 - int(aura.Timer.PercentDone()*100)
-		bar.MaxValue = 100
-	})
-	transform.AppendChild(icon, pb, false)
+	if aura.Timer != nil {
+		pb := NewProgressBar(w, math.Vec2{X: 0, Y: 31}, 32, 6, color.White, func(bar *component.ProgressBarData) {
+			bar.Value = 100 - int(aura.Timer.PercentDone()*100)
+			bar.MaxValue = 100
+		})
+		transform.AppendChild(icon, pb, false)
+	}
 
 	return icon
 }

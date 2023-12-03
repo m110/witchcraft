@@ -33,7 +33,6 @@ func (c *Collision) Update(w donburi.World) {
 
 	for _, entry := range entries {
 		collider := component.Collider.Get(entry)
-		collider.Collisions = nil
 
 		for _, other := range entries {
 			if entry.Entity().Id() == other.Entity().Id() {

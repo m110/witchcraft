@@ -12,6 +12,7 @@ require (
 
 require (
 	github.com/ebitengine/purego v0.5.0 // indirect
+	github.com/google/uuid v1.4.0 // indirect
 	github.com/jezek/xgb v1.1.0 // indirect
 	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
 	golang.org/x/exp/shiny v0.0.0-20230817173708-d852ddb80c63 // indirect

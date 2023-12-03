@@ -3,9 +3,6 @@ package spell
 import (
 	"time"
 
-	"github.com/hajimehoshi/ebiten/v2"
-	"golang.org/x/image/colornames"
-
 	"github.com/m110/witchcraft/assets"
 )
 
@@ -39,19 +36,9 @@ type Spell struct {
 	OnCastFinishedEffects []Effect
 }
 
-var (
-	fireballImage      = ebiten.NewImage(10, 10)
-	lightningBoltImage = ebiten.NewImage(15, 3)
-	sparkImage         = ebiten.NewImage(5, 2)
-)
-
-var FireBall, LightningBolt, Spark, ManaSurge Spell
+var FireBall, LightningBolt, Spark, ManaSurge, Quicksand Spell
 
 func LoadSpells() {
-	fireballImage.Fill(colornames.Red)
-	lightningBoltImage.Fill(colornames.Lightblue)
-	sparkImage.Fill(colornames.Lightyellow)
-
 	FireBall = Spell{
 		Name:        "Fire Ball",
 		Runes:       []Rune{RuneAether, RuneAether},
@@ -62,7 +49,7 @@ func LoadSpells() {
 			{
 				Type: EffectTypeSpawnProjectile,
 				Data: SpawnProjectileData{
-					Image:    fireballImage,
+					Image:    assets.FireballProjectile,
 					Speed:    5,
 					Damage:   5,
 					Duration: 0,
@@ -80,7 +67,7 @@ func LoadSpells() {
 			{
 				Type: EffectTypeSpawnProjectile,
 				Data: SpawnProjectileData{
-					Image:    lightningBoltImage,
+					Image:    assets.LightningBoltProjectile,
 					Speed:    7,
 					Damage:   2,
 					Duration: time.Second * 2,
@@ -98,7 +85,7 @@ func LoadSpells() {
 			{
 				Type: EffectTypeSpawnProjectile,
 				Data: SpawnProjectileData{
-					Image:    sparkImage,
+					Image:    assets.SparkProjectile,
 					Speed:    10,
 					Damage:   1,
 					Duration: time.Second * 1,
@@ -117,12 +104,28 @@ func LoadSpells() {
 				Type: EffectTypeApplyAuraOnCaster,
 				Data: ApplyAuraData{
 					AuraTemplate: AuraEffect{
-						Type:     AuraEffectTypeManaPercentRegen,
+						ID:       "mana-surge-regen",
+						OnTick:   AuraEffectTypeManaPercentRegen,
 						Image:    assets.IconManaSurge,
 						Duration: 5 * time.Second,
 						TickTime: 250 * time.Millisecond,
-						Amount:   5,
+						Amount:   0.05,
 					},
+				},
+			},
+		},
+	}
+	Quicksand = Spell{
+		Name:        "Quicksand",
+		Runes:       []Rune{},
+		ManaCost:    20,
+		CastingTime: 0,
+		Cooldown:    10 * time.Second,
+		OnCastEffects: []Effect{
+			{
+				Type: EffectTypeSpawnEntity,
+				Data: SpawnEntityData{
+					Type: SpawnedEntityTypeQuicksand,
 				},
 			},
 		},

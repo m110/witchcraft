@@ -3,10 +3,11 @@ package archetype
 import (
 	stdmath "math"
 
-	"github.com/m110/witchcraft/engine"
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/math"
 	"github.com/yohamta/donburi/features/transform"
+
+	"github.com/m110/witchcraft/engine"
 
 	"github.com/m110/witchcraft/component"
 	"github.com/m110/witchcraft/spell"
@@ -70,7 +71,7 @@ func NewProjectile(caster *donburi.Entry, data spell.SpawnProjectileData) *donbu
 	})
 
 	component.Team.Set(projectile, &component.TeamData{
-		TeamID: player.PlayerID,
+		TeamID: component.TeamID(player.PlayerID),
 	})
 
 	return projectile

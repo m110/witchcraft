@@ -3,19 +3,26 @@ package system
 import (
 	"fmt"
 
-	"github.com/m110/witchcraft/archetype"
-
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/filter"
 	"github.com/yohamta/donburi/query"
 
+	"github.com/m110/witchcraft/archetype"
 	"github.com/m110/witchcraft/component"
 	"github.com/m110/witchcraft/spell"
 )
 
+var auraEffectOnApplyResolvers = []AuraEffectResolver{
+	ResolveAuraEffectNone,
+	ResolveAuraEffectSlowMovement,
+}
+var auraEffectOnTickResolvers = []AuraEffectResolver{
+	ResolveAuraEffectNone,
+	ResolveAuraEffectManaPercentRegen,
+}
+
 type Auras struct {
-	query               *query.Query
-	auraEffectResolvers []AuraEffectResolver
+	query *query.Query
 }
 
 func NewAuras() *Auras {
@@ -25,10 +32,6 @@ func NewAuras() *Auras {
 				component.AuraHolder,
 			),
 		),
-		auraEffectResolvers: []AuraEffectResolver{
-			ResolveAuraEffectNone,
-			ResolveAuraEffectManaPercentRegen,
-		},
 	}
 }
 
@@ -53,15 +56,15 @@ func (a *Auras) Update(w donburi.World) {
 					aura.TickTimer.Reset()
 
 					resolved := false
-					for _, resolver := range a.auraEffectResolvers {
-						if resolver(entry, aura.Template) {
+					for _, resolver := range auraEffectOnTickResolvers {
+						if resolver(entry, aura.Template.OnTick, aura.Template) {
 							resolved = true
 							break
 						}
 					}
 
 					if !resolved {
-						panic(fmt.Sprintf("unknown aura effect: %v", aura.Template.Type))
+						panic(fmt.Sprintf("unknown aura effect on tick: %v", aura.Template.OnTick))
 					}
 				}
 			}
@@ -85,25 +88,37 @@ func (a *Auras) Update(w donburi.World) {
 	})
 }
 
-type AuraEffectResolver func(caster *donburi.Entry, effect spell.AuraEffect) bool
+type AuraEffectResolver func(caster *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool
 
-func ResolveAuraEffectNone(caster *donburi.Entry, effect spell.AuraEffect) bool {
-	if effect.Type != spell.AuraEffectTypeNone {
+func ResolveAuraEffectNone(caster *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool {
+	if auraEffectType != spell.AuraEffectTypeNone {
 		return false
 	}
 
 	return true
 }
 
-func ResolveAuraEffectManaPercentRegen(caster *donburi.Entry, effect spell.AuraEffect) bool {
-	if effect.Type != spell.AuraEffectTypeManaPercentRegen {
+func ResolveAuraEffectManaPercentRegen(target *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool {
+	if auraEffectType != spell.AuraEffectTypeManaPercentRegen {
 		return false
 	}
 
-	manaData := component.Mana.Get(caster)
+	manaData := component.Mana.Get(target)
 
-	pct := float64(manaData.MaxMana) * float64(effect.Amount) / 100.0
+	pct := float64(manaData.MaxMana) * effect.Amount
 	manaData.AddMana(int(pct))
+
+	return true
+}
+
+func ResolveAuraEffectSlowMovement(caster *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool {
+	if auraEffectType != spell.AuraEffectTypeSlowMovement {
+		return false
+	}
+
+	// TODO This is naive - should be calculated somehow based on all movement effects
+	movementData := component.Mover.Get(caster)
+	movementData.Speed *= effect.Amount
 
 	return true
 }
@@ -112,6 +127,18 @@ func applyAura(target *donburi.Entry, aura component.Aura) {
 	// TODO How to make sure this logic is in one place?
 	ah := component.AuraHolder.Get(target)
 	ah.ApplyAura(aura)
+
+	resolved := false
+	for _, r := range auraEffectOnApplyResolvers {
+		if r(target, aura.Template.OnApply, aura.Template) {
+			resolved = true
+			break
+		}
+	}
+
+	if !resolved {
+		panic(fmt.Sprintf("unknown aura effect on apply: %v", aura.Template.OnApply))
+	}
 
 	if ah.UI != nil {
 		icon := archetype.NewAuraIcon(target.World, aura)

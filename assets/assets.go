@@ -9,6 +9,8 @@ import (
 	"io/fs"
 	"path/filepath"
 
+	"golang.org/x/image/colornames"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/lafriks/go-tiled"
 	"golang.org/x/image/font"
@@ -39,7 +41,14 @@ var (
 	OffHandWeapons  []BodyPart
 
 	IconManaSurge *ebiten.Image
-	Spawner       *ebiten.Image
+	IconSlow      *ebiten.Image
+
+	Spawner *ebiten.Image
+
+	FireballProjectile      = ebiten.NewImage(10, 10)
+	LightningBoltProjectile = ebiten.NewImage(15, 3)
+	SparkProjectile         = ebiten.NewImage(5, 2)
+	QuicksandArea           = ebiten.NewImage(100, 100)
 )
 
 const (
@@ -146,8 +155,14 @@ func MustLoadAssets() {
 	NarrowFont = mustLoadFont(narrowFontData, 24)
 
 	IconManaSurge = mustLoadImage("icons/mana-surge.png")
+	IconSlow = mustLoadImage("icons/slow.png")
 
 	Spawner = mustLoadImage("entities/spawner.png")
+
+	FireballProjectile.Fill(colornames.Red)
+	LightningBoltProjectile.Fill(colornames.Lightblue)
+	SparkProjectile.Fill(colornames.Lightyellow)
+	QuicksandArea.Fill(colornames.Sandybrown)
 }
 
 func mustSubImage(tileSetImage *ebiten.Image, ts tiled.Tileset, id uint32) *ebiten.Image {

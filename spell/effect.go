@@ -12,6 +12,14 @@ const (
 	EffectTypeNone EffectType = iota
 	EffectTypeSpawnProjectile
 	EffectTypeApplyAuraOnCaster
+	EffectTypeSpawnEntity
+)
+
+type SpawnedEntityType int
+
+const (
+	SpawnedEntityTypeNone SpawnedEntityType = iota
+	SpawnedEntityTypeQuicksand
 )
 
 type Effect struct {
@@ -28,4 +36,8 @@ type SpawnProjectileData struct {
 
 type ApplyAuraData struct {
 	AuraTemplate AuraEffect
+}
+
+type SpawnEntityData struct {
+	Type SpawnedEntityType
 }

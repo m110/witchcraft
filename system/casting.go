@@ -3,6 +3,8 @@ package system
 import (
 	"fmt"
 
+	"github.com/yohamta/donburi/features/transform"
+
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/filter"
 	"github.com/yohamta/donburi/query"
@@ -28,6 +30,7 @@ func NewCasting() *Casting {
 			ResolveSpellEffectNone,
 			ResolveSpellEffectSpawnProjectile,
 			ResolveSpellEffectApplyAuraOnCaster,
+			ResolveSpellEffectSpawnEntity,
 		},
 	}
 }
@@ -128,9 +131,27 @@ func ResolveSpellEffectApplyAuraOnCaster(caster *donburi.Entry, effect spell.Eff
 	}
 
 	data := effect.Data.(spell.ApplyAuraData)
-	aura := component.NewAura(data.AuraTemplate)
+	aura := component.NewAura(caster, data.AuraTemplate)
 
 	applyAura(caster, aura)
+
+	return true
+}
+
+func ResolveSpellEffectSpawnEntity(caster *donburi.Entry, effect spell.Effect) bool {
+	if effect.Type != spell.EffectTypeSpawnEntity {
+		return false
+	}
+
+	data := effect.Data.(spell.SpawnEntityData)
+
+	switch data.Type {
+	case spell.SpawnedEntityTypeNone:
+	case spell.SpawnedEntityTypeQuicksand:
+		teamID := component.Team.Get(caster).TeamID
+		q := archetype.NewQuicksand(caster.World, teamID)
+		transform.GetTransform(q).LocalPosition = transform.WorldPosition(caster)
+	}
 
 	return true
 }

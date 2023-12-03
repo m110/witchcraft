@@ -55,6 +55,7 @@ func (b *Battle) loadLevel() {
 		system.NewAI(),
 		system.NewCollision(),
 		system.NewCollisionDamage(),
+		system.NewCollisionApplyAura(),
 		render,
 		system.NewTimeToLive(),
 	}

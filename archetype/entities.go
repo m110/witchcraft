@@ -3,6 +3,8 @@ package archetype
 import (
 	"time"
 
+	"github.com/m110/witchcraft/spell"
+
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/math"
 	"github.com/yohamta/donburi/features/transform"
@@ -23,6 +25,7 @@ func NewSpawner(w donburi.World) *donburi.Entry {
 
 	component.Sprite.SetValue(s, component.SpriteData{
 		Image: assets.Spawner,
+		Layer: component.SpriteLayerFloorUnits,
 	})
 
 	component.Spawner.SetValue(s, component.SpawnerData{
@@ -64,6 +67,7 @@ func NewOrc(w donburi.World) *donburi.Entry {
 
 	component.Sprite.SetValue(o, component.SpriteData{
 		Image: c.Image(),
+		Layer: component.SpriteLayerUnits,
 	})
 
 	component.Collider.SetValue(o, component.ColliderData{
@@ -90,4 +94,47 @@ func NewOrc(w donburi.World) *donburi.Entry {
 	})
 
 	return o
+}
+
+func NewQuicksand(w donburi.World, teamID component.TeamID) *donburi.Entry {
+	q := w.Entry(
+		w.Create(
+			transform.Transform,
+			component.Sprite,
+			component.Collider,
+			component.Team,
+			component.TimeToLive,
+			component.AuraEmitter,
+		),
+	)
+
+	component.Sprite.SetValue(q, component.SpriteData{
+		Image: assets.QuicksandArea,
+		Layer: component.SpriteLayerFloorEffect,
+	})
+
+	component.Collider.SetValue(q, component.ColliderData{
+		Width:  100,
+		Height: 100,
+		Layer:  component.CollisionLayerEffects,
+	})
+
+	component.Team.SetValue(q, component.TeamData{
+		TeamID: teamID,
+	})
+
+	component.TimeToLive.Set(q, &component.TimeToLiveData{
+		Timer: engine.NewTimer(time.Second * 5),
+	})
+
+	component.AuraEmitter.SetValue(q, component.AuraEmitterData{
+		AuraTemplate: spell.AuraEffect{
+			ID:      "quicksand-slow",
+			OnApply: spell.AuraEffectTypeSlowMovement,
+			Image:   assets.IconSlow,
+			Amount:  0.5,
+		},
+	})
+
+	return q
 }

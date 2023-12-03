@@ -22,15 +22,29 @@ var AuraHolder = donburi.NewComponentType[AuraHolderData]()
 
 type Aura struct {
 	Template spell.AuraEffect
+	Source   donburi.Entity
 
 	Timer     *engine.Timer
 	TickTimer *engine.Timer
 }
 
-func NewAura(template spell.AuraEffect) Aura {
-	return Aura{
-		Template:  template,
-		Timer:     engine.NewTimer(template.Duration),
-		TickTimer: engine.NewTimer(template.TickTime),
+func NewAura(source *donburi.Entry, template spell.AuraEffect) Aura {
+	a := Aura{
+		Template: template,
+		Source:   source.Entity(),
 	}
+
+	if template.Duration != 0 {
+		a.Timer = engine.NewTimer(template.Duration)
+	}
+
+	if template.TickTime != 0 {
+		a.TickTimer = engine.NewTimer(template.TickTime)
+	}
+
+	return a
+}
+
+func (a *Aura) Equals(other Aura) bool {
+	return a.Template.ID == other.Template.ID && a.Source == other.Source
 }

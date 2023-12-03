@@ -9,7 +9,9 @@ type SpriteLayer int
 
 const (
 	SpriteLayerBackground SpriteLayer = iota
-	SpriteLayerGroundUnits
+	SpriteLayerFloorEffect
+	SpriteLayerFloorUnits
+	SpriteLayerUnits
 	SpriteLayerProjectiles
 	SpriteLayerUI
 )
