@@ -38,9 +38,19 @@ func (c *CollisionDamage) Update(w donburi.World) {
 					}
 				}
 
-				health := component.Health.Get(collision.Other)
-				health.Damage(damageable.Damage)
+				damageEntity(collision.Other, damageable.Damage)
+				entry.Remove()
+				break
 			}
 		}
 	})
+}
+
+func damageEntity(entry *donburi.Entry, damage int) {
+	health := component.Health.Get(entry)
+	health.Damage(damage)
+
+	if health.Health <= 0 {
+		entry.Remove()
+	}
 }

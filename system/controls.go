@@ -24,6 +24,7 @@ func NewControls() *Controls {
 			filter.Contains(
 				transform.Transform,
 				component.Velocity,
+				component.Mover,
 				component.Input,
 			),
 		),
@@ -38,8 +39,7 @@ func (i *Controls) Update(w donburi.World) {
 			return
 		}
 
-		// TODO Move this somewhere to a component
-		const moveSpeed = 3
+		moveSpeed := component.Mover.Get(entry).Speed
 
 		delta := math.Vec2{}
 

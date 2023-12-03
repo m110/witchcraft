@@ -73,6 +73,7 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 			component.Caster,
 			component.AuraHolder,
 			component.Collider,
+			component.Mover,
 		),
 	)
 
@@ -123,9 +124,13 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 
 	bounds := class.Character.Image().Bounds()
 	component.Collider.SetValue(player, component.ColliderData{
-		Width:  float64(bounds.Dx()),
-		Height: float64(bounds.Dy()),
+		Width:  float64(bounds.Dx() * 2),
+		Height: float64(bounds.Dy() * 2),
 		Layer:  component.CollisionLayerPlayers,
+	})
+
+	component.Mover.SetValue(player, component.MoverData{
+		Speed: 3,
 	})
 
 	settings := component.MustFindGame(w).Settings

@@ -5,6 +5,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/math"
+	"github.com/yohamta/donburi/features/transform"
 
 	"github.com/m110/witchcraft/archetype"
 	"github.com/m110/witchcraft/component"
@@ -49,6 +50,9 @@ func (b *Battle) loadLevel() {
 		system.NewProgressBar(),
 		system.NewMana(),
 		system.NewCrosshair(),
+		system.NewSpawner(),
+		system.NewSeeker(),
+		system.NewAI(),
 		system.NewCollision(),
 		system.NewCollisionDamage(),
 		render,
@@ -76,6 +80,9 @@ func (b *Battle) createWorld() donburi.World {
 			ScreenHeight: b.context.ScreenHeight,
 		},
 	})
+
+	s := archetype.NewSpawner(world)
+	transform.GetTransform(s).LocalPosition = math.Vec2{X: 400, Y: 300}
 
 	world.Create(component.Debug)
 

@@ -5,6 +5,7 @@ import "github.com/yohamta/donburi"
 const (
 	CollisionLayerPlayers ColliderLayer = iota
 	CollisionLayerProjectiles
+	CollisionLayerEnemies
 )
 
 type ColliderLayer int

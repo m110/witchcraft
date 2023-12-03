@@ -10,16 +10,20 @@ type Timer struct {
 }
 
 func NewTimer(d time.Duration) *Timer {
-	return &Timer{
-		currentFrames: 0,
-		targetFrames:  int(d.Milliseconds()) * 60 / 1000,
-	}
+	t := &Timer{}
+	t.SetTarget(d)
+
+	return t
 }
 
 func (t *Timer) Update() {
 	if t.currentFrames < t.targetFrames {
 		t.currentFrames++
 	}
+}
+
+func (t *Timer) SetTarget(target time.Duration) {
+	t.targetFrames = int(target.Milliseconds()) * 60 / 1000
 }
 
 func (t *Timer) IsReady() bool {

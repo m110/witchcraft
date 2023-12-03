@@ -39,6 +39,7 @@ var (
 	OffHandWeapons  []BodyPart
 
 	IconManaSurge *ebiten.Image
+	Spawner       *ebiten.Image
 )
 
 const (
@@ -145,6 +146,8 @@ func MustLoadAssets() {
 	NarrowFont = mustLoadFont(narrowFontData, 24)
 
 	IconManaSurge = mustLoadImage("icons/mana-surge.png")
+
+	Spawner = mustLoadImage("entities/spawner.png")
 }
 
 func mustSubImage(tileSetImage *ebiten.Image, ts tiled.Tileset, id uint32) *ebiten.Image {
