@@ -1,16 +1,19 @@
 package system
 
 import (
+	"image/color"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text"
-	"github.com/m110/witchcraft/assets"
-	"github.com/m110/witchcraft/component"
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/transform"
 	"github.com/yohamta/donburi/filter"
 	"github.com/yohamta/donburi/query"
 	"golang.org/x/image/colornames"
 	stdfont "golang.org/x/image/font"
+
+	"github.com/m110/witchcraft/assets"
+	"github.com/m110/witchcraft/component"
 )
 
 type Text struct {
@@ -42,6 +45,14 @@ func (t *Text) Draw(w donburi.World, screen *ebiten.Image) {
 
 		pos := transform.WorldPosition(entry)
 
-		text.Draw(screen, t.Text, font, int(pos.X), int(pos.Y), colornames.White)
+		var col color.Color = colornames.White
+		if t.Color != nil {
+			col = t.Color
+		}
+
+		op := &ebiten.DrawImageOptions{}
+		op.GeoM.Translate(pos.X, pos.Y)
+		op.ColorScale.ScaleWithColor(col)
+		text.DrawWithOptions(screen, t.Text, font, op)
 	})
 }

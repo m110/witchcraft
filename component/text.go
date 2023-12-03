@@ -1,6 +1,10 @@
 package component
 
-import "github.com/yohamta/donburi"
+import (
+	"image/color"
+
+	"github.com/yohamta/donburi"
+)
 
 type TextSize int
 
@@ -10,8 +14,9 @@ const (
 )
 
 type TextData struct {
-	Size TextSize
-	Text string
+	Size  TextSize
+	Text  string
+	Color color.Color
 }
 
 var Text = donburi.NewComponentType[TextData]()

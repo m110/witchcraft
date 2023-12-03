@@ -1,9 +1,12 @@
 package system
 
 import (
-	"github.com/m110/witchcraft/component"
 	"github.com/yohamta/donburi"
+	"github.com/yohamta/donburi/features/transform"
 	"github.com/yohamta/donburi/filter"
+
+	"github.com/m110/witchcraft/archetype"
+	"github.com/m110/witchcraft/component"
 )
 
 type CollisionDamage struct {
@@ -53,4 +56,6 @@ func damageEntity(entry *donburi.Entry, damage int) {
 	if health.Health <= 0 {
 		entry.Remove()
 	}
+
+	archetype.NewDamageText(entry.World, damage, transform.WorldPosition(entry))
 }

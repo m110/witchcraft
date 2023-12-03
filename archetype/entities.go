@@ -86,7 +86,7 @@ func NewOrc(w donburi.World) *donburi.Entry {
 	})
 
 	component.Mover.SetValue(o, component.MoverData{
-		Speed: 1,
+		Speed: 0.75,
 	})
 
 	return o

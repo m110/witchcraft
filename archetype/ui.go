@@ -1,13 +1,17 @@
 package archetype
 
 import (
+	"fmt"
 	"image/color"
+	"time"
 
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/math"
 	"github.com/yohamta/donburi/features/transform"
+	"golang.org/x/image/colornames"
 
 	"github.com/m110/witchcraft/component"
+	"github.com/m110/witchcraft/engine"
 )
 
 func NewText(w donburi.World, text string, size component.TextSize, pos math.Vec2) *donburi.Entry {
@@ -47,4 +51,33 @@ func NewAuraIcon(w donburi.World, aura component.Aura) *donburi.Entry {
 	transform.AppendChild(icon, pb, false)
 
 	return icon
+}
+
+func NewDamageText(w donburi.World, damage int, pos math.Vec2) *donburi.Entry {
+	t := w.Entry(
+		w.Create(
+			transform.Transform,
+			component.Text,
+			component.TimeToLive,
+			component.Velocity,
+		),
+	)
+
+	transform.GetTransform(t).LocalPosition = pos
+
+	component.Text.Set(t, &component.TextData{
+		Size:  component.TextSizeSmall,
+		Text:  fmt.Sprint(damage),
+		Color: colornames.Red,
+	})
+
+	component.TimeToLive.Set(t, &component.TimeToLiveData{
+		Timer: engine.NewTimer(time.Second),
+	})
+
+	component.Velocity.Set(t, &component.VelocityData{
+		Velocity: math.Vec2{X: 0, Y: -1},
+	})
+
+	return t
 }
