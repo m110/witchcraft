@@ -21,30 +21,34 @@ func (d *AuraHolderData) ApplyAura(aura Aura) {
 var AuraHolder = donburi.NewComponentType[AuraHolderData]()
 
 type Aura struct {
-	Template spell.AuraEffect
-	Source   donburi.Entity
+	Effect spell.AuraEffect
+	Source donburi.Entity
 
 	Timer     *engine.Timer
 	TickTimer *engine.Timer
 }
 
-func NewAura(source *donburi.Entry, template spell.AuraEffect) Aura {
+func NewAura(source *donburi.Entry, effect spell.AuraEffect) Aura {
 	a := Aura{
-		Template: template,
-		Source:   source.Entity(),
+		Effect: effect,
+		Source: source.Entity(),
 	}
 
-	if template.Duration != 0 {
-		a.Timer = engine.NewTimer(template.Duration)
+	if effect.Duration != 0 {
+		a.Timer = engine.NewTimer(effect.Duration)
 	}
 
-	if template.TickTime != 0 {
-		a.TickTimer = engine.NewTimer(template.TickTime)
+	if effect.TickTime != 0 {
+		a.TickTimer = engine.NewTimer(effect.TickTime)
 	}
 
 	return a
 }
 
 func (a *Aura) Equals(other Aura) bool {
-	return a.Template.ID == other.Template.ID && a.Source == other.Source
+	return a.Effect.ID == other.Effect.ID && a.Source == other.Source
+}
+
+func (a *Aura) EqualsTo(source *donburi.Entry, effect spell.AuraEffect) bool {
+	return a.Effect.ID == effect.ID && a.Source == source.Entity()
 }

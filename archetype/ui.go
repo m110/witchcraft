@@ -39,7 +39,7 @@ func NewAuraIcon(w donburi.World, aura component.Aura) *donburi.Entry {
 	))
 
 	component.Sprite.SetValue(icon, component.SpriteData{
-		Image: aura.Template.Image,
+		Image: aura.Effect.Image,
 		Pivot: component.SpritePivotTopLeft,
 		Layer: component.SpriteLayerUI,
 	})

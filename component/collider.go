@@ -16,12 +16,19 @@ type ColliderData struct {
 	Height float64
 	Layer  ColliderLayer
 
-	Collisions []Collision
+	Collisions             map[CollisionKey]Collision
+	JustCollidedWith       map[CollisionKey]struct{}
+	JustOutOfCollisionWith map[CollisionKey]struct{}
+}
+
+type CollisionKey struct {
+	Layer ColliderLayer
+	Other donburi.Entity
 }
 
 type Collision struct {
-	Layer ColliderLayer
-	Other *donburi.Entry
+	TimesSeen int
+	Detected  bool
 }
 
 var Collider = donburi.NewComponentType[ColliderData]()

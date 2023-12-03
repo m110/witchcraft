@@ -57,14 +57,14 @@ func (a *Auras) Update(w donburi.World) {
 
 					resolved := false
 					for _, resolver := range auraEffectOnTickResolvers {
-						if resolver(entry, aura.Template.OnTick, aura.Template) {
+						if resolver(entry, aura.Effect.OnTick, aura.Effect) {
 							resolved = true
 							break
 						}
 					}
 
 					if !resolved {
-						panic(fmt.Sprintf("unknown aura effect on tick: %v", aura.Template.OnTick))
+						panic(fmt.Sprintf("unknown aura effect on tick: %v", aura.Effect.OnTick))
 					}
 				}
 			}
@@ -116,10 +116,6 @@ func ResolveAuraEffectSlowMovement(caster *donburi.Entry, auraEffectType spell.A
 		return false
 	}
 
-	// TODO This is naive - should be calculated somehow based on all movement effects
-	movementData := component.Mover.Get(caster)
-	movementData.Speed *= effect.Amount
-
 	return true
 }
 
@@ -130,14 +126,14 @@ func applyAura(target *donburi.Entry, aura component.Aura) {
 
 	resolved := false
 	for _, r := range auraEffectOnApplyResolvers {
-		if r(target, aura.Template.OnApply, aura.Template) {
+		if r(target, aura.Effect.OnApply, aura.Effect) {
 			resolved = true
 			break
 		}
 	}
 
 	if !resolved {
-		panic(fmt.Sprintf("unknown aura effect on apply: %v", aura.Template.OnApply))
+		panic(fmt.Sprintf("unknown aura effect on apply: %v", aura.Effect.OnApply))
 	}
 
 	if ah.UI != nil {

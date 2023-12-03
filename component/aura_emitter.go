@@ -7,7 +7,7 @@ import (
 )
 
 type AuraEmitterData struct {
-	AuraTemplate spell.AuraEffect
+	AuraEffect spell.AuraEffect
 }
 
 var AuraEmitter = donburi.NewComponentType[AuraEmitterData]()

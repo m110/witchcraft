@@ -96,7 +96,7 @@ func NewOrc(w donburi.World) *donburi.Entry {
 	return o
 }
 
-func NewQuicksand(w donburi.World, teamID component.TeamID) *donburi.Entry {
+func NewQuicksand(w donburi.World, summoner *donburi.Entry, teamID component.TeamID) *donburi.Entry {
 	q := w.Entry(
 		w.Create(
 			transform.Transform,
@@ -105,6 +105,7 @@ func NewQuicksand(w donburi.World, teamID component.TeamID) *donburi.Entry {
 			component.Team,
 			component.TimeToLive,
 			component.AuraEmitter,
+			component.Summon,
 		),
 	)
 
@@ -128,12 +129,16 @@ func NewQuicksand(w donburi.World, teamID component.TeamID) *donburi.Entry {
 	})
 
 	component.AuraEmitter.SetValue(q, component.AuraEmitterData{
-		AuraTemplate: spell.AuraEffect{
+		AuraEffect: spell.AuraEffect{
 			ID:      "quicksand-slow",
 			OnApply: spell.AuraEffectTypeSlowMovement,
 			Image:   assets.IconSlow,
 			Amount:  0.5,
 		},
+	})
+
+	component.Summon.SetValue(q, component.SummonData{
+		Summoner: summoner,
 	})
 
 	return q

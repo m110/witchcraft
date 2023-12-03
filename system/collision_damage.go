@@ -32,16 +32,17 @@ func (c *CollisionDamage) Update(w donburi.World) {
 
 		team := component.Team.Get(entry)
 
-		for _, collision := range collider.Collisions {
-			if collision.Other.HasComponent(component.Health) {
-				if collision.Other.HasComponent(component.Team) {
-					otherTeam := component.Team.Get(collision.Other)
+		for collision := range collider.Collisions {
+			other := w.Entry(collision.Other)
+			if other.HasComponent(component.Health) {
+				if other.HasComponent(component.Team) {
+					otherTeam := component.Team.Get(other)
 					if team.TeamID == otherTeam.TeamID {
 						continue
 					}
 				}
 
-				damageEntity(collision.Other, damageable.Damage)
+				damageEntity(other, damageable.Damage)
 				entry.Remove()
 				break
 			}

@@ -149,7 +149,7 @@ func ResolveSpellEffectSpawnEntity(caster *donburi.Entry, effect spell.Effect) b
 	case spell.SpawnedEntityTypeNone:
 	case spell.SpawnedEntityTypeQuicksand:
 		teamID := component.Team.Get(caster).TeamID
-		q := archetype.NewQuicksand(caster.World, teamID)
+		q := archetype.NewQuicksand(caster.World, caster, teamID)
 		transform.GetTransform(q).LocalPosition = transform.WorldPosition(caster)
 	}
 
