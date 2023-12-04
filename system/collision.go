@@ -1,13 +1,12 @@
 package system
 
 import (
-	"github.com/m110/witchcraft/component"
-	"github.com/m110/witchcraft/engine"
-
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/transform"
 	"github.com/yohamta/donburi/filter"
 	"github.com/yohamta/donburi/query"
+
+	"github.com/m110/witchcraft/component"
 )
 
 type Collision struct {
@@ -84,13 +83,9 @@ func (c *Collision) Update(w donburi.World) {
 				}
 			}
 
-			pos := transform.WorldPosition(entry)
-			otherPos := transform.WorldPosition(other)
-
 			// TODO The current approach doesn't take rotation into account
-			// TODO The current approach doesn't take scale into account
-			rect := engine.NewRect(pos.X, pos.Y, collider.Width, collider.Height)
-			otherRect := engine.NewRect(otherPos.X, otherPos.Y, otherCollider.Width, otherCollider.Height)
+			rect := collider.Rect(entry)
+			otherRect := otherCollider.Rect(other)
 
 			if rect.Intersects(otherRect) {
 				if v, ok := collider.Collisions[col]; ok {

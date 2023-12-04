@@ -43,6 +43,7 @@ func (b *Battle) loadLevel() {
 	render := system.NewRenderer()
 
 	b.systems = []System{
+		system.NewDebug(),
 		system.NewVelocity(),
 		system.NewControls(),
 		system.NewCasting(),

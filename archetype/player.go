@@ -113,20 +113,30 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 	})
 	component.Caster.Get(player).PrepareSpell(0)
 
+	scale := 2.0
+
 	transform.Transform.Get(player).LocalPosition = position
-	transform.Transform.Get(player).LocalScale = math.Vec2{X: 2, Y: 2}
+	transform.Transform.Get(player).LocalScale = math.Vec2{X: scale, Y: scale}
 
 	component.Character.Set(player, &class.Character)
 
 	component.Sprite.SetValue(player, component.SpriteData{
 		Image: class.Character.Image(),
 		Layer: component.SpriteLayerUnits,
+		Pivot: component.SpritePivotCenter,
 	})
 
 	bounds := class.Character.Image().Bounds()
+	spriteWidth := float64(bounds.Dx())
+	spriteHeight := float64(bounds.Dy())
+
 	component.Collider.SetValue(player, component.ColliderData{
-		Width:  float64(bounds.Dx() * 2),
-		Height: float64(bounds.Dy() * 2),
+		Offset: math.Vec2{
+			X: -spriteWidth / 2,
+			Y: -spriteHeight / 2,
+		},
+		Width:  spriteWidth,
+		Height: spriteHeight,
 		Layer:  component.CollisionLayerPlayers,
 	})
 

@@ -44,8 +44,7 @@ func (c *CollisionApplyAura) Update(w donburi.World) {
 				if other.HasComponent(component.Team) {
 					otherTeam := component.Team.Get(other)
 					if team.TeamID == otherTeam.TeamID {
-						// TODO remove
-						// continue
+						continue
 					}
 				}
 

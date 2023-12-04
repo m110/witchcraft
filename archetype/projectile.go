@@ -45,6 +45,10 @@ func NewProjectile(caster *donburi.Entry, data spell.SpawnProjectileData) *donbu
 
 	bounds := data.Image.Bounds()
 	component.Collider.SetValue(projectile, component.ColliderData{
+		Offset: math.Vec2{
+			X: -float64(bounds.Dx()) / 2,
+			Y: -float64(bounds.Dy()) / 2,
+		},
 		Width:  float64(bounds.Dx()),
 		Height: float64(bounds.Dy()),
 		Layer:  component.CollisionLayerProjectiles,

@@ -3,8 +3,6 @@ package archetype
 import (
 	"time"
 
-	"github.com/m110/witchcraft/spell"
-
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/math"
 	"github.com/yohamta/donburi/features/transform"
@@ -12,6 +10,7 @@ import (
 	"github.com/m110/witchcraft/assets"
 	"github.com/m110/witchcraft/component"
 	"github.com/m110/witchcraft/engine"
+	"github.com/m110/witchcraft/spell"
 )
 
 func NewSpawner(w donburi.World) *donburi.Entry {
@@ -71,8 +70,8 @@ func NewOrc(w donburi.World) *donburi.Entry {
 	})
 
 	component.Collider.SetValue(o, component.ColliderData{
-		Width:  float64(c.Image().Bounds().Dx() * 2),
-		Height: float64(c.Image().Bounds().Dy() * 2),
+		Width:  float64(c.Image().Bounds().Dx()),
+		Height: float64(c.Image().Bounds().Dy()),
 		Layer:  component.CollisionLayerEnemies,
 	})
 
@@ -111,10 +110,15 @@ func NewQuicksand(w donburi.World, summoner *donburi.Entry, teamID component.Tea
 
 	component.Sprite.SetValue(q, component.SpriteData{
 		Image: assets.QuicksandArea,
+		Pivot: component.SpritePivotCenter,
 		Layer: component.SpriteLayerFloorEffect,
 	})
 
 	component.Collider.SetValue(q, component.ColliderData{
+		Offset: math.Vec2{
+			X: -50,
+			Y: -50,
+		},
 		Width:  100,
 		Height: 100,
 		Layer:  component.CollisionLayerEffects,

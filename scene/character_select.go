@@ -5,12 +5,13 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
-	"github.com/m110/witchcraft/archetype"
-	"github.com/m110/witchcraft/component"
-	"github.com/m110/witchcraft/system"
 	"github.com/yohamta/donburi"
 	"github.com/yohamta/donburi/features/math"
 	"github.com/yohamta/donburi/features/transform"
+
+	"github.com/m110/witchcraft/archetype"
+	"github.com/m110/witchcraft/component"
+	"github.com/m110/witchcraft/system"
 )
 
 type CharacterSelect struct {
@@ -152,11 +153,11 @@ func (g *CharacterSelect) createWorld() donburi.World {
 		transform.GetTransform(demo).LocalScale = math.Vec2{X: 3, Y: 3}
 		component.Sprite.Get(demo).Hidden = true
 
-		classNameText := archetype.NewText(world, "", component.TextSizeLarge, math.Vec2{X: -30, Y: 60})
+		classNameText := archetype.NewText(world, "", component.TextSizeLarge, math.Vec2{X: -15, Y: 80})
 		classNameText.AddComponent(component.ClassName)
 		transform.AppendChild(demo, classNameText, false)
 
-		readyText := archetype.NewText(world, "", component.TextSizeLarge, math.Vec2{X: -50, Y: -60})
+		readyText := archetype.NewText(world, "", component.TextSizeLarge, math.Vec2{X: -30, Y: -20})
 		readyText.AddComponent(component.ReadyIndicator)
 		transform.AppendChild(demo, readyText, false)
 
