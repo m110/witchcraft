@@ -30,8 +30,7 @@ func (d *ListData) Remove(index int) {
 		panic(fmt.Sprintf("index out of range: %d", index))
 	}
 
-	transform.RemoveChildrenRecursive(d.Items[index])
-	d.Items[index].Remove()
+	Destroy(d.Items[index])
 
 	d.Items = append(d.Items[:index], d.Items[index+1:]...)
 

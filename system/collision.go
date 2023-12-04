@@ -65,6 +65,11 @@ func (c *Collision) Update(w donburi.World) {
 				continue
 			}
 
+			// Can't collide with destroyed entities
+			if entry.HasComponent(component.Destroyed) || other.HasComponent(component.Destroyed) {
+				continue
+			}
+
 			otherCollider := component.Collider.Get(other)
 
 			col := component.CollisionKey{

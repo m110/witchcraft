@@ -42,8 +42,9 @@ func (c *CollisionDamage) Update(w donburi.World) {
 					}
 				}
 
+				// TODO It seems like sometimes it triggers twice and sometimes doesn't trigger at all
 				damageEntity(other, damageable.Damage)
-				entry.Remove()
+				entry.AddComponent(component.Destroyed)
 				break
 			}
 		}
@@ -55,7 +56,7 @@ func damageEntity(entry *donburi.Entry, damage int) {
 	health.Damage(damage)
 
 	if health.Health <= 0 {
-		entry.Remove()
+		component.Destroy(entry)
 	}
 
 	archetype.NewDamageText(entry.World, damage, transform.WorldPosition(entry))

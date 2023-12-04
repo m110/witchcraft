@@ -53,11 +53,14 @@ func (b *Battle) loadLevel() {
 		system.NewSpawner(),
 		system.NewSeeker(),
 		system.NewAI(),
+		system.NewTimeToLive(),
+		// Order matters: collisions expect entities to be marked as Destroyed
+		// TODO: Probably not ready for the "out of collision due to collision damage" scenario
 		system.NewCollision(),
 		system.NewCollisionDamage(),
 		system.NewCollisionApplyAura(),
 		render,
-		system.NewTimeToLive(),
+		system.NewDestroy(),
 	}
 
 	b.drawables = []Drawable{
