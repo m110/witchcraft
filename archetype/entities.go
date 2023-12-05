@@ -55,6 +55,7 @@ func NewOrc(w donburi.World) *donburi.Entry {
 			component.Seeker,
 			component.Mover,
 			component.Velocity,
+			component.DropExperience,
 		),
 	)
 
@@ -90,6 +91,10 @@ func NewOrc(w donburi.World) *donburi.Entry {
 
 	component.Mover.SetValue(o, component.MoverData{
 		Speed: 0.75,
+	})
+
+	component.DropExperience.SetValue(o, component.DropExperienceData{
+		Experience: engine.RandomIntRange(1, 3),
 	})
 
 	return o

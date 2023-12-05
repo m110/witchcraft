@@ -11,6 +11,7 @@ const (
 	SpriteLayerBackground SpriteLayer = iota
 	SpriteLayerFloorEffect
 	SpriteLayerFloorUnits
+	SpriteLayerPickups
 	SpriteLayerUnits
 	SpriteLayerProjectiles
 	SpriteLayerUI

@@ -13,6 +13,8 @@ const (
 	CollisionLayerProjectiles
 	CollisionLayerEffects
 	CollisionLayerEnemies
+	CollisionLayerPickups
+	CollisionLayerCollector
 )
 
 type ColliderLayer int

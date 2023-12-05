@@ -17,6 +17,8 @@ type TextData struct {
 	Size  TextSize
 	Text  string
 	Color color.Color
+
+	Update func(text *TextData)
 }
 
 var Text = donburi.NewComponentType[TextData]()

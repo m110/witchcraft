@@ -1,6 +1,8 @@
 package archetype
 
 import (
+	"fmt"
+	"image/color"
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -57,6 +59,10 @@ func PlayerUIBasePosition(index int, screenWidth int, screenHeight int) math.Vec
 	return positions[index]
 }
 
+const (
+	playerNextSkillPointExperience = 10
+)
+
 func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, position math.Vec2, class Class) *donburi.Entry {
 	player := w.Entry(
 		w.Create(
@@ -74,6 +80,7 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 			component.AuraHolder,
 			component.Collider,
 			component.Mover,
+			component.Experience,
 		),
 	)
 
@@ -144,6 +151,10 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 		Speed: 3,
 	})
 
+	component.Experience.SetValue(player, component.ExperienceData{
+		NextSkillPointExperience: playerNextSkillPointExperience,
+	})
+
 	settings := component.MustFindGame(w).Settings
 	baseUIPosition := PlayerUIBasePosition(playerID, settings.ScreenWidth, settings.ScreenHeight)
 
@@ -176,6 +187,42 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 	)
 	transform.AppendChild(uiParent, manaBar, false)
 
+	experienceBar := NewProgressBar(
+		w,
+		math.Vec2{X: 10, Y: 40},
+		100, 5,
+		colornames.Yellow,
+		func(bar *component.ProgressBarData) {
+			exp := component.Experience.Get(player)
+			bar.Value = exp.Experience
+			bar.MaxValue = exp.NextSkillPointExperience
+		},
+	)
+	transform.AppendChild(uiParent, experienceBar, false)
+
+	skillPointsText := w.Entry(
+		w.Create(
+			transform.Transform,
+			component.Text,
+		),
+	)
+	transform.Transform.Get(skillPointsText).LocalPosition = math.Vec2{X: 125, Y: 25}
+	component.Text.Set(skillPointsText, &component.TextData{
+		Size:  component.TextSizeLarge,
+		Text:  "",
+		Color: color.White,
+		Update: func(text *component.TextData) {
+			exp := component.Experience.Get(player)
+			if exp.SkillPoints == 0 {
+				text.Text = ""
+			} else {
+				text.Text = fmt.Sprint(exp.SkillPoints)
+			}
+		},
+	})
+
+	transform.AppendChild(uiParent, skillPointsText, false)
+
 	caster := component.Caster.Get(player)
 
 	for i := range caster.KnownSpells {
@@ -187,7 +234,7 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 			component.Text,
 		))
 
-		pos := math.Vec2{X: 10, Y: 50 + float64(i*15)}
+		pos := math.Vec2{X: 10, Y: 65 + float64(i*15)}
 
 		spellBar := NewProgressBar(
 			w,
@@ -278,6 +325,38 @@ func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, positi
 	})
 
 	transform.AppendChild(player, crosshair, false)
+
+	collector := w.Entry(
+		w.Create(
+			transform.Transform,
+			component.Collector,
+			component.Sprite,
+			component.Collider,
+		),
+	)
+
+	transform.Transform.Get(collector).LocalPosition = math.Vec2{X: 0, Y: 0}
+
+	collectorColliderWidth := spriteWidth * 2.5
+	collectorColliderHeight := spriteHeight * 2.5
+
+	component.Collider.Set(collector, &component.ColliderData{
+		Offset: math.Vec2{
+			X: collectorColliderWidth / -2,
+			Y: collectorColliderHeight / -2,
+		},
+		Width:  collectorColliderWidth,
+		Height: collectorColliderHeight,
+		Layer:  component.CollisionLayerCollector,
+	})
+
+	// TODO for debug purposes
+	component.Sprite.Set(collector, &component.SpriteData{
+		Image: ebiten.NewImage(1, 1),
+		Layer: component.SpriteLayerUI,
+	})
+
+	transform.AppendChild(player, collector, false)
 
 	return player
 }

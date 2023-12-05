@@ -16,6 +16,7 @@ import (
 type Casting struct {
 	query                *query.Query
 	spellEffectResolvers []SpellEffectResolver
+	debug                *component.DebugData
 }
 
 func NewCasting() *Casting {
@@ -35,6 +36,13 @@ func NewCasting() *Casting {
 }
 
 func (c *Casting) Update(w donburi.World) {
+	if c.debug == nil {
+		debug, ok := query.NewQuery(filter.Contains(component.Debug)).First(w)
+		if ok {
+			c.debug = component.Debug.Get(debug)
+		}
+	}
+
 	c.query.Each(w, func(entry *donburi.Entry) {
 		caster := component.Caster.Get(entry)
 
@@ -71,8 +79,13 @@ func (c *Casting) Update(w donburi.World) {
 				return
 			}
 
+			manaCost := preparedSpell.Template.ManaCost
+			if c.debug.Enabled {
+				manaCost = 0
+			}
+
 			mana := component.Mana.Get(entry)
-			if !mana.UseMana(preparedSpell.Template.ManaCost) {
+			if !mana.UseMana(manaCost) {
 				// Not enough mana — can't cast
 				return
 			}
@@ -98,7 +111,10 @@ func (c *Casting) Update(w donburi.World) {
 			}
 
 			preparedSpell.CastingTimer.Reset()
-			preparedSpell.CooldownTimer.Reset()
+
+			if !c.debug.Enabled {
+				preparedSpell.CooldownTimer.Reset()
+			}
 		}
 	})
 }

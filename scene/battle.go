@@ -41,6 +41,7 @@ func NewBattle(context Context, joinedPlayers []JoinedPlayer) *Battle {
 
 func (b *Battle) loadLevel() {
 	render := system.NewRenderer()
+	text := system.NewText()
 
 	b.systems = []System{
 		system.NewDebug(),
@@ -60,13 +61,16 @@ func (b *Battle) loadLevel() {
 		system.NewCollision(),
 		system.NewCollisionDamage(),
 		system.NewCollisionApplyAura(),
+		system.NewCollisionExperiencePickups(),
+		system.NewDropExperience(),
 		render,
+		text,
 		system.NewDestroy(),
 	}
 
 	b.drawables = []Drawable{
 		render,
-		system.NewText(),
+		text,
 	}
 
 	b.world = b.createWorld()

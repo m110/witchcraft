@@ -31,6 +31,15 @@ func NewText() *Text {
 	}
 }
 
+func (t *Text) Update(w donburi.World) {
+	t.query.Each(w, func(entry *donburi.Entry) {
+		txt := component.Text.Get(entry)
+		if txt.Update != nil {
+			txt.Update(txt)
+		}
+	})
+}
+
 func (t *Text) Draw(w donburi.World, screen *ebiten.Image) {
 	t.query.Each(w, func(entry *donburi.Entry) {
 		t := component.Text.Get(entry)

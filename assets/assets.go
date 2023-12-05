@@ -48,6 +48,8 @@ var (
 	LightningBoltProjectile *ebiten.Image
 	SparkProjectile         = ebiten.NewImage(5, 2)
 	QuicksandArea           = ebiten.NewImage(100, 100)
+
+	Experience *ebiten.Image
 )
 
 const (
@@ -163,6 +165,8 @@ func MustLoadAssets() {
 
 	SparkProjectile.Fill(colornames.Lightyellow)
 	QuicksandArea.Fill(colornames.Sandybrown)
+
+	Experience = mustLoadImage("pickups/experience.png")
 }
 
 func mustSubImage(tileSetImage *ebiten.Image, ts tiled.Tileset, id uint32) *ebiten.Image {
