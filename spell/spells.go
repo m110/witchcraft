@@ -6,18 +6,8 @@ import (
 	"github.com/m110/witchcraft/assets"
 )
 
-type Rune int
-
-const (
-	RuneAether Rune = iota
-	RuneChaos
-	RuneVoid
-	RuneDream
-)
-
 type Spell struct {
-	Name  string
-	Runes []Rune
+	Name string
 
 	IsChannel           bool
 	ChannelTickDuration time.Duration
@@ -41,9 +31,8 @@ var FireBall, LightningBolt, Spark, ManaSurge, Quicksand Spell
 func LoadSpells() {
 	FireBall = Spell{
 		Name:        "Fire Ball",
-		Runes:       []Rune{RuneAether, RuneAether},
 		ManaCost:    10,
-		CastingTime: time.Millisecond * 500,
+		CastingTime: time.Millisecond * 200,
 		Cooldown:    time.Second * 2,
 		OnCastEffects: []Effect{
 			{
@@ -59,9 +48,8 @@ func LoadSpells() {
 	}
 	LightningBolt = Spell{
 		Name:        "Lightning Bolt",
-		Runes:       []Rune{RuneAether, RuneChaos, RuneVoid},
 		ManaCost:    25,
-		CastingTime: time.Second,
+		CastingTime: 500 * time.Millisecond,
 		Cooldown:    0,
 		OnCastEffects: []Effect{
 			{
@@ -77,7 +65,6 @@ func LoadSpells() {
 	}
 	Spark = Spell{
 		Name:        "Spark",
-		Runes:       []Rune{RuneVoid, RuneDream, RuneVoid},
 		ManaCost:    5,
 		CastingTime: 0,
 		Cooldown:    time.Millisecond * 1500,
@@ -95,7 +82,6 @@ func LoadSpells() {
 	}
 	ManaSurge = Spell{
 		Name:        "Mana Surge",
-		Runes:       []Rune{},
 		ManaCost:    0,
 		CastingTime: 1 * time.Second,
 		Cooldown:    30 * time.Second,
@@ -117,7 +103,6 @@ func LoadSpells() {
 	}
 	Quicksand = Spell{
 		Name:        "Quicksand",
-		Runes:       []Rune{},
 		ManaCost:    20,
 		CastingTime: 0,
 		Cooldown:    10 * time.Second,

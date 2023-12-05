@@ -9,10 +9,9 @@ import (
 	"io/fs"
 	"path/filepath"
 
-	"golang.org/x/image/colornames"
-
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/lafriks/go-tiled"
+	"golang.org/x/image/colornames"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 )
@@ -45,8 +44,8 @@ var (
 
 	Spawner *ebiten.Image
 
-	FireballProjectile      = ebiten.NewImage(10, 10)
-	LightningBoltProjectile = ebiten.NewImage(15, 3)
+	FireballProjectile      *ebiten.Image
+	LightningBoltProjectile *ebiten.Image
 	SparkProjectile         = ebiten.NewImage(5, 2)
 	QuicksandArea           = ebiten.NewImage(100, 100)
 )
@@ -159,8 +158,9 @@ func MustLoadAssets() {
 
 	Spawner = mustLoadImage("entities/spawner.png")
 
-	FireballProjectile.Fill(colornames.Red)
-	LightningBoltProjectile.Fill(colornames.Lightblue)
+	FireballProjectile = mustLoadImage("spells/fireball.png")
+	LightningBoltProjectile = mustLoadImage("spells/lightning-bolt.png")
+
 	SparkProjectile.Fill(colornames.Lightyellow)
 	QuicksandArea.Fill(colornames.Sandybrown)
 }
