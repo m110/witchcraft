@@ -51,6 +51,7 @@ func (c *Casting) Update(w donburi.World) {
 func (c *Casting) updateCasting(entry *donburi.Entry) {
 	caster := component.Caster.Get(entry)
 	mana := component.Mana.Get(entry)
+	velocity := component.Velocity.Get(entry)
 
 	// Update cooldown for all spells, except the prepared one
 	for i := range caster.KnownSpells {
@@ -66,7 +67,12 @@ func (c *Casting) updateCasting(entry *donburi.Entry) {
 
 	if caster.IsChannelling {
 		// TODO interrupt on prepared spell changed
-		// TODO interrupt on movement
+
+		if !velocity.Velocity.IsZero() && !preparedSpell.Template.ChannelWhileMoving {
+			// Interrupt casting on movement
+			caster.IsChannelling = false
+			return
+		}
 
 		preparedSpell.ChannellingTimer.Update()
 
@@ -95,8 +101,6 @@ func (c *Casting) updateCasting(entry *donburi.Entry) {
 	}
 
 	if !caster.IsCasting {
-		// TODO interrupt on movement
-
 		if preparedSpell.CastingTimer.IsStarted() {
 			// If the casting has been started and then stopped, interrupt the cast
 			preparedSpell.CastingTimer.Reset()
@@ -108,8 +112,14 @@ func (c *Casting) updateCasting(entry *donburi.Entry) {
 		return
 	}
 
+	canCastWhileMoving := velocity.Velocity.IsZero() || preparedSpell.Template.CastWhileMoving
+
 	// Casting just starting
 	if !preparedSpell.CastingTimer.IsStarted() {
+		if !canCastWhileMoving {
+			return
+		}
+
 		preparedSpell.CooldownTimer.Update()
 
 		if !preparedSpell.CooldownTimer.IsReady() {
@@ -126,6 +136,12 @@ func (c *Casting) updateCasting(entry *donburi.Entry) {
 			// Not enough mana — can't cast
 			return
 		}
+	}
+
+	if !canCastWhileMoving {
+		// Interrupt casting on movement
+		preparedSpell.CastingTimer.Reset()
+		return
 	}
 
 	// Casting in progress

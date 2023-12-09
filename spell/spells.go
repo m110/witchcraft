@@ -29,7 +29,7 @@ type Spell struct {
 	OnCastFinishedEffects []Effect
 }
 
-var FireBall, LightningBolt, Spark, ManaSurge, Quicksand, VenomBurst, ArcaneVolley, ArcaneBarrage Spell
+var FireBall, LightningBolt, Spark, ManaSurge, Quicksand, VenomBurst, ArcaneVolley, ArcaneBarrage, WaterBeam Spell
 
 func LoadSpells() {
 	FireBall = Spell{
@@ -119,10 +119,11 @@ func LoadSpells() {
 		},
 	}
 	VenomBurst = Spell{
-		Name:        "Venom Burst",
-		ManaCost:    25,
-		CastingTime: 100 * time.Millisecond,
-		Cooldown:    1 * time.Second,
+		Name:            "Venom Burst",
+		ManaCost:        25,
+		CastingTime:     500 * time.Millisecond,
+		CastWhileMoving: true,
+		Cooldown:        1 * time.Second,
 		OnCastEffects: []Effect{
 			{
 				Type: EffectTypeSpawnProjectiles,
@@ -241,6 +242,28 @@ func LoadSpells() {
 
 						return directions
 					},
+				},
+			},
+		},
+	}
+	WaterBeam = Spell{
+		Name:                "Water Beam",
+		ManaCost:            5,
+		CastingTime:         1 * time.Second,
+		Cooldown:            1 * time.Second,
+		IsChannel:           true,
+		ChannelTickDuration: 10 * time.Millisecond,
+		ChannelTickManaCost: 1,
+		MaxChannelTime:      2 * time.Second,
+		ChannelWhileMoving:  true,
+		OnChannelTickEffects: []Effect{
+			{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
+					Image:    assets.WaterProjectile,
+					Speed:    3,
+					Damage:   1,
+					Duration: 1 * time.Second,
 				},
 			},
 		},
