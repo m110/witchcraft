@@ -93,7 +93,7 @@ func LoadClasses() []Class {
 			},
 			Spells: []component.Spell{
 				component.NewSpell(spell.ArcaneVolley),
-				component.NewSpell(spell.LightningBolt),
+				component.NewSpell(spell.ArcaneBarrage),
 				component.NewSpell(spell.Spark),
 			},
 		},

@@ -29,7 +29,7 @@ type Spell struct {
 	OnCastFinishedEffects []Effect
 }
 
-var FireBall, LightningBolt, Spark, ManaSurge, Quicksand, VenomBurst, ArcaneVolley Spell
+var FireBall, LightningBolt, Spark, ManaSurge, Quicksand, VenomBurst, ArcaneVolley, ArcaneBarrage Spell
 
 func LoadSpells() {
 	FireBall = Spell{
@@ -172,18 +172,62 @@ func LoadSpells() {
 			{
 				Type: EffectTypeSpawnProjectiles,
 				Data: SpawnProjectilesData{
-					Image:  assets.ArcaneProjectile,
-					Speed:  7,
-					Damage: 5,
+					Image:    assets.ArcaneProjectile,
+					Speed:    7,
+					Damage:   5,
+					Duration: 2 * time.Second,
 					Directions: func(direction math.Vec2) []math.Vec2 {
 						baseAngle := stdmath.Atan2(direction.Y, direction.X)
 
 						angles := []float64{
-							5,
+							15,
 							10,
 							0,
 							-10,
+							-15,
+						}
+
+						var directions []math.Vec2
+						for _, angle := range angles {
+							rad := angle * stdmath.Pi / 180.0
+							directions = append(directions, math.Vec2{
+								X: stdmath.Cos(baseAngle + rad),
+								Y: stdmath.Sin(baseAngle + rad),
+							})
+						}
+
+						return directions
+					},
+				},
+			},
+		},
+	}
+	ArcaneBarrage = Spell{
+		Name:                "Arcane Barrage",
+		IsChannel:           true,
+		ChannelTickDuration: 250 * time.Millisecond,
+		ChannelTickManaCost: 10,
+		MaxChannelTime:      2 * time.Second,
+		ManaCost:            5,
+		CastingTime:         250 * time.Millisecond,
+		Cooldown:            0,
+		OnChannelTickEffects: []Effect{
+			{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
+					Image:    assets.ArcaneProjectile,
+					Speed:    7,
+					Damage:   5,
+					Duration: 2 * time.Second,
+					Directions: func(direction math.Vec2) []math.Vec2 {
+						baseAngle := stdmath.Atan2(direction.Y, direction.X)
+
+						angles := []float64{
+							10,
+							5,
+							0,
 							-5,
+							-10,
 						}
 
 						var directions []math.Vec2

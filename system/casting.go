@@ -44,67 +44,110 @@ func (c *Casting) Update(w donburi.World) {
 	}
 
 	c.query.Each(w, func(entry *donburi.Entry) {
-		caster := component.Caster.Get(entry)
+		c.updateCasting(entry)
+	})
+}
 
-		// Update cooldown for all spells, except the prepared one
-		for i := range caster.KnownSpells {
-			if caster.PreparedSpellIndex == nil || i != *caster.PreparedSpellIndex {
-				caster.KnownSpells[i].CooldownTimer.Update()
-			}
+func (c *Casting) updateCasting(entry *donburi.Entry) {
+	caster := component.Caster.Get(entry)
+	mana := component.Mana.Get(entry)
+
+	// Update cooldown for all spells, except the prepared one
+	for i := range caster.KnownSpells {
+		if caster.PreparedSpellIndex == nil || i != *caster.PreparedSpellIndex {
+			caster.KnownSpells[i].CooldownTimer.Update()
 		}
+	}
 
-		preparedSpell, ok := caster.PreparedSpell()
-		if !ok {
-			return
-		}
+	preparedSpell, ok := caster.PreparedSpell()
+	if !ok {
+		return
+	}
 
-		if !caster.IsCasting {
-			if preparedSpell.CastingTimer.IsStarted() {
-				// If the casting has been started and then stopped, interrupt the cast
-				preparedSpell.CastingTimer.Reset()
-			} else {
-				// Spell prepared, but not casting at the moment, update cooldown
-				preparedSpell.CooldownTimer.Update()
-			}
+	if caster.IsChannelling {
+		// TODO interrupt on prepared spell changed
+		// TODO interrupt on movement
 
-			return
-		}
+		preparedSpell.ChannellingTimer.Update()
 
-		// Casting just starting
-		if !preparedSpell.CastingTimer.IsStarted() {
-			preparedSpell.CooldownTimer.Update()
-
-			if !preparedSpell.CooldownTimer.IsReady() {
-				// Cooldown is not ready — can't cast
-				return
-			}
-
-			manaCost := preparedSpell.Template.ManaCost
+		if preparedSpell.ChannellingTimer.IsReady() {
+			manaCost := preparedSpell.Template.ChannelTickManaCost
 			if c.debug.Enabled {
 				manaCost = 0
 			}
 
-			mana := component.Mana.Get(entry)
 			if !mana.UseMana(manaCost) {
 				// Not enough mana — can't cast
+				caster.IsChannelling = false
 				return
 			}
+
+			resolveSpellEffects(entry, entry, preparedSpell.Template.OnChannelTickEffects)
+			preparedSpell.ChannellingTimer.Reset()
 		}
 
-		// Casting in progress
-		preparedSpell.CastingTimer.Update()
+		preparedSpell.MaxChannellingTimer.Update()
+		if preparedSpell.MaxChannellingTimer.IsReady() {
+			caster.IsChannelling = false
+		}
 
-		// The casting is done — cast the spell
-		if preparedSpell.CastingTimer.IsReady() {
-			resolveSpellEffects(entry, entry, preparedSpell.Template.OnCastEffects)
+		return
+	}
 
+	if !caster.IsCasting {
+		// TODO interrupt on movement
+
+		if preparedSpell.CastingTimer.IsStarted() {
+			// If the casting has been started and then stopped, interrupt the cast
 			preparedSpell.CastingTimer.Reset()
-
-			if !c.debug.Enabled {
-				preparedSpell.CooldownTimer.Reset()
-			}
+		} else {
+			// Spell prepared, but not casting at the moment, update cooldown
+			preparedSpell.CooldownTimer.Update()
 		}
-	})
+
+		return
+	}
+
+	// Casting just starting
+	if !preparedSpell.CastingTimer.IsStarted() {
+		preparedSpell.CooldownTimer.Update()
+
+		if !preparedSpell.CooldownTimer.IsReady() {
+			// Cooldown is not ready — can't cast
+			return
+		}
+
+		manaCost := preparedSpell.Template.ManaCost
+		if c.debug.Enabled {
+			manaCost = 0
+		}
+
+		if !mana.UseMana(manaCost) {
+			// Not enough mana — can't cast
+			return
+		}
+	}
+
+	// Casting in progress
+	preparedSpell.CastingTimer.Update()
+
+	// The casting is done — cast the spell
+	if preparedSpell.CastingTimer.IsReady() {
+		resolveSpellEffects(entry, entry, preparedSpell.Template.OnCastEffects)
+
+		preparedSpell.CastingTimer.Reset()
+
+		if preparedSpell.Template.IsChannel {
+			preparedSpell.ChannellingTimer.Finish()
+			preparedSpell.MaxChannellingTimer.Reset()
+
+			caster.IsChannelling = true
+		}
+
+		if !c.debug.Enabled {
+			preparedSpell.CooldownTimer.Reset()
+		}
+	}
 }
 
 func resolveSpellEffects(caster *donburi.Entry, target *donburi.Entry, effects []spell.Effect) {

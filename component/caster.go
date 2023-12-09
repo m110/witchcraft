@@ -11,6 +11,7 @@ type CasterData struct {
 	PreparedSpellIndex *int
 	KnownSpells        []Spell
 	IsCasting          bool
+	IsChannelling      bool
 }
 
 func (d *CasterData) PrepareSpell(index int) {
@@ -33,15 +34,19 @@ var Caster = donburi.NewComponentType[CasterData]()
 type Spell struct {
 	Template spell.Spell
 
-	CastingTimer  *engine.Timer
-	CooldownTimer *engine.Timer
+	CastingTimer        *engine.Timer
+	ChannellingTimer    *engine.Timer
+	MaxChannellingTimer *engine.Timer
+	CooldownTimer       *engine.Timer
 }
 
 func NewSpell(template spell.Spell) Spell {
 	s := Spell{
-		Template:      template,
-		CastingTimer:  engine.NewTimer(template.CastingTime),
-		CooldownTimer: engine.NewTimer(template.Cooldown),
+		Template:            template,
+		CastingTimer:        engine.NewTimer(template.CastingTime),
+		ChannellingTimer:    engine.NewTimer(template.ChannelTickDuration),
+		MaxChannellingTimer: engine.NewTimer(template.MaxChannelTime),
+		CooldownTimer:       engine.NewTimer(template.Cooldown),
 	}
 
 	s.CooldownTimer.Finish()
