@@ -134,11 +134,11 @@ func ResolveSpellEffectNone(caster *donburi.Entry, target *donburi.Entry, effect
 }
 
 func ResolveSpellEffectSpawnProjectile(caster *donburi.Entry, target *donburi.Entry, effect spell.Effect) bool {
-	if effect.Type != spell.EffectTypeSpawnProjectile {
+	if effect.Type != spell.EffectTypeSpawnProjectiles {
 		return false
 	}
 
-	data := effect.Data.(spell.SpawnProjectileData)
+	data := effect.Data.(spell.SpawnProjectilesData)
 	archetype.NewProjectiles(target, data)
 
 	return true

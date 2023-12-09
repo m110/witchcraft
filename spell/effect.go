@@ -12,7 +12,7 @@ type EffectType int
 
 const (
 	EffectTypeNone EffectType = iota
-	EffectTypeSpawnProjectile
+	EffectTypeSpawnProjectiles
 	EffectTypeApplyAura
 	EffectTypeSpawnEntity
 )
@@ -29,10 +29,10 @@ type Effect struct {
 	Data any
 }
 
-type SpawnProjectileData struct {
+type SpawnProjectilesData struct {
 	Image      *ebiten.Image
 	Speed      float64
-	Directions []math.Vec2
+	Directions func(direction math.Vec2) []math.Vec2
 	Damage     int
 	// TODO Perhaps "range" would be a better mechanic
 	Duration     time.Duration

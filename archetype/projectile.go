@@ -12,14 +12,18 @@ import (
 	"github.com/m110/witchcraft/spell"
 )
 
-func NewProjectiles(caster *donburi.Entry, data spell.SpawnProjectileData) []*donburi.Entry {
+func NewProjectiles(caster *donburi.Entry, data spell.SpawnProjectilesData) []*donburi.Entry {
 	w := caster.World
 
 	var projectiles []*donburi.Entry
 
-	directions := data.Directions
-	if len(directions) == 0 {
-		directions = []math.Vec2{component.Direction.Get(caster).Direction}
+	dir := component.Direction.Get(caster).Direction
+
+	var directions []math.Vec2
+	if data.Directions == nil {
+		directions = []math.Vec2{dir}
+	} else {
+		directions = data.Directions(dir)
 	}
 
 	for _, dir := range directions {

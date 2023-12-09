@@ -1,6 +1,7 @@
 package spell
 
 import (
+	stdmath "math"
 	"time"
 
 	"github.com/yohamta/donburi/features/math"
@@ -28,7 +29,7 @@ type Spell struct {
 	OnCastFinishedEffects []Effect
 }
 
-var FireBall, LightningBolt, Spark, ManaSurge, Quicksand, VenomBurst Spell
+var FireBall, LightningBolt, Spark, ManaSurge, Quicksand, VenomBurst, ArcaneVolley Spell
 
 func LoadSpells() {
 	FireBall = Spell{
@@ -38,8 +39,8 @@ func LoadSpells() {
 		Cooldown:    time.Second * 2,
 		OnCastEffects: []Effect{
 			{
-				Type: EffectTypeSpawnProjectile,
-				Data: SpawnProjectileData{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
 					Image:    assets.FireballProjectile,
 					Speed:    5,
 					Damage:   5,
@@ -55,8 +56,8 @@ func LoadSpells() {
 		Cooldown:    0,
 		OnCastEffects: []Effect{
 			{
-				Type: EffectTypeSpawnProjectile,
-				Data: SpawnProjectileData{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
 					Image:    assets.LightningBoltProjectile,
 					Speed:    7,
 					Damage:   2,
@@ -72,8 +73,8 @@ func LoadSpells() {
 		Cooldown:    time.Millisecond * 1500,
 		OnCastEffects: []Effect{
 			{
-				Type: EffectTypeSpawnProjectile,
-				Data: SpawnProjectileData{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
 					Image:    assets.SparkProjectile,
 					Speed:    10,
 					Damage:   1,
@@ -124,21 +125,23 @@ func LoadSpells() {
 		Cooldown:    1 * time.Second,
 		OnCastEffects: []Effect{
 			{
-				Type: EffectTypeSpawnProjectile,
-				Data: SpawnProjectileData{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
 					Image:    assets.VenomProjectile,
 					Speed:    10,
 					Damage:   1,
 					Duration: 500 * time.Millisecond,
-					Directions: []math.Vec2{
-						{X: 0, Y: -1},
-						{X: 1, Y: -1},
-						{X: 1, Y: 0},
-						{X: 1, Y: 1},
-						{X: 0, Y: 1},
-						{X: -1, Y: 1},
-						{X: -1, Y: 0},
-						{X: -1, Y: -1},
+					Directions: func(direction math.Vec2) []math.Vec2 {
+						return []math.Vec2{
+							{X: 0, Y: -1},
+							{X: 1, Y: -1},
+							{X: 1, Y: 0},
+							{X: 1, Y: 1},
+							{X: 0, Y: 1},
+							{X: -1, Y: 1},
+							{X: -1, Y: 0},
+							{X: -1, Y: -1},
+						}
 					},
 					OnHitEffects: []Effect{
 						{
@@ -156,6 +159,43 @@ func LoadSpells() {
 								},
 							},
 						},
+					},
+				},
+			},
+		},
+	}
+	ArcaneVolley = Spell{
+		Name:     "Arcane Volley",
+		ManaCost: 10,
+		Cooldown: 1 * time.Second,
+		OnCastEffects: []Effect{
+			{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
+					Image:  assets.ArcaneProjectile,
+					Speed:  7,
+					Damage: 5,
+					Directions: func(direction math.Vec2) []math.Vec2 {
+						baseAngle := stdmath.Atan2(direction.Y, direction.X)
+
+						angles := []float64{
+							5,
+							10,
+							0,
+							-10,
+							-5,
+						}
+
+						var directions []math.Vec2
+						for _, angle := range angles {
+							rad := angle * stdmath.Pi / 180.0
+							directions = append(directions, math.Vec2{
+								X: stdmath.Cos(baseAngle + rad),
+								Y: stdmath.Sin(baseAngle + rad),
+							})
+						}
+
+						return directions
 					},
 				},
 			},
