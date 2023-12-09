@@ -12,6 +12,7 @@ const (
 	AuraEffectTypeNone AuraEffectType = iota
 	AuraEffectTypeManaPercentRegen
 	AuraEffectTypeSlowMovement
+	AuraEffectTypeDamage
 )
 
 type AuraEffect struct {

@@ -14,7 +14,12 @@ type AuraHolderData struct {
 }
 
 func (d *AuraHolderData) ApplyAura(aura Aura) {
-	// TODO Check stacking / uniqueness
+	for _, a := range d.Auras {
+		if a.Equals(aura) {
+			return
+		}
+	}
+
 	d.Auras = append(d.Auras, aura)
 }
 

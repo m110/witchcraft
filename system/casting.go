@@ -13,10 +13,16 @@ import (
 	"github.com/m110/witchcraft/spell"
 )
 
+var spellEffectResolvers = []SpellEffectResolver{
+	ResolveSpellEffectNone,
+	ResolveSpellEffectSpawnProjectile,
+	ResolveSpellEffectApplyAura,
+	ResolveSpellEffectSpawnEntity,
+}
+
 type Casting struct {
-	query                *query.Query
-	spellEffectResolvers []SpellEffectResolver
-	debug                *component.DebugData
+	query *query.Query
+	debug *component.DebugData
 }
 
 func NewCasting() *Casting {
@@ -26,12 +32,6 @@ func NewCasting() *Casting {
 				component.Caster,
 			),
 		),
-		spellEffectResolvers: []SpellEffectResolver{
-			ResolveSpellEffectNone,
-			ResolveSpellEffectSpawnProjectile,
-			ResolveSpellEffectApplyAuraOnCaster,
-			ResolveSpellEffectSpawnEntity,
-		},
 	}
 }
 
@@ -96,19 +96,7 @@ func (c *Casting) Update(w donburi.World) {
 
 		// The casting is done — cast the spell
 		if preparedSpell.CastingTimer.IsReady() {
-			for _, effect := range preparedSpell.Template.OnCastEffects {
-				resolved := false
-				for _, resolver := range c.spellEffectResolvers {
-					if resolver(entry, effect) {
-						resolved = true
-						break
-					}
-				}
-
-				if !resolved {
-					panic(fmt.Sprintf("unknown spell effect: %v", effect.Type))
-				}
-			}
+			resolveSpellEffects(entry, entry, preparedSpell.Template.OnCastEffects)
 
 			preparedSpell.CastingTimer.Reset()
 
@@ -119,9 +107,25 @@ func (c *Casting) Update(w donburi.World) {
 	})
 }
 
-type SpellEffectResolver func(caster *donburi.Entry, effect spell.Effect) bool
+func resolveSpellEffects(caster *donburi.Entry, target *donburi.Entry, effects []spell.Effect) {
+	for _, effect := range effects {
+		resolved := false
+		for _, resolver := range spellEffectResolvers {
+			if resolver(caster, target, effect) {
+				resolved = true
+				break
+			}
+		}
 
-func ResolveSpellEffectNone(caster *donburi.Entry, effect spell.Effect) bool {
+		if !resolved {
+			panic(fmt.Sprintf("unknown spell effect: %v", effect.Type))
+		}
+	}
+}
+
+type SpellEffectResolver func(caster *donburi.Entry, target *donburi.Entry, effect spell.Effect) bool
+
+func ResolveSpellEffectNone(caster *donburi.Entry, target *donburi.Entry, effect spell.Effect) bool {
 	if effect.Type != spell.EffectTypeNone {
 		return false
 	}
@@ -129,31 +133,31 @@ func ResolveSpellEffectNone(caster *donburi.Entry, effect spell.Effect) bool {
 	return true
 }
 
-func ResolveSpellEffectSpawnProjectile(caster *donburi.Entry, effect spell.Effect) bool {
+func ResolveSpellEffectSpawnProjectile(caster *donburi.Entry, target *donburi.Entry, effect spell.Effect) bool {
 	if effect.Type != spell.EffectTypeSpawnProjectile {
 		return false
 	}
 
 	data := effect.Data.(spell.SpawnProjectileData)
-	archetype.NewProjectile(caster, data)
+	archetype.NewProjectiles(target, data)
 
 	return true
 }
 
-func ResolveSpellEffectApplyAuraOnCaster(caster *donburi.Entry, effect spell.Effect) bool {
-	if effect.Type != spell.EffectTypeApplyAuraOnCaster {
+func ResolveSpellEffectApplyAura(caster *donburi.Entry, target *donburi.Entry, effect spell.Effect) bool {
+	if effect.Type != spell.EffectTypeApplyAura {
 		return false
 	}
 
 	data := effect.Data.(spell.ApplyAuraData)
-	aura := component.NewAura(caster, data.AuraTemplate)
+	aura := component.NewAura(caster, data.AuraEffect)
 
-	applyAura(caster, aura)
+	applyAura(target, aura)
 
 	return true
 }
 
-func ResolveSpellEffectSpawnEntity(caster *donburi.Entry, effect spell.Effect) bool {
+func ResolveSpellEffectSpawnEntity(caster *donburi.Entry, target *donburi.Entry, effect spell.Effect) bool {
 	if effect.Type != spell.EffectTypeSpawnEntity {
 		return false
 	}
@@ -164,8 +168,8 @@ func ResolveSpellEffectSpawnEntity(caster *donburi.Entry, effect spell.Effect) b
 	case spell.SpawnedEntityTypeNone:
 	case spell.SpawnedEntityTypeQuicksand:
 		teamID := component.Team.Get(caster).TeamID
-		q := archetype.NewQuicksand(caster.World, caster, teamID)
-		transform.GetTransform(q).LocalPosition = transform.WorldPosition(caster)
+		q := archetype.NewQuicksand(caster.World, target, teamID)
+		transform.GetTransform(q).LocalPosition = transform.WorldPosition(target)
 	}
 
 	return true

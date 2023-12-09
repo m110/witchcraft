@@ -19,6 +19,7 @@ var auraEffectOnApplyResolvers = []AuraEffectResolver{
 var auraEffectOnTickResolvers = []AuraEffectResolver{
 	ResolveAuraEffectNone,
 	ResolveAuraEffectManaPercentRegen,
+	ResolveAuraEffectDamage,
 }
 
 type Auras struct {
@@ -88,9 +89,9 @@ func (a *Auras) Update(w donburi.World) {
 	})
 }
 
-type AuraEffectResolver func(caster *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool
+type AuraEffectResolver func(target *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool
 
-func ResolveAuraEffectNone(caster *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool {
+func ResolveAuraEffectNone(target *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool {
 	if auraEffectType != spell.AuraEffectTypeNone {
 		return false
 	}
@@ -111,10 +112,20 @@ func ResolveAuraEffectManaPercentRegen(target *donburi.Entry, auraEffectType spe
 	return true
 }
 
-func ResolveAuraEffectSlowMovement(caster *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool {
+func ResolveAuraEffectSlowMovement(target *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool {
 	if auraEffectType != spell.AuraEffectTypeSlowMovement {
 		return false
 	}
+
+	return true
+}
+
+func ResolveAuraEffectDamage(target *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool {
+	if auraEffectType != spell.AuraEffectTypeDamage {
+		return false
+	}
+
+	damageEntity(target, int(effect.Amount))
 
 	return true
 }

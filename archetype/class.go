@@ -71,7 +71,7 @@ func LoadClasses() []Class {
 				},
 			},
 			Spells: []component.Spell{
-				component.NewSpell(spell.FireBall),
+				component.NewSpell(spell.VenomBurst),
 				component.NewSpell(spell.LightningBolt),
 				component.NewSpell(spell.Spark),
 			},

@@ -47,6 +47,7 @@ var (
 	FireballProjectile      *ebiten.Image
 	LightningBoltProjectile *ebiten.Image
 	SparkProjectile         = ebiten.NewImage(5, 2)
+	VenomProjectile         = ebiten.NewImage(20, 5)
 	QuicksandArea           = ebiten.NewImage(100, 100)
 
 	Experience *ebiten.Image
@@ -164,6 +165,7 @@ func MustLoadAssets() {
 	LightningBoltProjectile = mustLoadImage("spells/lightning-bolt.png")
 
 	SparkProjectile.Fill(colornames.Lightyellow)
+	VenomProjectile.Fill(colornames.Limegreen)
 	QuicksandArea.Fill(colornames.Sandybrown)
 
 	Experience = mustLoadImage("pickups/experience.png")

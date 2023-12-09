@@ -45,6 +45,12 @@ func (c *CollisionDamage) Update(w donburi.World) {
 				// TODO It seems like sometimes it triggers twice and sometimes doesn't trigger at all
 				damageEntity(other, damageable.Damage)
 				entry.AddComponent(component.Destroyed)
+
+				if entry.HasComponent(component.SpellEffect) {
+					se := component.SpellEffect.Get(entry)
+					resolveSpellEffects(se.Caster, other, se.Effects)
+				}
+
 				break
 			}
 		}

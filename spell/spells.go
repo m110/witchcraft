@@ -3,6 +3,8 @@ package spell
 import (
 	"time"
 
+	"github.com/yohamta/donburi/features/math"
+
 	"github.com/m110/witchcraft/assets"
 )
 
@@ -26,7 +28,7 @@ type Spell struct {
 	OnCastFinishedEffects []Effect
 }
 
-var FireBall, LightningBolt, Spark, ManaSurge, Quicksand Spell
+var FireBall, LightningBolt, Spark, ManaSurge, Quicksand, VenomBurst Spell
 
 func LoadSpells() {
 	FireBall = Spell{
@@ -87,9 +89,9 @@ func LoadSpells() {
 		Cooldown:    30 * time.Second,
 		OnCastEffects: []Effect{
 			{
-				Type: EffectTypeApplyAuraOnCaster,
+				Type: EffectTypeApplyAura,
 				Data: ApplyAuraData{
-					AuraTemplate: AuraEffect{
+					AuraEffect: AuraEffect{
 						ID:       "mana-surge-regen",
 						OnTick:   AuraEffectTypeManaPercentRegen,
 						Image:    assets.IconManaSurge,
@@ -111,6 +113,50 @@ func LoadSpells() {
 				Type: EffectTypeSpawnEntity,
 				Data: SpawnEntityData{
 					Type: SpawnedEntityTypeQuicksand,
+				},
+			},
+		},
+	}
+	VenomBurst = Spell{
+		Name:        "Venom Burst",
+		ManaCost:    25,
+		CastingTime: 100 * time.Millisecond,
+		Cooldown:    1 * time.Second,
+		OnCastEffects: []Effect{
+			{
+				Type: EffectTypeSpawnProjectile,
+				Data: SpawnProjectileData{
+					Image:    assets.VenomProjectile,
+					Speed:    10,
+					Damage:   1,
+					Duration: 500 * time.Millisecond,
+					Directions: []math.Vec2{
+						{X: 0, Y: -1},
+						{X: 1, Y: -1},
+						{X: 1, Y: 0},
+						{X: 1, Y: 1},
+						{X: 0, Y: 1},
+						{X: -1, Y: 1},
+						{X: -1, Y: 0},
+						{X: -1, Y: -1},
+					},
+					OnHitEffects: []Effect{
+						{
+							Type: EffectTypeApplyAura,
+							Data: ApplyAuraData{
+								AuraEffect: AuraEffect{
+									ID: "venom-poison",
+									// TODO Add proper icon
+									Image:    nil,
+									OnApply:  AuraEffectTypeNone,
+									OnTick:   AuraEffectTypeDamage,
+									Duration: 3 * time.Second,
+									TickTime: 500 * time.Millisecond,
+									Amount:   1,
+								},
+							},
+						},
+					},
 				},
 			},
 		},
