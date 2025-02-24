@@ -8,7 +8,7 @@ import (
 type InputData struct {
 	Disabled bool
 
-	GamepadID ebiten.GamepadID
+	GamepadID *ebiten.GamepadID
 
 	MoveUpKey    ebiten.Key
 	MoveRightKey ebiten.Key

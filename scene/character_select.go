@@ -38,16 +38,20 @@ func NewCharacterSelect(context Context) *CharacterSelect {
 }
 
 type PlayerSelect struct {
-	Joined     bool
-	Ready      bool
-	GamePadID  ebiten.GamepadID
+	Joined bool
+	Ready  bool
+
+	Keyboard  bool
+	GamePadID *ebiten.GamepadID
+
 	ClassIndex int
 	Class      archetype.Class
 	Demo       *donburi.Entry
 }
 
-func (p *PlayerSelect) Show(gamePadID ebiten.GamepadID, classIndex int, class archetype.Class) {
+func (p *PlayerSelect) Show(keyboard bool, gamePadID *ebiten.GamepadID, classIndex int, class archetype.Class) {
 	p.Joined = true
+	p.Keyboard = keyboard
 	p.GamePadID = gamePadID
 	p.SetClass(classIndex, class)
 }
@@ -69,7 +73,7 @@ func (p *PlayerSelect) SetClass(classIndex int, class archetype.Class) {
 func (p *PlayerSelect) Hide() {
 	p.Joined = false
 	p.Ready = false
-	p.GamePadID = 0
+	p.GamePadID = nil
 	p.Class = archetype.Class{}
 
 	component.Sprite.Get(p.Demo).Hidden = true
@@ -171,15 +175,26 @@ func (g *CharacterSelect) createWorld() donburi.World {
 
 func (g *CharacterSelect) Update() {
 	for _, id := range ebiten.AppendGamepadIDs(nil) {
+		id := id
 		if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonRightBottom) {
-			g.onPlayerJoin(id)
+			g.onPlayerJoin(false, &id)
 		} else if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonRightRight) {
-			g.onPlayerLeave(id)
+			g.onPlayerLeave(false, &id)
 		} else if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonLeftLeft) {
-			g.onChangeClass(id, -1)
+			g.onChangeClass(false, &id, -1)
 		} else if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonLeftRight) {
-			g.onChangeClass(id, 1)
+			g.onChangeClass(false, &id, 1)
 		}
+	}
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyEnter) {
+		g.onPlayerJoin(true, nil)
+	} else if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+		g.onPlayerLeave(true, nil)
+	} else if inpututil.IsKeyJustPressed(ebiten.KeyLeft) {
+		g.onChangeClass(true, nil, -1)
+	} else if inpututil.IsKeyJustPressed(ebiten.KeyRight) {
+		g.onChangeClass(true, nil, 1)
 	}
 
 	for _, s := range g.systems {
@@ -210,6 +225,7 @@ func (g *CharacterSelect) checkAllPlayersReady() {
 	for _, p := range g.players {
 		if p.Joined {
 			joinedPlayers = append(joinedPlayers, JoinedPlayer{
+				Keyboard:  p.Keyboard,
 				GamePadID: p.GamePadID,
 				Class:     p.Class,
 			})
@@ -219,9 +235,9 @@ func (g *CharacterSelect) checkAllPlayersReady() {
 	g.context.SwitchToBattle(joinedPlayers)
 }
 
-func (g *CharacterSelect) onPlayerJoin(id ebiten.GamepadID) {
+func (g *CharacterSelect) onPlayerJoin(keyboard bool, gamepadID *ebiten.GamepadID) {
 	for i, p := range g.players {
-		if p.Joined && p.GamePadID == id {
+		if (keyboard && p.Keyboard) || (p.GamePadID != nil && *p.GamePadID == *gamepadID) {
 			g.players[i].ReadyUp()
 			return
 		}
@@ -242,14 +258,18 @@ func (g *CharacterSelect) onPlayerJoin(id ebiten.GamepadID) {
 		return
 	}
 
-	fmt.Printf("Player %v joined with game pad ID %v\n", freeIndex, id)
+	if keyboard {
+		fmt.Printf("Player %v joined with keyboard\n", freeIndex)
+	} else {
+		fmt.Printf("Player %v joined with game pad ID %v\n", freeIndex, *gamepadID)
+	}
 
 	class := g.classes[0]
 
-	g.players[freeIndex].Show(id, 0, class)
+	g.players[freeIndex].Show(keyboard, gamepadID, 0, class)
 }
 
-func (g *CharacterSelect) onPlayerLeave(id ebiten.GamepadID) {
+func (g *CharacterSelect) onPlayerLeave(keyboard bool, gamepadID *ebiten.GamepadID) {
 	var anyJoined bool
 	for _, p := range g.players {
 		if p.Joined {
@@ -264,20 +284,27 @@ func (g *CharacterSelect) onPlayerLeave(id ebiten.GamepadID) {
 	}
 
 	for i, p := range g.players {
-		if p.Joined && p.GamePadID == id {
+		if p.Joined &&
+			((keyboard && p.Keyboard) || (p.GamePadID != nil && *p.GamePadID == *gamepadID)) {
 			if p.Ready {
 				g.players[i].Unready()
 			} else {
 				g.players[i].Hide()
-				fmt.Printf("Player %v left with game pad ID %v\n", i, id)
+
+				if keyboard {
+					fmt.Printf("Player %v left with keyboard\n", i)
+				} else {
+					fmt.Printf("Player %v left with game pad ID %v\n", i, *gamepadID)
+				}
 			}
 		}
 	}
 }
 
-func (g *CharacterSelect) onChangeClass(id ebiten.GamepadID, direction int) {
+func (g *CharacterSelect) onChangeClass(keyboard bool, gamepadID *ebiten.GamepadID, direction int) {
 	for i, p := range g.players {
-		if p.Joined && p.GamePadID == id && !p.Ready {
+		if p.Joined && !p.Ready &&
+			((keyboard && p.Keyboard) || (p.GamePadID != nil && *p.GamePadID == *gamepadID)) {
 			classIndex := p.ClassIndex + direction
 			if classIndex < 0 {
 				classIndex = len(g.classes) - 1

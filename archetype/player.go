@@ -63,7 +63,7 @@ const (
 	playerNextSkillPointExperience = 10
 )
 
-func NewPlayer(w donburi.World, playerID int, gamepadID ebiten.GamepadID, position math.Vec2, class Class) *donburi.Entry {
+func NewPlayer(w donburi.World, playerID int, gamepadID *ebiten.GamepadID, position math.Vec2, class Class) *donburi.Entry {
 	player := w.Entry(
 		w.Create(
 			transform.Transform,

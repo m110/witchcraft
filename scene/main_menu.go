@@ -51,23 +51,48 @@ func NewMainMenu(context Context) *MainMenu {
 }
 
 func (m *MainMenu) Update() {
+	var action, moveDown, moveUp bool
+
 	for _, id := range ebiten.AppendGamepadIDs(nil) {
 		if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonRightBottom) {
-			m.menuItems[m.activeItemIndex].Action()
+			action = true
+			break
 		}
 
 		if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonLeftBottom) {
-			m.activeItemIndex++
-			if m.activeItemIndex >= len(m.menuItems) {
-				m.activeItemIndex = 0
-			}
+			moveDown = true
+			break
 		}
 
 		if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonLeftTop) {
-			m.activeItemIndex--
-			if m.activeItemIndex < 0 {
-				m.activeItemIndex = len(m.menuItems) - 1
-			}
+			moveUp = true
+			break
+		}
+	}
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyEnter) || inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+		action = true
+	}
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyDown) || inpututil.IsKeyJustPressed(ebiten.KeyS) {
+		moveDown = true
+	}
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyUp) || inpututil.IsKeyJustPressed(ebiten.KeyW) {
+		moveUp = true
+	}
+
+	if action {
+		m.menuItems[m.activeItemIndex].Action()
+	} else if moveDown {
+		m.activeItemIndex++
+		if m.activeItemIndex >= len(m.menuItems) {
+			m.activeItemIndex = 0
+		}
+	} else if moveUp {
+		m.activeItemIndex--
+		if m.activeItemIndex < 0 {
+			m.activeItemIndex = len(m.menuItems) - 1
 		}
 	}
 }

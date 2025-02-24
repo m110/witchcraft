@@ -13,7 +13,8 @@ import (
 )
 
 type JoinedPlayer struct {
-	GamePadID ebiten.GamepadID
+	Keyboard  bool
+	GamePadID *ebiten.GamepadID
 	Class     archetype.Class
 }
 
@@ -100,8 +101,12 @@ func (b *Battle) createWorld() donburi.World {
 
 func (b *Battle) Update() {
 	for _, p := range b.joinedPlayers {
-		if inpututil.IsStandardGamepadButtonJustPressed(p.GamePadID, ebiten.StandardGamepadButtonCenterRight) {
+		if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
 			b.context.SwitchToCharacterSelect()
+		} else if p.GamePadID != nil {
+			if inpututil.IsStandardGamepadButtonJustPressed(*p.GamePadID, ebiten.StandardGamepadButtonCenterRight) {
+				b.context.SwitchToCharacterSelect()
+			}
 		}
 	}
 
