@@ -33,6 +33,9 @@ func (v *Velocity) Update(w donburi.World) {
 				if aura.Effect.OnApply == spell.AuraEffectTypeSlowMovement {
 					amount := aura.Effect.Amount
 					velocity.Velocity = velocity.Velocity.MulScalar(amount)
+				} else if aura.Effect.OnApply == spell.AuraEffectTypeSpeedBoost {
+					amount := aura.Effect.Amount
+					velocity.Velocity = velocity.Velocity.MulScalar(amount)
 				}
 			}
 		}

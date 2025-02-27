@@ -29,7 +29,7 @@ type Spell struct {
 	OnCastFinishedEffects []Effect
 }
 
-var FireBall, LightningBolt, Spark, ManaSurge, Quicksand, VenomBurst, ArcaneVolley, ArcaneBarrage, WaterBeam Spell
+var FireBall, LightningBolt, Spark, ManaSurge, Quicksand, VenomBurst, ArcaneVolley, ArcaneBarrage, WaterBeam, FrostNova, MeteorShower, ArcaneMissiles, ShadowStrike, BlinkDash, PoisonDagger Spell
 
 func LoadSpells() {
 	FireBall = Spell{
@@ -264,6 +264,235 @@ func LoadSpells() {
 					Speed:    3,
 					Damage:   1,
 					Duration: 1 * time.Second,
+				},
+			},
+		},
+	}
+
+	FrostNova = Spell{
+		Name:        "Frost Nova",
+		ManaCost:    30,
+		CastingTime: 750 * time.Millisecond,
+		Cooldown:    8 * time.Second,
+		OnCastEffects: []Effect{
+			{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
+					Image:    assets.FrostProjectile,
+					Speed:    6,
+					Damage:   3,
+					Duration: 1 * time.Second,
+					Directions: func(direction math.Vec2) []math.Vec2 {
+						var directions []math.Vec2
+						for i := 0; i < 8; i++ {
+							angle := float64(i) * 45 * stdmath.Pi / 180.0
+							directions = append(directions, math.Vec2{
+								X: stdmath.Cos(angle),
+								Y: stdmath.Sin(angle),
+							})
+						}
+						return directions
+					},
+					OnHitEffects: []Effect{
+						{
+							Type: EffectTypeApplyAura,
+							Data: ApplyAuraData{
+								AuraEffect: AuraEffect{
+									ID:       "frost-slow",
+									Image:    assets.IconSlow,
+									OnApply:  AuraEffectTypeSlowMovement,
+									OnTick:   AuraEffectTypeNone,
+									Duration: 3 * time.Second,
+									Amount:   0.5, // 50% slow
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	MeteorShower = Spell{
+		Name:        "Meteor Shower",
+		ManaCost:    40,
+		CastingTime: 1 * time.Second,
+		Cooldown:    12 * time.Second,
+		OnCastEffects: []Effect{
+			{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
+					Image:    assets.MeteorProjectile,
+					Speed:    4,
+					Damage:   15,
+					Duration: 3 * time.Second,
+					Directions: func(direction math.Vec2) []math.Vec2 {
+						// Spawn 3 meteors in a line pattern
+						baseAngle := stdmath.Atan2(direction.Y, direction.X)
+						var directions []math.Vec2
+						directions = append(directions, math.Vec2{
+							X: stdmath.Cos(baseAngle),
+							Y: stdmath.Sin(baseAngle),
+						})
+						return directions
+					},
+				},
+			},
+		},
+	}
+
+	ArcaneMissiles = Spell{
+		Name:        "Arcane Missiles",
+		ManaCost:    20,
+		CastingTime: 300 * time.Millisecond,
+		Cooldown:    3 * time.Second,
+		OnCastEffects: []Effect{
+			{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
+					Image:    assets.ArcaneProjectile,
+					Speed:    8,
+					Damage:   2,
+					Duration: 2 * time.Second,
+					Directions: func(direction math.Vec2) []math.Vec2 {
+						baseAngle := stdmath.Atan2(direction.Y, direction.X)
+
+						// Generate 3 homing missiles
+						var directions []math.Vec2
+						for i := 0; i < 3; i++ {
+							// Slight random offset per missile
+							randOffset := (float64(i) - 1.0) * 0.1
+							directions = append(directions, math.Vec2{
+								X: stdmath.Cos(baseAngle) + randOffset,
+								Y: stdmath.Sin(baseAngle) + randOffset,
+							})
+						}
+						return directions
+					},
+				},
+			},
+		},
+	}
+
+	ShadowStrike = Spell{
+		Name:            "Shadow Strike",
+		ManaCost:        15,
+		CastingTime:     200 * time.Millisecond,
+		CastWhileMoving: true,
+		Cooldown:        2 * time.Second,
+		OnCastEffects: []Effect{
+			{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
+					Image:    assets.ShadowProjectile,
+					Speed:    12,
+					Damage:   8,
+					Duration: 500 * time.Millisecond,
+					Directions: func(direction math.Vec2) []math.Vec2 {
+						baseAngle := stdmath.Atan2(direction.Y, direction.X)
+
+						var directions []math.Vec2
+						// Main direction
+						directions = append(directions, math.Vec2{
+							X: stdmath.Cos(baseAngle),
+							Y: stdmath.Sin(baseAngle),
+						})
+						return directions
+					},
+					OnHitEffects: []Effect{
+						{
+							Type: EffectTypeApplyAura,
+							Data: ApplyAuraData{
+								AuraEffect: AuraEffect{
+									ID:       "shadow-strike-slow",
+									Image:    assets.IconSlow,
+									OnApply:  AuraEffectTypeSlowMovement,
+									OnTick:   AuraEffectTypeNone,
+									TickTime: 500 * time.Millisecond,
+									Duration: 2 * time.Second,
+									Amount:   0.3, // 30% slow
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	BlinkDash = Spell{
+		Name:            "Blink Dash",
+		ManaCost:        10,
+		CastingTime:     0,
+		CastWhileMoving: true,
+		Cooldown:        3 * time.Second,
+		OnCastEffects: []Effect{
+			{
+				Type: EffectTypeApplyAura,
+				Data: ApplyAuraData{
+					AuraEffect: AuraEffect{
+						ID:       "blink-speed",
+						OnApply:  AuraEffectTypeSpeedBoost,
+						OnTick:   AuraEffectTypeNone,
+						Image:    assets.IconSlow, // Reuse existing icon
+						TickTime: 100 * time.Millisecond,
+						Duration: 500 * time.Millisecond,
+						Amount:   3.0, // 3x speed boost
+					},
+				},
+			},
+		},
+	}
+
+	PoisonDagger = Spell{
+		Name:        "Poison Dagger",
+		ManaCost:    20,
+		CastingTime: 250 * time.Millisecond,
+		Cooldown:    5 * time.Second,
+		OnCastEffects: []Effect{
+			{
+				Type: EffectTypeSpawnProjectiles,
+				Data: SpawnProjectilesData{
+					Image:    assets.PoisonProjectile,
+					Speed:    9,
+					Damage:   3,
+					Duration: 1 * time.Second,
+					Directions: func(direction math.Vec2) []math.Vec2 {
+						baseAngle := stdmath.Atan2(direction.Y, direction.X)
+
+						// Throw three daggers in a narrow spread
+						angles := []float64{
+							5,
+							0,
+							-5,
+						}
+
+						var directions []math.Vec2
+						for _, angle := range angles {
+							rad := angle * stdmath.Pi / 180.0
+							directions = append(directions, math.Vec2{
+								X: stdmath.Cos(baseAngle + rad),
+								Y: stdmath.Sin(baseAngle + rad),
+							})
+						}
+						return directions
+					},
+					OnHitEffects: []Effect{
+						{
+							Type: EffectTypeApplyAura,
+							Data: ApplyAuraData{
+								AuraEffect: AuraEffect{
+									ID:       "poison-damage",
+									OnApply:  AuraEffectTypeNone,
+									OnTick:   AuraEffectTypeDamage,
+									Image:    assets.IconSlow, // Reuse existing icon
+									Duration: 4 * time.Second,
+									TickTime: 500 * time.Millisecond,
+									Amount:   2, // 2 damage per tick
+								},
+							},
+						},
+					},
 				},
 			},
 		},

@@ -118,5 +118,47 @@ func LoadClasses() []Class {
 				component.NewSpell(spell.Spark),
 			},
 		},
+		{
+			Name: "Frost Mage",
+			Character: component.CharacterData{
+				Body:       component.AllBodyParts.Bodies[0],
+				Hair:       &component.AllBodyParts.Hairs[5],
+				FacialHair: nil,
+				Equipment: component.Equipment{
+					Head:     &component.AllBodyParts.HeadArmors[1],
+					Chest:    &component.AllBodyParts.ChestArmors[1],
+					Legs:     &component.AllBodyParts.LegsArmors[0],
+					Feet:     &component.AllBodyParts.FeetArmors[0],
+					MainHand: &component.AllBodyParts.MainHandWeapons[12],
+					OffHand:  nil,
+				},
+			},
+			Spells: []component.Spell{
+				component.NewSpell(spell.FrostNova),
+				component.NewSpell(spell.MeteorShower),
+				component.NewSpell(spell.ArcaneMissiles),
+			},
+		},
+		{
+			Name: "Assassin Mage",
+			Character: component.CharacterData{
+				Body:       component.AllBodyParts.Bodies[1],
+				Hair:       &component.AllBodyParts.Hairs[1],
+				FacialHair: nil,
+				Equipment: component.Equipment{
+					Head:     nil,
+					Chest:    &component.AllBodyParts.ChestArmors[2],
+					Legs:     &component.AllBodyParts.LegsArmors[0],
+					Feet:     &component.AllBodyParts.FeetArmors[0],
+					MainHand: &component.AllBodyParts.MainHandWeapons[19],
+					OffHand:  nil,
+				},
+			},
+			Spells: []component.Spell{
+				component.NewSpell(spell.ShadowStrike),
+				component.NewSpell(spell.BlinkDash),
+				component.NewSpell(spell.PoisonDagger),
+			},
+		},
 	}
 }

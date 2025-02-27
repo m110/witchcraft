@@ -13,6 +13,8 @@ const (
 	AuraEffectTypeManaPercentRegen
 	AuraEffectTypeSlowMovement
 	AuraEffectTypeDamage
+	AuraEffectTypeFreeze
+	AuraEffectTypeSpeedBoost
 )
 
 type AuraEffect struct {

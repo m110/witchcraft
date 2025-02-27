@@ -15,6 +15,7 @@ import (
 var auraEffectOnApplyResolvers = []AuraEffectResolver{
 	ResolveAuraEffectNone,
 	ResolveAuraEffectSlowMovement,
+	ResolveAuraEffectSpeedBoost,
 }
 var auraEffectOnTickResolvers = []AuraEffectResolver{
 	ResolveAuraEffectNone,
@@ -126,6 +127,20 @@ func ResolveAuraEffectDamage(target *donburi.Entry, auraEffectType spell.AuraEff
 	}
 
 	damageEntity(target, int(effect.Amount))
+
+	return true
+}
+
+func ResolveAuraEffectSpeedBoost(target *donburi.Entry, auraEffectType spell.AuraEffectType, effect spell.AuraEffect) bool {
+	if auraEffectType != spell.AuraEffectTypeSpeedBoost {
+		return false
+	}
+
+	// Apply speed boost on the mover component
+	if target.HasComponent(component.Mover) {
+		// We don't actually modify the speed here, the Velocity system will handle it
+		// by checking for the aura's presence
+	}
 
 	return true
 }
